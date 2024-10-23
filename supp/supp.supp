@@ -1,0 +1,44 @@
+{
+   IgnoreReadlineLeak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:add_history
+   ...
+}
+{
+   IgnoreReadlineLeak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:readline
+   ...
+}
+{
+   IgnoreReadlineLeak
+   Memcheck:Leak
+   ...
+   fun:readline
+   ...
+}
+{
+   Malloc_Leak_Below_Main
+   Memcheck:Leak
+   fun:malloc
+   ...
+   obj:/usr/bin/*
+}
+{
+   Calloc_Leak_Below_Main
+   Memcheck:Leak
+   fun:calloc
+   ...
+   obj:/usr/bin/*
+}
+{
+   Realloc_Leak_Below_Main
+   Memcheck:Leak
+   fun:realloc
+   ...
+   obj:/usr/bin/*
+}
