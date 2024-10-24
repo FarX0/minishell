@@ -12,72 +12,64 @@
 
 #include "minishell.h"
 
-void	export(t_data *data)
+void export(t_data *data)
 {
-	int		j;
-	int		i;
-	char	*substr;
+	int i;
+	int k;
+	int j;
+//	char *substr;
 
 	// for now works only with one variable
-	j = 0;
 	i = 0;
-	if (data->matrix_input[2] == NULL) // if there are no arguments, print the environment
+	k = 0;
+	j = 1;
+	if (data->matrix_input[j] == NULL) // if there are no arguments, print the environment
 	{
 		print_export(*data); // funzione da finire
-		return ;
+		return;
 	}
-	while (data->matrix_input[2][j])
+	while (data->matrix_input[j])
 	{
-		if (data->matrix_input[2][j] == '_' && data->matrix_input[2][j + 1] == '=')
+		while (data->matrix_input[j][i])
 		{
-			while (data->matrix_input[2][j] != '\0' && data->matrix_input[2][j] != ' ')
+			while (data->matrix_input[j][i] == '_' && data->matrix_input[j][i + 1] == '=')
 				j++;
-			if (data->matrix_input[2][j] == ' ')
-				j++;
-		}
-		else
-		{
-			if (ft_isdigit(data->matrix_input[2][j]) || data->matrix_input[2][j] == '=')
+			while (ft_isdigit(data->matrix_input[j][0]) || data->matrix_input[j][0] == '=')
 			{
-				while (data->matrix_input[2][j] != '\0' && data->matrix_input[2][j] != ' ')
-					j++;
-				i = j - 1;// da miodificare
-				while (data->matrix_input[2][i] != '\0' && data->matrix_input[2][i] != ' ' && i != 0)
-					i--;
-				substr = ft_substr(data->matrix_input[2], i, j - i);
-				printf("i = %d, j = %d\n", i, j);
-				ft_printf("minishell: export: `%s': not a valid identifier\n", substr);
+				ft_printf("minishell: export: `%s': not a valid identifier\n", data->matrix_input[j]);
+				j++;
 			}
-			else
+			while(1)//rimasto qua era un else
 			{
-				while (ft_isalnum(data->matrix_input[2][j]) || data->matrix_input[2][j] == '_')
-					j++;
-				if (data->matrix_input[2][j] == '=')
+				while (ft_isalnum(data->matrix_input[j][i]) || data->matrix_input[j][i] == '_')
+					i++;
+				if (data->matrix_input[j][i] == '=')
 				{
-					j++;
-					while (data->matrix_input[2][j] != '\0' && data->matrix_input[2][j] != ' ')
-						j++;
+					i++;
+					while (data->matrix_input[j][i] != '\0' && data->matrix_input[j][i] != ' ')
+						i++;
 				}
-				if (data->matrix_input[2][j] == '\0')
+				if (data->matrix_input[j][i] == '\0')
 				{
-					env_modification(data, j, i);
-					return ;
+					env_modification(data, i, k);
+					return;
 				}
-				if (data->matrix_input[2][j] == ' ')
+				if (data->matrix_input[j][i] == ' ')
 				{
-					env_modification(data, j, i);
-					j++;
+					env_modification(data, i, k);
+					i++;
 				}
-				i = j;
+				k = i;
 			}
 		}
+		j++;
 	}
-	/* while (data->matrix_input[2][j] != '\0')
-		j++; */
-	return ;
+	/* while (data->matrix_input[j][i] != '\0')
+		i++; */
+	return;
 }
 
-void	env_modification(t_data *data, int j, int x)
+void env_modification(t_data *data, int j, int x)
 {
 	char *strcpy;
 	int i;
@@ -96,7 +88,7 @@ void	env_modification(t_data *data, int j, int x)
 			data->env[i] = NULL;
 			data->env[i] = ft_strdup(strcpy);
 			free(strcpy);
-			return ;
+			return;
 		}
 		i++;
 	}
@@ -105,5 +97,5 @@ void	env_modification(t_data *data, int j, int x)
 	data->env[i] = ft_strdup(strcpy); // and add the variable
 	free(strcpy);
 	strcpy = NULL;
-	return ;
+	return;
 }

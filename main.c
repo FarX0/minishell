@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "includes/minishell.h"
 
 int	main(int argc, char **argv, char **env)
 {
@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **env)
 		data.original_input = readline("Minishell$ "); 
 		data = parsing(data);
 		if (data.original_input)
-            add_history(data.original_input); 
+            add_history(data.original_input);
 		while (data.flag1 == 1 || data.flag2 == 1)
 		{
 			history = calloc(1, sizeof(char) * ft_strlen(data.original_input) + 1);
@@ -48,8 +48,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		else
 		{
-			//execute_command(&data);
-			print_matrix(data.matrix_input);
+			execute_command(&data);
 			free_input(&data);
 		}
 	}	

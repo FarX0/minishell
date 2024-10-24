@@ -47,6 +47,7 @@ t_data del_extra_spaces(t_data data)
 		j++;
 	}
 	data.input = strcpy;
+	//free(strcpy)
 	return (data);
 }
 
@@ -60,7 +61,7 @@ t_data split_input(t_data data)
 	j = 0;
 	k = 0;
 	if (data.input)
-		data.matrix_input = matrix_alloc(data.input);
+		data.matrix_input = matrix_alloc(data.input, data.flag1, data.flag2);
 	while (data.input[i] != '\0')
 	{
 		if (data.input[i] == 39) //da fare on un &
@@ -72,7 +73,8 @@ t_data split_input(t_data data)
 				i++;
 				k++;
 			}
-			i++;
+			if(data.input[i] == 39)
+				i++;
 		}
 		if (data.input[i] == 34)
 		{
@@ -83,7 +85,8 @@ t_data split_input(t_data data)
 				i++;
 				k++;
 			}
-			i++;
+			if(data.input[i] == 34)
+				i++;
 		}
 		if (data.input[i] == ' ')//fattibile con split
 		{
@@ -93,7 +96,7 @@ t_data split_input(t_data data)
 			i++;
 		}
 		if (data.input[i] == '\0')
-			break;
+				break;
 		data.matrix_input[k][j] = data.input[i];
 		i++;
 		j++;
@@ -101,14 +104,20 @@ t_data split_input(t_data data)
 	return (data);
 }
 
-char **matrix_alloc(char *str)
+char **matrix_alloc(char *str, int flag1, int flag2)
 {
-	int i, j, k;
+	int i; 
+	int j;
+	int k;
+	int flag;
 	char **matrix;
 
 	i = 0;
 	j = 0;
 	k = 0;
+	if (flag1 % 2 == 1 || flag2 % 2 == 1)
+		flag = 1;
+	(void)flag;
 	while (str[i] != '\0')
 	{
 		if (str[i] == ' ')

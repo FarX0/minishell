@@ -60,7 +60,7 @@ void builtin_echo(t_data *data);
 t_data	parsing(t_data data);
 t_data	del_extra_spaces(t_data data);
 t_data	split_input(t_data data);
-char **matrix_alloc(char *str);
+char	**matrix_alloc(char *str, int flag1, int flag2);
 
 //export.c
 void	export(t_data *data);
