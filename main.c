@@ -22,14 +22,15 @@ int	main(int argc, char **argv, char **env)
 	data = initialize_data(env);
 	while(1)
 	{
-		data.original_input = readline("Minishell$ "); 
+		data.original_input = readline("Minishell$ "); //legge l'input e lo salva in original_input stampando Minishell$
 		data = parsing(data);
 		if (data.original_input)
-            add_history(data.original_input);
-		while (data.flag1 == 1 || data.flag2 == 1)
+            add_history(data.original_input);//aggiunge l'input alla history
+		while (data.flag1 == 1 || data.flag2 == 1)//se ci sono virgolette o apici continua fino a che non vengono chiusi
 		{
-			history = calloc(1, sizeof(char) * ft_strlen(data.original_input) + 1);
-			ft_strlcpy(history, data.original_input, ft_strlen(data.original_input) + 1);
+			history = calloc(1, sizeof(char) * ft_strlen(data.original_input) + 2);
+			ft_strlcpy(history, data.original_input, ft_strlen(data.original_input) + 1); //copia l'input nella history
+			free(data.original_input);
 			data.original_input = readline("> ");
 			if (data.original_input)
 			{

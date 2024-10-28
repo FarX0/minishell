@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-t_data parsing(t_data data)
+t_data parsing(t_data data) //funzione per pulizia codice. prende data e restituisce data
 {
 	data = del_extra_spaces(data);
 	data = split_input(data);
 	return (data);
 }
 
-t_data del_extra_spaces(t_data data)
+t_data del_extra_spaces(t_data data)//cancella spazi: prima della prima parola, dopo l'ultima e quelli in più prende data e restituisce data
 {
 	int i;
 	int j;
@@ -51,7 +51,7 @@ t_data del_extra_spaces(t_data data)
 	return (data);
 }
 
-t_data split_input(t_data data)
+t_data split_input(t_data data) //split dell'input in un array di stringhe. prende data e restituisce data
 {
 	int i;
 	int j;

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void builtin_echo(t_data *data)
+void builtin_echo(t_data *data) //funzione che stampa a video il contenuto della stringa. se c'è il flag -n non va a capo
 {
 	int i = 0;
 	int j = 1;

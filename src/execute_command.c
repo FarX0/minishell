@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void execute_command(t_data *data)
+void execute_command(t_data *data) //funzione che esegue i built-in
 {
 	if (ft_strcmp("echo", data->matrix_input[0]) == 0)
 		builtin_echo(data);
@@ -24,11 +24,11 @@ void execute_command(t_data *data)
 		export(data);
 	else if (ft_strcmp("unset", data->matrix_input[0]) == 0)
 		printf("unset\n");
-	else if (ft_strcmp("env", data->matrix_input[0]) == 0)
+	else if (ft_strcmp("env", data->matrix_input[0]) == 0) 
 		print_matrix(data->env);
 }
 
-void	print_matrix(char **matrix)
+void	print_matrix(char **matrix) 
 {
 	int i;
 

@@ -64,7 +64,7 @@ char	**matrix_alloc(char *str, int flag1, int flag2);
 
 //export.c
 void	export(t_data *data);
-void	env_modification(t_data *data, int j, int x);
+void	env_modification(t_data *data, int j);
 
 //export_utils.c
 void	print_export(t_data data);
