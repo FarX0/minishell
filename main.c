@@ -18,7 +18,7 @@ int	main(int argc, char **argv, char **env)
 	
 	(void)argc;
 	(void)argv;
-	char *history;
+	//char *history;
 	data = initialize_data(env);
 	while(1)
 	{
@@ -26,21 +26,7 @@ int	main(int argc, char **argv, char **env)
 		data = parsing(data);
 		if (data.original_input)
             add_history(data.original_input);//aggiunge l'input alla history
-		while (data.flag1 == 1 || data.flag2 == 1)//se ci sono virgolette o apici continua fino a che non vengono chiusi
-		{
-			history = calloc(1, sizeof(char) * ft_strlen(data.original_input) + 2);
-			ft_strlcpy(history, data.original_input, ft_strlen(data.original_input) + 1); //copia l'input nella history
-			free(data.original_input);
-			data.original_input = readline("> ");
-			if (data.original_input)
-			{
-				ft_realloc(history, ft_strlen(data.original_input) + ft_strlen(history) + 2);
-				history[ft_strlen(history)] = '\n';
-				ft_strlcpy(&history[ft_strlen(history) + 1], data.original_input, ft_strlen(data.original_input) + 1);
-				add_history(history);
-			}
-			data = parsing(data);	
-		}
+		print_matrix(data.matrix_input);
 		if(ft_strcmp("exit", data.matrix_input[0]) == 0)
 		{
 			rl_clear_history();

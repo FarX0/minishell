@@ -20,19 +20,13 @@ void free_all(t_data *data)
 
 void free_input(t_data *data)
 {
-	/* if (data->matrix_input)
-	{
-		printf("Freeing input: %s\n", data->matrix_input);
-		free(data->matrix_input);
-		data->matrix_input = NULL;
-	} */
 	if (data->matrix_input)
 	{
 		
 		int i = 0;
 		while (data->matrix_input[i] != NULL)
 		{
-			printf("Freeing input: %s\n", data->matrix_input[i]);
+			printf("Freeing matrix input: %s\n", data->matrix_input[i]);
 			free(data->matrix_input[i]);
 			data->matrix_input[i] = NULL;
 			i++;
@@ -40,9 +34,15 @@ void free_input(t_data *data)
 		free(data->matrix_input);
 		data->matrix_input = NULL;
 	}
+	if (data->original_input)
+	{
+		printf("Freeing original_input: %s\n", data->original_input);
+		free(data->original_input);
+		data->original_input = NULL;
+	}
 	if (data->input)
 	{
-		printf("Freeing original_input: %s\n", data->input);
+		printf("Freeing input: %s\n", data->input);
 		free(data->input);
 		data->input = NULL;
 	}

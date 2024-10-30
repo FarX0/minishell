@@ -33,8 +33,6 @@ typedef struct s_data
 	char	*original_input;
 	char	*input;
 	char	**matrix_input;
-	int		flag1; //flag per le virgolette ""
-	int		flag2; //flag per gli apici ''
 }			t_data;
 
 //execute_command.c
@@ -60,7 +58,7 @@ void builtin_echo(t_data *data);
 t_data	parsing(t_data data);
 t_data	del_extra_spaces(t_data data);
 t_data	split_input(t_data data);
-char	**matrix_alloc(char *str, int flag1, int flag2);
+char	**matrix_alloc(char *str);
 
 //export.c
 void	export(t_data *data);

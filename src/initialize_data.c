@@ -19,10 +19,7 @@ t_data	initialize_data(char **env)
 	data.env = matrix_dup(env);
 	data.matrix_input = NULL;
 	data.input = NULL;
-	data.flag1 = 0;
-	data.flag2 = 0;
-	//data.input = NULL;
-	
+	data.original_input = NULL;
 	return (data);
 }
 
