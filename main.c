@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rd-agost <rd-agost@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 12:31:43 by tfalchi           #+#    #+#             */
-/*   Updated: 2024/09/07 16:41:30 by rd-agost         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:17:48 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ int	main(int argc, char **argv, char **env)
 	
 	(void)argc;
 	(void)argv;
-	char *history;
+	 char *history;
 	data = initialize_data(env);
 	while(1)
 	{
 		data.original_input = readline("Minishell$ "); 
-		data = parsing(data);
 		if (data.original_input)
-            add_history(data.original_input); 
+            add_history(data.original_input);
+		data = parsing(data);
 		while (data.flag1 == 1 || data.flag2 == 1)
 		{
 			history = calloc(1, sizeof(char) * ft_strlen(data.original_input) + 1);

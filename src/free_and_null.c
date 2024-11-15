@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_and_null.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rd-agost <rd-agost@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:05:16 by tfalchi           #+#    #+#             */
-/*   Updated: 2024/09/07 11:44:50 by rd-agost         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:01:29 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@ void free_all(t_data *data)
 
 void free_input(t_data *data)
 {
-	/* if (data->matrix_input)
-	{
-		printf("Freeing input: %s\n", data->matrix_input);
-		free(data->matrix_input);
-		data->matrix_input = NULL;
-	} */
 	if (data->matrix_input)
 	{
 		
@@ -42,7 +36,7 @@ void free_input(t_data *data)
 	}
 	if (data->input)
 	{
-		printf("Freeing original_input: %s\n", data->input);
+		printf("Freeing input: %s\n", data->input);
 		free(data->input);
 		data->input = NULL;
 	}

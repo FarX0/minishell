@@ -41,10 +41,10 @@ fclean: clean
 re: fclean all
 
 hel: all
-	valgrind --tool=helgrind --history-level=approx -s ./$(NAME)
+	valgrind --tool=helgrind --history-level=approx ./$(NAME)
 
 val: all
-	valgrind --leak-check=full --track-origins=yes -s --show-leak-kinds=all --suppressions=./supp/supp.supp ./$(NAME)
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --suppressions=./supp/supp.supp ./$(NAME)
 
 t: all
 	 ./$(NAME)
