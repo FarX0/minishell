@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lofiorin <lofiorin@student.42firenze.it    +#+  +:+       +#+        */
+/*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 11:48:19 by tfalchi           #+#    #+#             */
-/*   Updated: 2024/11/18 02:23:09 by lofiorin         ###   ########.fr       */
+/*   Updated: 2024/11/19 16:56:13 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_data del_extra_spaces(t_data data)
     while (data.input[i] == ' ')  // Skip leading spaces
         i++;
 
-    while (data.input[i] != '\0')
+    while (data.input && data.input[i] != '\0')
     {
         // Handle single and double quotes
         if (data.input[i] == 39 && data.flag1 % 2 == 0)
@@ -68,22 +68,22 @@ t_data split_input(t_data data)
 
     if (data.input)
         data.matrix_input = matrix_alloc(data.input);
-
-    while (data.input[i] != '\0')
+    while (data.input && data.input[i] != '\0')
     {
         // Skip spaces outside of quotes
         if (data.input[i] == 39 && in_quotes % 2 == 0) // Single quote
             in_quotes = !in_quotes;
-        else if (data.input[i] == 34 && in_quotes == 0) // Double quote
+        else if (data.input[i] == 34 && /* no % 2? */in_quotes == 0) // Double quote
             in_quotes = !in_quotes;
-
+        /* !in_quotes? l'uno puo' chiudere l'altro */
         if ((data.input[i] == ' ' && !in_quotes) || data.input[i] == '\t') // Skip spaces
         {
             i++;
+            /* continue ti fa ripartire dall'inizio del while? */
             continue;
         }
-
         // Handle redirection operators: <, >, <<, >>
+        //da qua
         if (data.input[i] == '>' && data.input[i + 1] == '>')
         {
             data.matrix_input[k][j++] = '>';
@@ -100,6 +100,7 @@ t_data split_input(t_data data)
         {
             data.matrix_input[k][j++] = data.input[i++];
         }
+        //a qua penso sia inutile
         else if (data.input[i] == '|')  // Pipe operator
         {
             data.matrix_input[k][j] = '\0';

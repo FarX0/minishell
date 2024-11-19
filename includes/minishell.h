@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 18:01:24 by tfalchi           #+#    #+#             */
-/*   Updated: 2024/09/10 15:38:12 by tfalchi          ###   ########.fr       */
+/*   Updated: 2024/11/19 15:51:38 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <stdbool.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 typedef struct s_data
 {
@@ -39,6 +42,7 @@ typedef struct s_data
 
 //execute_command.c
 void	execute_command(t_data *data);
+void	execute_normal_command(t_data *data);
 void	print_matrix(char **matrix);
 
 //initialize_data.c
@@ -71,7 +75,16 @@ void	print_export(t_data data);
 char	**realloc_env(t_data data);
 char	**sort_env(t_data data);
 
-//utiils.c
+//utils.c
 char	*ft_realloc(char *str, int size);
+
+//pipex.c
+void	pipex(t_data *data, int i, int fd_in, int fd_out);
+
+//operators.c
+void	handle_redirection(t_data *data, int i, char *redir);
+void	handle_here_doc(t_data *data, int i);
+void	execve_command(t_data *data);
+
 
 #endif
