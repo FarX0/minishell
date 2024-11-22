@@ -6,35 +6,45 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 11:19:38 by rd-agost          #+#    #+#             */
-/*   Updated: 2024/09/09 16:18:01 by tfalchi          ###   ########.fr       */
+/*   Updated: 2024/11/18 18:42:41 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void builtin_echo(t_data *data)
+void	builtin_echo(t_data *data)
 {
-    int i = 0;
+	int	i;
 
-	if(data->matrix_input[2] == NULL)
+	i = 0;
+	int aug = 1; // numero argomenti in modo che ogni ciclo prende un argomrnto
+	if (data->matrix_input[1] == NULL)
 	{
 		printf("\n");
-		return;
+		return ;
 	}
-    if (data->matrix_input[2][i] && strcmp(&data->matrix_input[2][i], "-n") == 0)//-n
-        i++;
-    while (data->matrix_input[2][i])
-    {
-		if ((data->matrix_input[2][i] == '\"' || data->matrix_input[2][i] == '\'')
-			&& data->matrix_input[2][i + 1] == '\0')
-			break;
-		else if (data->matrix_input[2][i] == '\"' || data->matrix_input[2][i] == '\'')
+	while (data->matrix_input[aug])
+	{
+		if (data->matrix_input[aug][i] && strcmp(&data->matrix_input[aug][i],"-n") == 0) //-n
 			i++;
-        else
+		while (data->matrix_input[aug][i])
 		{
-			printf("%c", data->matrix_input[2][i]);
-        	i++;
+			if ((data->matrix_input[aug][i] == '\"'
+					|| data->matrix_input[aug][i] == '\'')
+					&& data->matrix_input[aug][i + 1] == '\0')
+				break ;
+			else if (data->matrix_input[aug][i] == '\"'
+				|| data->matrix_input[aug][i] == '\'')
+				i++;
+			else
+			{
+				printf("%c", data->matrix_input[aug][i]);
+				i++;
+			}
 		}
-    }
-    printf("\n");
+		i = 0;
+		aug++;
+		printf(" ");
+	}
+	printf("\n");
 }

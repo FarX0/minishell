@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 12:31:43 by tfalchi           #+#    #+#             */
-/*   Updated: 2024/11/15 17:17:48 by tfalchi          ###   ########.fr       */
+/*   Updated: 2024/11/18 16:06:18 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		else
 		{
-			//execute_command(&data);
-			print_matrix(data.matrix_input);
+			execute_command(&data);
 			free_input(&data);
 		}
 	}	

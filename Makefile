@@ -22,7 +22,7 @@ CFLAGS		=  -Wall -Wextra -Werror -I includes -pthread -g
 # -s : for valgrind
 $(NAME): $(SRC)
 	@make all -C $(LIBFT_DIR)
-	@cc $(SRC) $(CFLAGS) $(LIBFT) -I $(INCLUDES) -o $(NAME) -lreadline -s 
+	@cc $(SRC) $(CFLAGS) $(LIBFT) -I $(INCLUDES) -o $(NAME) -lreadline
 	@echo "$(GREEN)[MINISHELL]:\t PROJECT COMPILED$(RESET)"
 
 all:$(NAME)
@@ -39,9 +39,6 @@ fclean: clean
 	@echo "$(RED)[MINISHELL]:\t FCLEAN$(RESET)"
 
 re: fclean all
-
-hel: all
-	valgrind --tool=helgrind --history-level=approx ./$(NAME)
 
 val: all
 	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --suppressions=./supp/supp.supp ./$(NAME)
