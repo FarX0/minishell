@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 11:48:19 by tfalchi           #+#    #+#             */
-/*   Updated: 2024/11/19 16:56:13 by tfalchi          ###   ########.fr       */
+/*   Updated: 2024/11/22 15:22:04 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,8 @@ t_data del_extra_spaces(t_data data)
     data.input = ft_strdup(data.original_input);
     if (data.input)
         strcpy = ft_calloc(sizeof(char), ft_strlen(data.input) + 1);
-
     while (data.input[i] == ' ')  // Skip leading spaces
         i++;
-
     while (data.input && data.input[i] != '\0')
     {
         // Handle single and double quotes
@@ -41,20 +39,16 @@ t_data del_extra_spaces(t_data data)
             data.flag2 += 1;
         if (data.input[i] == 34 && data.flag2 % 2 == 0)
             data.flag1 += 1;
-
         // Skip extra spaces when not inside quotes
         while (data.input[i] == ' ' && data.input[i + 1] == ' ' && data.flag1 % 2 == 0 && data.flag2 % 2 == 0)
             i++;
-
         if (data.input[i] == ' ' && data.flag1 % 2 == 0 && data.flag2 % 2 == 0 && data.input[i + 1] == '\0')
             i++;
-
         strcpy[j++] = data.input[i++];
     }
 
     free(data.input);
     data.input = strcpy;
-
     return data;
 }
 

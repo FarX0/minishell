@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 18:01:24 by tfalchi           #+#    #+#             */
-/*   Updated: 2024/11/19 15:51:38 by tfalchi          ###   ########.fr       */
+/*   Updated: 2024/11/22 15:26:52 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	free_input(t_data *data);
 void	free_env(t_data *data);
 
 //pwd.c
-int 	pwd();
+int 	builtin_pwd();
 
 //echo.c
 void builtin_echo(t_data *data);
@@ -64,10 +64,10 @@ void builtin_echo(t_data *data);
 t_data	parsing(t_data data);
 t_data	del_extra_spaces(t_data data);
 t_data	split_input(t_data data);
-char **matrix_alloc(char *str);
+char 	**matrix_alloc(char *str);
 
 //export.c
-void	export(t_data *data);
+void	builtin_export(t_data *data);
 void	env_modification(t_data *data, int j, int x);
 
 //export_utils.c

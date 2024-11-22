@@ -6,13 +6,13 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:39:47 by tfalchi           #+#    #+#             */
-/*   Updated: 2024/09/10 12:18:06 by tfalchi          ###   ########.fr       */
+/*   Updated: 2024/11/22 15:15:25 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	export(t_data *data)
+void	builtin_export(t_data *data)
 {
 	int		j;
 	int		i;

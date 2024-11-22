@@ -6,6 +6,8 @@ SRC = main.c \
 	src/initialize_data.c \
 	src/export/export.c \
 	src/export/export_utils.c \
+	src/pipex_and_operators/pipex.c \
+	src/pipex_and_operators/operators.c \
 	src/parsing.c \
 	src/free_and_null.c \
 	src/echo/echo.c \

@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:27:20 by tfalchi           #+#    #+#             */
-/*   Updated: 2024/09/10 15:38:20 by tfalchi          ###   ########.fr       */
+/*   Updated: 2024/11/22 14:39:52 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ t_data	initialize_data(char **env)
 	data.input = NULL;
 	data.flag1 = 0;
 	data.flag2 = 0;
-	//data.input = NULL;
-	
 	return (data);
 }
 

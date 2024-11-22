@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 12:31:43 by tfalchi           #+#    #+#             */
-/*   Updated: 2024/11/15 17:17:48 by tfalchi          ###   ########.fr       */
+/*   Updated: 2024/11/22 15:20:53 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	main(int argc, char **argv, char **env)
 	
 	(void)argc;
 	(void)argv;
-	 char *history;
 	data = initialize_data(env);
 	while(1)
 	{
@@ -26,7 +25,7 @@ int	main(int argc, char **argv, char **env)
 		if (data.original_input)
             add_history(data.original_input);
 		data = parsing(data);
-		while (data.flag1 == 1 || data.flag2 == 1)
+		/* while (data.flag1 == 1 || data.flag2 == 1)
 		{
 			history = calloc(1, sizeof(char) * ft_strlen(data.original_input) + 1);
 			ft_strlcpy(history, data.original_input, ft_strlen(data.original_input) + 1);
@@ -39,7 +38,7 @@ int	main(int argc, char **argv, char **env)
 				add_history(history);
 			}
 			data = parsing(data);	
-		}
+		} */
 		if(ft_strcmp("exit", data.matrix_input[0]) == 0)
 		{
 			rl_clear_history();
@@ -48,8 +47,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		else
 		{
-			//execute_command(&data);
-			print_matrix(data.matrix_input);
+			execute_command(&data);
 			free_input(&data);
 		}
 	}	

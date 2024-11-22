@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rd-agost <rd-agost@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 12:08:51 by tfalchi           #+#    #+#             */
-/*   Updated: 2024/09/07 12:18:38 by rd-agost         ###   ########.fr       */
+/*   Updated: 2024/11/22 15:12:36 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int pwd()
+int builtin_pwd()
 {
 	char *directory = getcwd(NULL, 0);
 	if (directory)
