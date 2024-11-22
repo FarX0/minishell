@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:05:16 by tfalchi           #+#    #+#             */
-/*   Updated: 2024/11/15 17:01:29 by tfalchi          ###   ########.fr       */
+/*   Updated: 2024/11/18 16:23:31 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void free_input(t_data *data)
 		int i = 0;
 		while (data->matrix_input[i] != NULL)
 		{
-			printf("Freeing input: %s\n", data->matrix_input[i]);
+			printf("Freeing matrix input:%s\n", data->matrix_input[i]);
 			free(data->matrix_input[i]);
 			data->matrix_input[i] = NULL;
 			i++;
@@ -36,7 +36,7 @@ void free_input(t_data *data)
 	}
 	if (data->input)
 	{
-		printf("Freeing input: %s\n", data->input);
+		printf("Freeing input:%s\n", data->input);
 		free(data->input);
 		data->input = NULL;
 	}
