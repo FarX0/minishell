@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:39:47 by tfalchi           #+#    #+#             */
-/*   Updated: 2024/11/22 12:20:37 by tfalchi          ###   ########.fr       */
+/*   Updated: 2024/12/20 15:22:22 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,21 @@ void	export(t_data *data)
 	int		j;
 	int		aug = 1;
 
-	// for now works only with one variable
 	j = 0;
-	if (data->matrix_input[aug] == NULL) // if there are no arguments, print the environment
+	if (data->cube_input[0][aug] == NULL)
 	{
 		print_export(*data);
 		return ;
 	}
-	while (data->matrix_input[aug])
+	while (data->cube_input[0][aug])
 	{
-		while (data->matrix_input[aug][j])
+		while (data->cube_input[0][aug][j])
 		{
-			if (data->matrix_input[aug][j] == '_' && data->matrix_input[aug][j + 1] == '=')
+			if (data->cube_input[0][aug][j] == '_' && data->cube_input[0][aug][j + 1] == '=')
 			{
-				while (data->matrix_input[aug][j] != '\0' && data->matrix_input[aug][j] != ' ')
+				while (data->cube_input[0][aug][j] != '\0' && data->cube_input[0][aug][j] != ' ')
 					j++;
-				if (data->matrix_input[aug][j] == ' ')
+				if (data->cube_input[0][aug][j] == ' ')
 				{
 					j++;
 					continue;
@@ -40,26 +39,26 @@ void	export(t_data *data)
 				else
 					return ;
 			}
-			if (ft_isdigit(data->matrix_input[aug][j]) || data->matrix_input[aug][j] == '=')
+			if (ft_isdigit(data->cube_input[0][aug][j]) || data->cube_input[0][aug][j] == '=')
 			{
-				while (data->matrix_input[aug][j] != '\0' && data->matrix_input[aug][j] != ' ')
+				while (data->cube_input[0][aug][j] != '\0' && data->cube_input[0][aug][j] != ' ')
 					j++;
-				ft_printf("minishell: export: `%s': not a valid identifier\n", data->matrix_input[aug]);
+				ft_printf("minishell: export: `%s': not a valid identifier\n", data->cube_input[0][aug]);
 				continue;
 			}
 			else
 			{
-				while (ft_isalnum(data->matrix_input[aug][j]) || data->matrix_input[aug][j] == '_')
+				while (ft_isalnum(data->cube_input[0][aug][j]) || data->cube_input[0][aug][j] == '_')
 					j++;
-				if (data->matrix_input[aug][j] == '=')
+				if (data->cube_input[0][aug][j] == '=')
 				{
 					j++;
-					while (data->matrix_input[aug][j] != '\0' && data->matrix_input[aug][j] != ' ')
+					while (data->cube_input[0][aug][j] != '\0' && data->cube_input[0][aug][j] != ' ')
 						j++;
 				}
-				if (data->matrix_input[aug][j] == '\0')
+				if (data->cube_input[0][aug][j] == '\0')
 					env_modification(data, j, aug);
-				if (data->matrix_input[aug][j] == ' ')
+				if (data->cube_input[0][aug][j] == ' ')
 				{
 					env_modification(data, j, aug);
 					j++;
@@ -81,7 +80,7 @@ void	env_modification(t_data *data, int j, int aug)
 
 	i = 0;
 	strcpy = ft_calloc(sizeof(char), j + 1);
-	ft_strlcpy(strcpy, data->matrix_input[aug], j + 1);
+	ft_strlcpy(strcpy, data->cube_input[0][aug], j + 1);
 	pos_eq = ft_strchr(strcpy, '=') - strcpy;
 	while (data->env[i] != NULL)
 	{

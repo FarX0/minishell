@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 11:19:38 by rd-agost          #+#    #+#             */
-/*   Updated: 2024/11/18 18:42:41 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/10 16:40:05 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,34 @@ void	builtin_echo(t_data *data)
 
 	i = 0;
 	int aug = 1; // numero argomenti in modo che ogni ciclo prende un argomrnto
-	if (data->matrix_input[1] == NULL)
+	if (data->cube_input[0][1] == NULL)
 	{
 		printf("\n");
 		return ;
 	}
-	while (data->matrix_input[aug])
+	while(data->cube_input[0][aug])
 	{
-		if (data->matrix_input[aug][i] && strcmp(&data->matrix_input[aug][i],"-n") == 0) //-n
+		data->cube_input[0][aug] = dollar_red(data->cube_input[0][aug], data);
+		aug++;
+	}
+	aug = 1;
+	dollar_red(data->cube_input[0][aug], data);
+	while (data->cube_input[0][aug])
+	{
+		if (data->cube_input[0][aug][i] && strcmp(&data->cube_input[0][aug][i],"-n") == 0) //-n
 			i++;
-		while (data->matrix_input[aug][i])
+		while (data->cube_input[0][aug][i])
 		{
-			if ((data->matrix_input[aug][i] == '\"'
-					|| data->matrix_input[aug][i] == '\'')
-					&& data->matrix_input[aug][i + 1] == '\0')
+			if ((data->cube_input[0][aug][i] == '\"'
+					|| data->cube_input[0][aug][i] == '\'')
+					&& data->cube_input[0][aug][i + 1] == '\0')
 				break ;
-			else if (data->matrix_input[aug][i] == '\"'
-				|| data->matrix_input[aug][i] == '\'')
+			else if (data->cube_input[0][aug][i] == '\"'
+				|| data->cube_input[0][aug][i] == '\'')
 				i++;
 			else
 			{
-				printf("%c", data->matrix_input[aug][i]);
+				printf("%c", data->cube_input[0][aug][i]);
 				i++;
 			}
 		}
