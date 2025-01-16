@@ -6,41 +6,44 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 12:31:43 by tfalchi           #+#    #+#             */
-/*   Updated: 2024/11/15 17:17:48 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/16 11:35:43 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	sigint();
+
 int	main(int argc, char **argv, char **env)
 {
 	t_data		data;
+	t_variables	var;
 	
 	(void)argc;
 	(void)argv;
-	 char *history;
+	var = (t_variables){0, 0, 0, 0};
 	data = initialize_data(env);
-	while(1)
+	signal(SIGQUIT, SIG_IGN);
+	//signal(SIGINT, sigint);
+	while(true)
 	{
-		data.original_input = readline("Minishell$ "); 
-		if (data.original_input)
-            add_history(data.original_input);
-		data = parsing(data);
-		while (data.flag1 == 1 || data.flag2 == 1)
+		data.terminal_input = readline("Minishell$ ");
+		if (data.terminal_input)
+            add_history(data.terminal_input);
+		else
 		{
-			history = calloc(1, sizeof(char) * ft_strlen(data.original_input) + 1);
-			ft_strlcpy(history, data.original_input, ft_strlen(data.original_input) + 1);
-			data.original_input = readline("> ");
-			if (data.original_input)
-			{
-				ft_realloc(history, ft_strlen(data.original_input) + ft_strlen(history) + 2);
-				history[ft_strlen(history)] = '\n';
-				ft_strlcpy(&history[ft_strlen(history) + 1], data.original_input, ft_strlen(data.original_input) + 1);
-				add_history(history);
-			}
-			data = parsing(data);	
+			ft_printf("exit\n");
+			rl_clear_history();
+			free_all(&data);
+			break;
 		}
-		if(ft_strcmp("exit", data.matrix_input[0]) == 0)
+		data = parsing(data, var);
+		if(data.error == true)
+		{
+			free_input(&data);
+			continue;
+		}
+		if(ft_strcmp("exit", data.cube_input[0][0]) == 0)
 		{
 			rl_clear_history();
 			free_all(&data);
@@ -48,10 +51,19 @@ int	main(int argc, char **argv, char **env)
 		}
 		else
 		{
-			//execute_command(&data);
-			print_matrix(data.matrix_input);
+			data.exit_code = execute_command(&data);
+			printf("exit code: %d\n", data.exit_code);
 			free_input(&data);
 		}
 	}	
 	return (0);
+}
+
+
+void	sigint()
+{
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }

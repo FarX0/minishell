@@ -5,133 +5,58 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 11:48:19 by tfalchi           #+#    #+#             */
-/*   Updated: 2024/11/15 17:16:45 by tfalchi          ###   ########.fr       */
+/*   Created: 2024/08/29 17:27:20 by tfalchi           #+#    #+#             */
+/*   Updated: 2025/01/16 11:43:16 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data parsing(t_data data)
+t_data	initialize_data(char **env)
 {
-	data = del_extra_spaces(data);
-	data = split_input(data);
+	t_data	data;
+
+	data.env = matrix_dup(env);
+	data.cube_input = NULL;
+	data.input = NULL;
+	data.flag1 = 0;
+	data.flag2 = 0;
+	data.path = NULL;
+	data.original_input = 0;
+	data.original_output = 1;
+	data.nbr_cmd = 1;
+	data.fds = NULL;
+	data.exit_code = 0;
+	data.error = false;
 	return (data);
 }
 
-t_data del_extra_spaces(t_data data)
+char	**matrix_dup(char **matrix)
 {
-	int i;
-	int j;
-	char *strcpy;
+	char	**new_matrix;
+	int		i;
 
+	if (!matrix)
+		return (NULL);
 	i = 0;
-	j = 0;
-	data.input = ft_strdup(data.original_input);
-	if (data.input)
-		strcpy = ft_calloc(sizeof(char), ft_strlen(data.input) + 1);
-	while (data.input[i] == ' ')
+	while (matrix[i] != NULL)
 		i++;
-	while (data.input[i] != '\0')
-	{
-		if (data.input[i] == 39 && data.flag1 % 2 == 0)
-			data.flag2 += 1;
-		if (data.input[i] == 34 && data.flag2 % 2 == 0)
-			data.flag1 += 1; 
-		while (data.input[i] == ' ' && data.input[i + 1] == ' ' && data.flag1 % 2 == 0 && data.flag2 % 2 == 0)
-			i++;
-		if (data.input[i] == ' ' && data.flag1 % 2 == 0 && data.flag2 % 2 == 0 && data.input[i + 1] == '\0')
-			i++;
-		strcpy[j] = data.input[i];
-		i++;
-		j++;
-	}
-	free(data.input);
-	data.input = strcpy;
-	return (data);
-}
-
-t_data split_input(t_data data)
-{
-	int i;
-	int j;
-	int k;
-
+	new_matrix = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!new_matrix)
+		return (NULL);
 	i = 0;
-	j = 0;
-	k = 0;
-	if (data.input)
-		data.matrix_input = matrix_alloc(data.input);
-	while (data.input[i] != '\0')
+	while (matrix[i] != NULL)
 	{
-		if (data.input[i] == 39) //da fare on un &
-		{
-			i++;
-			while (data.input[i] != 39 && data.input[i] != '\0')
-			{
-				data.matrix_input[k][j] = data.input[i];
-				i++;
-				k++;
-			}
-			i++;
-		}
-		if (data.input[i] == 34)
-		{
-			i++;
-			while (data.input[i] != 34 && data.input[i] != '\0')
-			{
-				data.matrix_input[k][j] = data.input[i];
-				i++;
-				k++;
-			}
-			i++;
-		}
-		if (data.input[i] == ' ')//fattibile con split
-		{
-			data.matrix_input[k][j] = '\0';
-			j = 0;
-			k++;
-			i++;
-		}
-		if (data.input[i] == '\0')
-			break;
-		data.matrix_input[k][j] = data.input[i];
-		i++;
-		j++;
-	}
-	return (data);
-}
-
-char **matrix_alloc(char *str)
-{
-	int i, j, k;
-	char **matrix;
-
-	i = 0;
-	j = 0;
-	k = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == ' ')
-			k++;
+		new_matrix[i] = ft_strdup(matrix[i]);
+		if (!new_matrix[i])
+        {
+            while (i > 0)
+                free(new_matrix[--i]);
+            free(new_matrix);
+            return (NULL);
+        }
 		i++;
 	}
-	matrix = ft_calloc(sizeof(char *), k + 2);
-	i = 0;
-	k = 0;
-	while (str[i] != '\0')
-	{
-		while (str[i] != ' ' && str[i] != '\0')
-		{
-			i++;
-			j++;
-		}
-		matrix[k] = ft_calloc(sizeof(char), j + 1);
-		k++;
-		j = 0;
-		if (str[i] == '\0')
-			break;
-		i++;
-	}
-	return (matrix);
+	new_matrix[i] = NULL;
+	return (new_matrix);
 }
