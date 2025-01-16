@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 18:01:24 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/14 15:36:34 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/16 11:12:09 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 typedef struct s_data
 {
@@ -116,5 +119,16 @@ int			find_in_env(char **envp, char *to_find);
 void		builtin_unset(t_data *data);
 char		**env_dup(char **matrix, t_data *data);
 int			longest_string(char *str1, char *str2);
+//utils.c
+char	*ft_realloc(char *str, int size);
+
+//pipex.c
+void	pipex(t_data *data, int i, int fd_in, int fd_out);
+
+//operators.c
+void	handle_redirection(t_data *data, int i, char *redir);
+void	handle_here_doc(t_data *data, int i);
+void	execve_command(t_data *data);
+
 
 #endif
