@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:39:47 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/16 11:40:22 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/16 12:22:27 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,14 @@ void	export(t_data *data)
 	{
 		while (data->cube_input[0][aug][j])
 		{
-			if (data->cube_input[0][aug][j] == '_' && data->cube_input[0][aug][j + 1] == '=')
-			{
-				while (data->cube_input[0][aug][j] != '\0' && data->cube_input[0][aug][j] != ' ')
-					j++;
-				if (data->cube_input[0][aug][j] == ' ')
-				{
-					j++;
-					continue;
-				}
-				else
-					return ;
-			}
-			if (ft_isdigit(data->cube_input[0][aug][j]) || data->cube_input[0][aug][j] == '=')
+			while (data->matrix_input[2][j] != '\0' && data->matrix_input[2][j] != ' ')
+				j++;
+			if (data->matrix_input[2][j] == ' ')
+				j++;
+		}
+		else
+		{
+			if (ft_isdigit(data->matrix_input[2][j]) || data->matrix_input[2][j] == '=')
 			{
 				while (data->cube_input[0][aug][j] != '\0' && data->cube_input[0][aug][j] != ' ')
 					j++;

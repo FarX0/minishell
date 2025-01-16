@@ -1,7 +1,2 @@
-export NAME_COMMAND= N
-result:
-NAME_COMMAND=
-NEW VARIABLE N
-
-
-export con == stampa come ="="
+tfalchi@c1r6p3:~/esercizi/minishell$ echo $21
+1

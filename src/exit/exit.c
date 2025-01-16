@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 18:17:51 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/16 12:12:28 by tfalchi          ###   ########.fr       */
+/*   Created: 2024/12/17 16:00:36 by tfalchi           #+#    #+#             */
+/*   Updated: 2024/12/17 16:01:01 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	skip_quotes(char *str, int i)
+void	builtin_exit(t_data *data)
 {
-	if (str[i] == 39)
-	{
-		i++;
-		while (str[i] != 39 && str[i] != '\0')
-			i++;
-	}
-	else if (str[i] == 34)
-	{
-		i++;
-		while (str[i] != 34 && str[i] != '\0')
-			i++;
-	}
-	i++;
-	return (i);
+	free_all(data);
+	exit(0);
 }

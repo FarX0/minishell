@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 17:11:12 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/16 11:41:20 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/16 12:21:48 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char **sort_env(t_data data)
 	temp_env = (char **)malloc((env_size + 1) * sizeof(char *));
 	for (i = 0; i < env_size; i++)
 	{
+		temp_env[i] = ft_strdup(data.env[i]);
 		temp_env[i] = ft_strdup(data.env[i]);
 		if (!temp_env[i])
 		{
