@@ -14,29 +14,29 @@
 
 long long int	ft_atolli(const char *nptr);
 
-void	builtin_exit(t_data *data)
+void builtin_exit(t_data* data, char** args)
 {
 	long long int	exit_code;
 	int				sign;
 	char			*arg;
 
-	arg = ft_strdup(data->cube_input[0][1]);
+	arg = ft_strdup(args[1]);
 	sign = 1;
-	if (data->cube_input[0][1])
+	if (args[1])
 	{
-		if (data->cube_input[0][1][0] == '-')
+		if (args[1][0] == '-')
 		{
 			sign = -1;
 			arg++;
 		}
 		exit_code = ft_atolli(arg);
-		if (exit_code == 0 && data->cube_input[0][1][0] != '0')
+		if (exit_code == 0 && args[1][0] != '0')
 		{
 			ft_printf("exit: %s: numeric argument required\n",
-				data->cube_input[0][1]);
+				args[1]);
 			exit_code = 2;
 		}
-		else if (data->cube_input[0][2])
+		else if (args[2])
 		{
 			ft_printf("exit: too many arguments\n");
 			data->exit_code = 1;

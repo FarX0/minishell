@@ -57,9 +57,14 @@ typedef struct s_variables
 	int		n;
 }			t_variables;
 
+// STUFF
+int			ft_mtxlen(char **matrix);
+
+//------------------------------------
+
 // execute_command.c
-int			execute_command(t_data *data);
-int			print_matrix(char **matrix);
+int 		execute_command(t_data* data, int cmd_idx, char** args);
+int print_matrix(char** matrix);
 
 // initialize_data.c
 t_data		initialize_data(char **env);
@@ -72,14 +77,14 @@ void		free_env(t_data *data);
 void		free_matrix(char **matrix);
 
 // cd.c
-int			builtin_cd(t_data *data);
+int builtin_cd(t_data* data, char** args);
 char		*get_env_value(char **env, char *key);
 
 // pwd.c
 int			pwd(void);
 
 // echo.c
-int			builtin_echo(t_data *data);
+int builtin_echo(t_data* data, char** args);
 
 // parsing.c
 t_data		parsing(t_data data, t_variables var);
@@ -89,8 +94,8 @@ char		***cube_alloc(char *str, int nbr_cmd);
 t_data		redirection_handle(t_data data, int j, bool io, int n);
 
 // export.c
-int			export(t_data *data);
-void		env_modification(t_data *data, int j, int x);
+int export(t_data* data, char** args);
+void env_modification(t_data* data, int j, int x, char** args);
 
 // export_utils.c
 void		print_export(t_data data);
@@ -112,8 +117,8 @@ int			find_in_env(char **envp, char *to_find);
 char		*dollar_expansion(t_data data);
 
 // unset.c
-int			builtin_unset(t_data *data);
-char		**env_dup(char **matrix, t_data *data);
+int builtin_unset(t_data* data, char** args);
+char** env_dup(char** matrix, t_data* data, char** args);
 int			longest_string(char *str1, char *str2);
 
 // pipex.c
@@ -125,7 +130,7 @@ void		handle_here_doc(t_data *data, int i);
 void		execve_command(t_data *data);
 
 // exit.c
-void		builtin_exit(t_data *data);
+void builtin_exit(t_data* data, char** args);
 
 // here_doc.c
 int			heredoc(t_data *data, char *limiter);

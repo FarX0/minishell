@@ -156,7 +156,6 @@ t_data	split_input(t_data data, t_variables var)
 		}
 		var.i++;
 	}
-	printf("data.input = %s\n", data.input);
 	data.fds = (int **)malloc(sizeof(int *) * (data.nbr_cmd + 1));
 	if (!data.fds)
 	{

@@ -14,6 +14,7 @@ SRC = main.c \
 	src/utils/utils_matrix.c \
 	src/utils/utils.c \
 	src/utils/utils2.c \
+	src/utils/utils3.c \
 	src/exit/exit.c \
 	src/here_doc/here_doc.c
 
@@ -23,15 +24,16 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libftprintf.a
 
 #FLAGS		= -Wall -Werror -Wextra -I includes -pthread -fsanitize=thread -g
-CFLAGS		=  -Wall -Wextra -Werror -I includes -pthread -g
+CFLAGS		=  -Wall -Wextra -Werror -I includes -lreadline -g
 
 # -s : for valgrind
+all:$(NAME)
+
 $(NAME): $(SRC)
 	@make all -C $(LIBFT_DIR)
-	@cc $(SRC) $(CFLAGS) $(LIBFT) -I $(INCLUDES) -o $(NAME) -lreadline
+	@cc $(SRC) $(CFLAGS) $(LIBFT) -I $(INCLUDES) -o $(NAME)
 	@echo "$(GREEN)[MINISHELL]:\t PROJECT COMPILED$(RESET)"
 
-all:$(NAME)
 
 clean:
 	@make clean -C $(LIBFT_DIR)
@@ -46,8 +48,12 @@ fclean: clean
 
 re: fclean all
 
-val: all
-	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --suppressions=./supp/supp.supp ./$(NAME)
+VALGRIND=@valgrind --suppressions=supp.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --quiet --tool=memcheck --keep-debuginfo=yes
+# FOR FD 		TRACKING: --track-fds=yes
+# FOR CHILDREN	TRACKING: --trace-children=yes
+valgrind: all
+	clear
+	$(VALGRIND) ./$(NAME)
 
 t: all
 	 ./$(NAME)
