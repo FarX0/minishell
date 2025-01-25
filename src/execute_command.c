@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: samuele <samuele@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:39:48 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/25 19:30:03 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/25 20:58:40 by samuele          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,18 +165,6 @@ int execute_command(t_data* data, int cmd_idx, char** args)
 	return (0);
 }
 
-int print_matrix(char** matrix)
-{
-	int i;
-
-	i = 0;
-	while (matrix[i] != NULL)
-	{
-		printf("%s\n", matrix[i]);
-		i++;
-	}
-	return (0);
-}
 
 int	print_matrix(char **matrix)
 {

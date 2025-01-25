@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: samuele <samuele@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:39:48 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/24 18:24:59 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/25 20:58:11 by samuele          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ char	*find_and_replace(char *str_og, char *new, int start, int ignore)
 	int		i;
 	int		j;
 	int		k;
-	int 	n;
 	char	*str;
 
-	n = 0;
 	i = 0;
 	j = 0;
 	k = 0;
