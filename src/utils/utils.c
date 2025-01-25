@@ -6,57 +6,38 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:39:48 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/16 11:46:18 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/24 18:24:59 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_realloc(char *str, int size)
-{
-	char	*new_str;
-
-	new_str = ft_calloc(sizeof(char), size);
-	ft_strlcpy(new_str, str, size);
-	free(str);
-	return (new_str);
-}
-
-char	*dollar_red(char *str, t_data *data)
+char	*find_and_replace(char *str_og, char *new, int start, int ignore)
 {
 	int		i;
 	int		j;
-	char	*var_name;
-	char	*new_str;
-	char	*var_value;
+	int		k;
+	int 	n;
+	char	*str;
 
+	n = 0;
 	i = 0;
 	j = 0;
-	while (str[i])
+	k = 0;
+	str = malloc(ft_strlen(str_og) + ft_strlen(new) - ignore + 1);
+	while (str_og[i])
 	{
-		if (str[i] == '$')
+		if (i == start)
 		{
-			j = i + 1;
-			while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
-				j++;
-			var_name = ft_substr(str, i + 1, j - i - 1);
-			var_value = get_env_value(data->env, var_name);
-			free(var_name);
-			if (var_value)
-			{
-				new_str = malloc(ft_strlen(str) - (j - i) + ft_strlen(var_value)
-						+ 1);
-				ft_strlcpy(new_str, str, i + 1);
-				ft_strlcat(new_str, var_value, ft_strlen(new_str)
-					+ ft_strlen(var_value) + 1);
-				ft_strlcat(new_str, &str[j], ft_strlen(new_str)
-					+ ft_strlen(&str[j]) + 1);
-				free(str);
-				return (new_str);
-			}
+			while (new[k])
+				str[j++] = new[k++];
+			i += ignore;
 		}
-		i++;
+		while (i != start && str_og[i])
+			str[j++] = str_og[i++];
 	}
+	str[j] = '\0';
+	free(str_og);
 	return (str);
 }
 

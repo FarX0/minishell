@@ -6,27 +6,26 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:28:26 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/16 12:22:39 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/19 17:37:20 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_unset(t_data *data)
+int	builtin_unset(t_data *data)
 {
 	int		i;
 	int		j;
 	int		k;
 	char	**new_matrix;
+	int		return_value;
 
 	i = 0;
 	j = 0;
 	k = 1;
+	return_value = 0;
 	if (data->cube_input[0][k] == NULL)
-	{
-		ft_printf("unset: not enough arguments\n");
-		return ;
-	}
+		return (0);
 	while (data->cube_input[0][k])
 	{
 		while(data->cube_input[0][k][i])
@@ -38,6 +37,7 @@ void	builtin_unset(t_data *data)
 			}
 			if (ft_isdigit(data->cube_input[0][k][i]) || data->cube_input[0][k][i] == '=')
 			{
+				return_value = 1;
 				while (data->cube_input[0][k][i] != '\0' && data->cube_input[0][k][i] != ' ')
 					i++;
 				ft_printf("minishell: export: `%s': not a valid identifier\n", data->cube_input[0][k]);
@@ -68,6 +68,8 @@ void	builtin_unset(t_data *data)
 	}
 	else
 		new_matrix = NULL;
+	//free_matrix(new_matrix);
+	return (return_value);
 }
 
 char	**env_dup(char **matrix, t_data *data)

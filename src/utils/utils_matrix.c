@@ -6,14 +6,14 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 15:34:38 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/16 12:22:46 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/23 17:13:12 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-int	name_is_thesame(char *envp, char *to_find)
+int	same_name(char *envp, char *to_find)//
 {
 	int	i;
 
@@ -31,17 +31,55 @@ int	name_is_thesame(char *envp, char *to_find)
 
 int	find_in_env(char **envp, char *to_find)
 {
-	int	i;
+	int	n;
 
-	i = 0;
+	n = 0;
 	if (ft_strlen(to_find) == 0)
 		return (-1);
-	while (envp[i])
+	while (envp[n])
 	{
-		if (ft_strncmp(envp[i], to_find, ft_strlen(to_find)) == 0
-			|| name_is_thesame(envp[i], to_find) == TRUE)
-			return (i);
-		i++;
+		if (ft_strncmp(envp[n], to_find, ft_strlen(to_find)) == 0
+			|| same_name(envp[n], to_find) == TRUE)
+			return (n);
+		n++;
 	}
 	return (-1);
+}
+
+char	*dollar_expansion(t_data data)
+{
+	int		i;
+	int		j;
+	int		k;
+	int		l;
+	char	*env_value;
+	char	*str = NULL;
+
+	i = 0;
+	while (data.input[i] != '\0')
+	{
+		if (data.input[i] == '$' && data.input[i + 1] != '\0')
+		{
+			j = i + 1;
+			while ((ft_isalnum(data.input[j]) || data.input[j] == '_') && data.input[j] != '\0')
+				j++;
+			l = j - i - 1;
+			str = ft_substr(data.input, i + 1, l);
+			k = find_in_env(data.env, str);
+			if (k != -1 && data.env[k][ft_strlen(str)] == '=')
+			{
+				env_value = ft_substr(data.env[k], ft_strlen(str) + 1, ft_strlen(data.env[k]) - ft_strlen(str) - 1);
+				free(str);
+				str = find_and_replace(data.input, env_value, i, l + 1); 
+				free(env_value);
+			}
+			else
+			{
+				free(str);
+				str = find_and_replace(data.input, "", i, l + 1);
+			}
+		}
+		i++;/// i va a 0 why bohbAV'PDF
+	}
+	return (str);
 }

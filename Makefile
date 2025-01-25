@@ -13,7 +13,9 @@ SRC = main.c \
 	src/unset/unset.c \
 	src/utils/utils_matrix.c \
 	src/utils/utils.c \
-	src/utils/utils2.c
+	src/utils/utils2.c \
+	src/exit/exit.c \
+	src/here_doc/here_doc.c
 
 INCLUDES = ./includes
 

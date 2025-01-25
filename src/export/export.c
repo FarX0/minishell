@@ -6,36 +6,44 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:39:47 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/16 12:22:27 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/19 17:33:06 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	export(t_data *data)
+int	export(t_data *data)
 {
 	int		j;
 	int		aug = 1;
+	int		return_value;
 
 	j = 0;
+	return_value = 0;
 	if (data->cube_input[0][aug] == NULL)
 	{
 		print_export(*data);
-		return ;
+		return (0);
 	}
 	while (data->cube_input[0][aug])
 	{
 		while (data->cube_input[0][aug][j])
 		{
-			while (data->matrix_input[2][j] != '\0' && data->matrix_input[2][j] != ' ')
-				j++;
-			if (data->matrix_input[2][j] == ' ')
-				j++;
-		}
-		else
-		{
-			if (ft_isdigit(data->matrix_input[2][j]) || data->matrix_input[2][j] == '=')
+			if (data->cube_input[0][aug][j] == '_' && data->cube_input[0][aug][j + 1] == '=')
 			{
+				while (data->cube_input[0][aug][j] != '\0' && data->cube_input[0][aug][j] != ' ')
+					j++;
+				if (data->cube_input[0][aug][j] == ' ')
+				{
+					j++;
+					continue;
+				}
+				else
+					return (return_value);
+			}
+			if (ft_isdigit(data->cube_input[0][aug][j]) || data->cube_input[0][aug][j] == '=')
+			{
+				return_value = 1;
 				while (data->cube_input[0][aug][j] != '\0' && data->cube_input[0][aug][j] != ' ')
 					j++;
 				ft_printf("minishell: export: `%s': not a valid identifier\n", data->cube_input[0][aug]);
@@ -64,7 +72,7 @@ void	export(t_data *data)
 		aug++;
 		j = 0;
 	}
-	return ;
+	return (return_value);
 }
 
 void	env_modification(t_data *data, int j, int aug)

@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:39:48 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/16 11:38:38 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/24 17:16:30 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	execute_command(t_data *data)
 {
 	pid_t	*pid;
 	int		i;
+	int		status;
 
 	i = 0;
 	// int fd[2];
@@ -91,15 +92,17 @@ int	execute_command(t_data *data)
 	if (ft_strcmp("echo", data->cube_input[0][0]) == 0)
 		/* data->exit_code = */ builtin_echo(data);
 	else if (ft_strcmp("cd", data->cube_input[0][0]) == 0)
-		builtin_cd(data);
+		data->exit_code = builtin_cd(data);
 	else if (ft_strcmp("pwd", data->cube_input[0][0]) == 0)
-		pwd();
+		data->exit_code = pwd();
 	else if (ft_strcmp("export", data->cube_input[0][0]) == 0)
-		export(data);
+		data->exit_code = export(data);
 	else if (ft_strcmp("unset", data->cube_input[0][0]) == 0)
-		builtin_unset(data);
+		data->exit_code = builtin_unset(data);
 	else if (ft_strcmp("env", data->cube_input[0][0]) == 0)
-		print_matrix(data->env);
+		data->exit_code = print_matrix(data->env);
+	else if (ft_strcmp("exit", data->cube_input[0][0]) == 0)
+		builtin_exit(data);
 	else if (ft_strcmp("print", data->cube_input[0][0]) == 0)
 	{
 		i = 0;
@@ -108,8 +111,8 @@ int	execute_command(t_data *data)
 			print_matrix(data->cube_input[i]);
 			i++;
 		}
-		printf("i = %d\n", i);
 		printf("input = %s\n", data->input);
+		
 		free_all(data);
 	}
 	else if (search_cmd(data))
@@ -123,15 +126,40 @@ int	execute_command(t_data *data)
 			pid[i] = fork();
 			if (pid[i] == 0)
 			{
+				signal(SIGINT, SIG_DFL);
+				signal(SIGQUIT, SIG_DFL);
 				dup_fds(data);
 				execve(data->path, data->cube_input[0], data->env);//?
 				free_all(data);
 			}
 			i++;
 		}
-		return (wait_pids(pid, data->nbr_cmd, &data->exit_code));
-		// ft_printf("fork")
+		i = 0;
+		while(i < data->nbr_cmd)
+		{
+			waitpid(pid[i], &status, 0);
+            if (WIFEXITED(status))
+                data->exit_code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				data->exit_code = WTERMSIG(status) + 128;
+			i++;
+        }
+        free(pid);
+        return (data->exit_code);
 	}
 	free(pid);
+	return (0);
+}
+
+int	print_matrix(char **matrix)
+{
+	int i;
+
+	i = 0;
+	while (matrix[i] != NULL)
+	{
+		printf("%s\n", matrix[i]);
+		i++;
+	}
 	return (0);
 }
