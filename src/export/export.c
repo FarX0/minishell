@@ -45,6 +45,7 @@ int export(t_data* data, char** args)
 			{
 				return_value = 1;
 				while (args[aug][j] != '\0' && args[aug][j] != ' ')
+
 					j++;
 				ft_printf("minishell: export: `%s': not a valid identifier\n", args[aug]);
 				continue;

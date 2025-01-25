@@ -29,6 +29,7 @@ int builtin_unset(t_data* data, char** args)
 	while (args[k])
 	{
 		while(args[k][i])
+
 		{
 			if (args[k][i] == '_' && args[k][i + 1] == '=')
 			{
@@ -39,6 +40,7 @@ int builtin_unset(t_data* data, char** args)
 			{
 				return_value = 1;
 				while (args[k][i] != '\0' && args[k][i] != ' ')
+
 					i++;
 				ft_printf("minishell: export: `%s': not a valid identifier\n", args[k]);
 				continue;

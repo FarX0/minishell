@@ -28,20 +28,27 @@ int search_cmd(t_data* data)
 	free(path);
 	while (paths[i])
 	{
-		s = ft_strjoin(paths[i], x);
-		if (is_executable(s)) // le cartelle possono essere eseguite
+		x = ft_strjoin("/", data->cube_input[0][0]); // liberi l'argomento a destra
+		path = get_env_value(data->env, "PATH");
+		paths = ft_split(path, ':');
+		free(path);
+		while (paths[i])
 		{
-			data->path = ft_strdup(s);
+			s = ft_strjoin(paths[i], x);
+			if (is_executable(s)) // le cartelle possono essere eseguite
+			{
+				data->path = ft_strdup(s);
+				free(s);
+				free(x);
+				free_matrix(paths);
+				return (1);
+			}
 			free(s);
-			free(x);
-			free_matrix(paths);
-			return (1);
+			i++;
 		}
-		free(s);
-		i++;
+		free(x);
+		free_matrix(paths);
 	}
-	free(x);
-	free_matrix(paths);
 	return (0);
 }
 
@@ -159,6 +166,19 @@ int execute_command(t_data* data, int cmd_idx, char** args)
 }
 
 int print_matrix(char** matrix)
+{
+	int i;
+
+	i = 0;
+	while (matrix[i] != NULL)
+	{
+		printf("%s\n", matrix[i]);
+		i++;
+	}
+	return (0);
+}
+
+int	print_matrix(char **matrix)
 {
 	int i;
 

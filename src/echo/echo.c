@@ -29,6 +29,7 @@ int builtin_echo(t_data* data, char** args)
 		aug++;
 	aug = 1;*/
 	while (args[aug])
+
 	{
 		if (args[aug][i] && strcmp(&args[aug][i],"-n") == 0) //-n
 			i++;
@@ -41,6 +42,7 @@ int builtin_echo(t_data* data, char** args)
 				while (n < i - 1)
 				{
 					printf("%c", args[aug][n]);
+
 					n++;
 				}
 			}

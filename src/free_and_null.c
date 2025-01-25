@@ -36,6 +36,7 @@ void	free_all(t_data *data)
 {
 	free_input(data);
 	free_env(data);
+	rl_clear_history();
 }
 
 void free_input(t_data *data)

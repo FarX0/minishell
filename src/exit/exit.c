@@ -5,7 +5,6 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/17 16:00:36 by tfalchi           #+#    #+#             */
 /*   Updated: 2025/01/20 17:41:40 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -40,6 +39,7 @@ void builtin_exit(t_data* data, char** args)
 		{
 			ft_printf("exit: too many arguments\n");
 			data->exit_code = 1;
+
 			return ;
 		}
 	}
