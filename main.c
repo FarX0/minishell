@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 12:31:43 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/24 18:03:09 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/25 11:48:10 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	main(int argc, char **argv, char **env)
 		else
 		{
 			ft_printf("exit\n");
-			rl_clear_history();
 			free_all(&data);
 			break;
 		}
@@ -45,8 +44,6 @@ int	main(int argc, char **argv, char **env)
 			free_input(&data);
 			continue;
 		}
-		if(ft_strcmp("exit", data.cube_input[0][0]) == 0 && data.cube_input[0][2] == NULL)
-			rl_clear_history();
 		data.exit_code = execute_command(&data);
 		printf("exit code: %d\n", data.exit_code);
 		free_input(&data);

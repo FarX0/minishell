@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:20:53 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/19 17:14:42 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/25 11:44:23 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@ int	builtin_cd(t_data *data)
 {
 	char	*path;
 
-	if(data->cube_input[0][2] != NULL)
-	{
-		ft_putstr_fd("cd: too many arguments\n", 2);
-		return (1);
-	}
 	if (data->cube_input[0][1] == NULL)
 	{
 		path = get_env_value(data->env, "HOME");
@@ -29,6 +24,11 @@ int	builtin_cd(t_data *data)
 			ft_putstr_fd("cd: HOME not set\n", 2);
 			return (1);
 		}
+	}
+	else if(data->cube_input[0][2] != NULL)
+	{
+		ft_putstr_fd("cd: too many arguments\n", 2);
+		return (1);
 	}
 	else
 		path = data->cube_input[0][1];

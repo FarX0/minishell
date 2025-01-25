@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:00:36 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/20 17:41:40 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/25 11:53:08 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,17 @@ void	builtin_exit(t_data *data)
 	long long int	exit_code;
 	int				sign;
 	char			*arg;
-
+    char			*temp;
+	
 	arg = ft_strdup(data->cube_input[0][1]);
 	sign = 1;
 	if (data->cube_input[0][1])
 	{
+		temp = arg;
 		if (data->cube_input[0][1][0] == '-')
 		{
 			sign = -1;
-			arg++;
+			temp++;
 		}
 		exit_code = ft_atolli(arg);
 		if (exit_code == 0 && data->cube_input[0][1][0] != '0')
@@ -40,6 +42,7 @@ void	builtin_exit(t_data *data)
 		{
 			ft_printf("exit: too many arguments\n");
 			data->exit_code = 1;
+			free(arg);
 			return ;
 		}
 	}
@@ -47,6 +50,7 @@ void	builtin_exit(t_data *data)
 		exit_code = 0;
 	ft_printf("exit\n");
 	free_all(data);
+	free(arg);
 	if (sign == -1)
 	{
 		exit_code = exit_code - 256;

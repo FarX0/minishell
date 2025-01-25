@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 11:48:19 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/25 11:12:08 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/25 15:36:26 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,8 @@ t_data	split_input(t_data data, t_variables var)
 		{
 			data = redirection_handle(data, var.i, 0, var.n);
 		} 
+		if (data.error == true)
+			return (data);
 		if (data.input[var.i] == 39 || data.input[var.i] == 34)
 		{
 			i = var.i;

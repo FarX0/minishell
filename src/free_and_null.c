@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:05:16 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/20 17:51:19 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/25 11:48:05 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	free_all(t_data *data)
 {
 	free_input(data);
 	free_env(data);
+	rl_clear_history();
 }
 
 void free_input(t_data *data)

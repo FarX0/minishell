@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:39:48 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/24 17:16:30 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/25 15:52:07 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,34 @@ int	search_cmd(t_data *data)
 	char	*x;
 	char	*s;
 	char	**paths;
+	char	*path;
 
 	i = 0;
 	if (data->cube_input[0][0][0] == '.' || data->cube_input[0][0][0] == '/')
 		handle_relative_path(data);
-	x = ft_strjoin("/", data->cube_input[0][0]); // liberi l'argomento a destra
-	char *path = get_env_value(data->env, "PATH");
-	paths = ft_split(path, ':');
-	free(path);
-	while (paths[i])
+	else
 	{
-		s = ft_strjoin(paths[i], x);
-		if (is_executable(s)) // le cartelle possono essere eseguite
+		x = ft_strjoin("/", data->cube_input[0][0]); // liberi l'argomento a destra
+		path = get_env_value(data->env, "PATH");
+		paths = ft_split(path, ':');
+		free(path);
+		while (paths[i])
 		{
-			data->path = ft_strdup(s);
+			s = ft_strjoin(paths[i], x);
+			if (is_executable(s)) // le cartelle possono essere eseguite
+			{
+				data->path = ft_strdup(s);
+				free(s);
+				free(x);
+				free_matrix(paths);
+				return (1);
+			}
 			free(s);
-			free(x);
-			free_matrix(paths);
-			return (1);
+			i++;
 		}
-		free(s);
-		i++;
+		free(x);
+		free_matrix(paths);
 	}
-	free(x);
-	free_matrix(paths);
 	return (0);
 }
 
@@ -129,7 +133,7 @@ int	execute_command(t_data *data)
 				signal(SIGINT, SIG_DFL);
 				signal(SIGQUIT, SIG_DFL);
 				dup_fds(data);
-				execve(data->path, data->cube_input[0], data->env);//?
+				execve(data->path, data->cube_input[0], data->env);
 				free_all(data);
 			}
 			i++;
