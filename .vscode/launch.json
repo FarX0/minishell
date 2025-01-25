@@ -1,6 +1,57 @@
 {
-  "version": "0.2.0",
   "configurations": [
+    {
+      "name": "gdb Launch",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/minishell",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        },
+        {
+          "description": "The new process is debugged after a fork. The parent process runs unimpeded.",
+          "text": "-gdb-set follow-fork-mode parent",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
+      "name": "bonus (gdb)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/minishell",
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        },
+        {
+          "description": "In this mode GDB will be attached to both processes after a call to fork() or vfork().",
+          "text": "-gdb-set detach-on-fork off",
+          "ignoreFailures": true
+        },
+        {
+          "description": "The new process is debugged after a fork. The parent process runs unimpeded.",
+          "text": "-gdb-set follow-fork-mode child",
+          "ignoreFailures": true
+        }
+      ]
+    },
     {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
@@ -8,8 +59,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/nfs/homes/tfalchi/Documents/minishell",
-      "program": "/nfs/homes/tfalchi/Documents/minishell/build/Debug/outDebug",
+      "cwd": "/nfs/homes/tfalchi/esercizi/minishell",
+      "program": "/nfs/homes/tfalchi/esercizi/minishell",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
@@ -20,5 +71,6 @@
         }
       ]
     }
-  ]
+  ],
+  "version": "0.2.0"
 }

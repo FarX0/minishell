@@ -6,13 +6,13 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 12:31:43 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/16 11:35:43 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/25 11:48:10 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sigint();
+
 
 int	main(int argc, char **argv, char **env)
 {
@@ -24,16 +24,17 @@ int	main(int argc, char **argv, char **env)
 	var = (t_variables){0, 0, 0, 0};
 	data = initialize_data(env);
 	signal(SIGQUIT, SIG_IGN);
-	//signal(SIGINT, sigint);
+	signal(SIGINT, sigint);
 	while(true)
 	{
 		data.terminal_input = readline("Minishell$ ");
+		if (g_lobal != 0)
+			data.exit_code = g_lobal;
 		if (data.terminal_input)
             add_history(data.terminal_input);
 		else
 		{
 			ft_printf("exit\n");
-			rl_clear_history();
 			free_all(&data);
 			break;
 		}
@@ -43,25 +44,17 @@ int	main(int argc, char **argv, char **env)
 			free_input(&data);
 			continue;
 		}
-		if(ft_strcmp("exit", data.cube_input[0][0]) == 0)
-		{
-			rl_clear_history();
-			free_all(&data);
-			break;
-		}
-		else
-		{
-			data.exit_code = execute_command(&data);
-			printf("exit code: %d\n", data.exit_code);
-			free_input(&data);
-		}
+		data.exit_code = execute_command(&data);
+		printf("exit code: %d\n", data.exit_code);
+		free_input(&data);
 	}	
 	return (0);
 }
 
 
-void	sigint()
+void	sigint(int sig)
 {
+	(void)sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);

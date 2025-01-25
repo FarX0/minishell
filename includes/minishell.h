@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 18:01:24 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/16 12:14:13 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/24 18:36:27 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 
 typedef struct s_data
 {
@@ -42,7 +39,7 @@ typedef struct s_data
 	int		original_output;
 	int		nbr_cmd;
 	int		exit_code;
-	int		**fds; // [0,4] [3,1] dup2(fds[0][1], 1) -> 4 -> 1  close(fds[0][1])
+	int **fds; // [0,4] [3,1] dup2(fds[0][1], 1) -> 4 -> 1  close(fds[0][1])
 	char	**env;
 	char	*terminal_input;
 	char	*input;
@@ -50,8 +47,6 @@ typedef struct s_data
 	char	*path;
 	char	**aug;
 	bool	error;
-	int flag1; // flag per le virgolette ""
-	int flag2; // flag per gli apici ''
 }			t_data;
 
 typedef struct s_variables
@@ -64,7 +59,7 @@ typedef struct s_variables
 
 // execute_command.c
 int			execute_command(t_data *data);
-void		print_matrix(char **matrix);
+int			print_matrix(char **matrix);
 
 // initialize_data.c
 t_data		initialize_data(char **env);
@@ -77,14 +72,14 @@ void		free_env(t_data *data);
 void		free_matrix(char **matrix);
 
 // cd.c
-void		builtin_cd(t_data *data);
+int			builtin_cd(t_data *data);
 char		*get_env_value(char **env, char *key);
 
 // pwd.c
 int			pwd(void);
 
 // echo.c
-void		builtin_echo(t_data *data);
+int			builtin_echo(t_data *data);
 
 // parsing.c
 t_data		parsing(t_data data, t_variables var);
@@ -94,7 +89,7 @@ char		***cube_alloc(char *str, int nbr_cmd);
 t_data		redirection_handle(t_data data, int j, bool io, int n);
 
 // export.c
-void		export(t_data *data);
+int			export(t_data *data);
 void		env_modification(t_data *data, int j, int x);
 
 // export_utils.c
@@ -103,8 +98,8 @@ char		**realloc_env(t_data data);
 char		**sort_env(t_data data);
 
 // utils.c
-char		*ft_realloc(char *str, int size);
-char		*dollar_red(char *str, t_data *data);
+char		*find_and_replace(char *str_og, char *new, int start, int ignore);
+// char		*dollar_red(char *str, t_data *data);
 int			is_executable(char *path);
 void		handle_relative_path(t_data *data);
 
@@ -112,23 +107,32 @@ void		handle_relative_path(t_data *data);
 int			skip_quotes(char *str, int i);
 
 // utils_matrix.c
-int			name_is_thesame(char *envp, char *to_find);
+int			same_name(char *envp, char *to_find);
 int			find_in_env(char **envp, char *to_find);
+char		*dollar_expansion(t_data data);
 
-// unset
-void		builtin_unset(t_data *data);
+// unset.c
+int			builtin_unset(t_data *data);
 char		**env_dup(char **matrix, t_data *data);
 int			longest_string(char *str1, char *str2);
-//utils.c
-char	*ft_realloc(char *str, int size);
 
-//pipex.c
-void	pipex(t_data *data, int i, int fd_in, int fd_out);
+// pipex.c
+void		pipex(t_data *data, int i, int fd_in, int fd_out);
 
-//operators.c
-void	handle_redirection(t_data *data, int i, char *redir);
-void	handle_here_doc(t_data *data, int i);
-void	execve_command(t_data *data);
+// operators.c
+void		handle_redirection(t_data *data, int i, char *redir);
+void		handle_here_doc(t_data *data, int i);
+void		execve_command(t_data *data);
 
+// exit.c
+void		builtin_exit(t_data *data);
+
+// here_doc.c
+int			heredoc(t_data *data, char *limiter);
+void		ft_sigdoc(int sig);
+int get_file_name(char *str, int j);
+
+void		sigint(int sig);
+extern int	g_lobal;
 
 #endif

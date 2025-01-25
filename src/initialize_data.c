@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:27:20 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/16 12:18:19 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/17 17:05:37 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ t_data	initialize_data(char **env)
 	data.env = matrix_dup(env);
 	data.cube_input = NULL;
 	data.input = NULL;
-	data.flag1 = 0;
-	data.flag2 = 0;
 	data.path = NULL;
 	data.original_input = 0;
 	data.original_output = 1;

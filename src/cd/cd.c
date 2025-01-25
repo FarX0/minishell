@@ -6,13 +6,13 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:20:53 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/16 12:21:03 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/25 11:44:23 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_cd(t_data *data)
+int	builtin_cd(t_data *data)
 {
 	char	*path;
 
@@ -22,8 +22,13 @@ void	builtin_cd(t_data *data)
 		if (path == NULL)
 		{
 			ft_putstr_fd("cd: HOME not set\n", 2);
-			return ;
+			return (1);
 		}
+	}
+	else if(data->cube_input[0][2] != NULL)
+	{
+		ft_putstr_fd("cd: too many arguments\n", 2);
+		return (1);
 	}
 	else
 		path = data->cube_input[0][1];
@@ -32,7 +37,9 @@ void	builtin_cd(t_data *data)
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(data->cube_input[0][1], 2);
 		ft_printf(": %s\n", strerror(errno), 2);
+		return (1);
 	}
+	return (0);
 }
 
 char	*get_env_value(char **env, char *key)

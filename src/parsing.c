@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 11:48:19 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/16 12:20:34 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/25 15:36:26 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ t_data	del_extra_spaces(t_data data)
 	int		i;
 	int		j;
 	int		var;
-	char	*strcpy;
+	char	*str;
 
 	i = 0;
 	j = 0;
 	data.input = ft_strdup(data.terminal_input);
 	if (data.input)
-		strcpy = ft_calloc(sizeof(char), ft_strlen(data.input) + 1);
+		str = ft_calloc(sizeof(char), ft_strlen(data.input) + 1);
 	if (data.input == NULL)
 		return (data);
 	while (data.input[i] == ' ')
@@ -43,7 +43,7 @@ t_data	del_extra_spaces(t_data data)
 			i = skip_quotes(data.input, i);
 			while (var < (i))
 			{
-				strcpy[j] = data.input[var];
+				str[j] = data.input[var];
 				var++;
 				j++;
 			}
@@ -65,7 +65,7 @@ t_data	del_extra_spaces(t_data data)
 			while (data.input[i] == '|' || data.input[i] == '<'
 				|| data.input[i] == '>')
 			{
-				strcpy[j] = data.input[i];
+				str[j] = data.input[i];
 				i++;
 				j++;
 			}
@@ -74,12 +74,12 @@ t_data	del_extra_spaces(t_data data)
 		}
 		if (data.input[i] == '\0')
 			break ;
-		strcpy[j] = data.input[i];
+		str[j] = data.input[i];
 		i++;
 		j++;
 	}
 	free(data.input);
-	data.input = strcpy;
+	data.input = str;
 	return (data);
 }
 
@@ -87,30 +87,103 @@ t_data	split_input(t_data data, t_variables var)
 {
 	int	i;
 
-	i = 0;
 	while (data.input[var.i] != '\0')
 	{
-		if (data.input[var.i] == 39 || data.input[var.i] == 34)
-			var.i = skip_quotes(data.input, var.i) + 1;
+		if (data.input[var.i] == 39)
+		{
+			var.i = skip_quotes(data.input, var.i);
+			continue;
+		}
+		if (data.input[var.i] == 34)
+		{
+			while(data.input[var.i - 1] == ' ' && var.i > 0)
+				var.i--;
+			if (strncmp(&data.input[var.i - 1], "<<", 2) == 0)
+			{
+				while (data.input[var.i] != 34 && data.input[var.i] != '\0')
+					var.i++;
+				var.i++;
+				while (data.input[var.i] != 34 && data.input[var.i] != '\0')
+					var.i++;
+				var.i++;
+			}
+			else
+			{
+				while (data.input[var.i] != 34 && data.input[var.i] != '\0')
+					var.i++;
+				var.i++;
+				while (data.input[var.i] != 34 && data.input[var.i] != '\0')
+				{
+					if (data.input[var.i] == '$')
+					{
+						data.input = dollar_expansion(data);
+						if (data.error == true)
+							return (data);
+						var.i = 0;
+					}
+					else
+					var.i++;
+				}
+				if (data.input[var.i] != '\0')
+					var.i++;
+			}
+			continue;
+		}
 		if (data.input[var.i] == '|')
 			data.nbr_cmd++;
+		if(data.input[var.i] == '$')
+		{
+			while(data.input[var.i - 1] == ' ' && var.i - 2 >= 0)
+				var.i--;
+			if (ft_strncmp(&data.input[var.i - 2], "<<", 2) == 0)
+			{
+				while (data.input[var.i] != '$' && data.input[var.i] != '\0')
+					var.i++;
+				var.i++;
+				while (data.input[var.i] != ' ' && data.input[var.i] != '\0')
+					var.i++;
+				if (data.input[var.i] != '\0')//
+					var.i++;
+			}
+			else
+			{
+				while (data.input[var.i] != '$' && data.input[var.i] != '\0')
+					var.i++;
+				data.input = dollar_expansion(data);
+				var.i = 0;
+			}
+			continue;
+		}
 		var.i++;
 	}
-	// printf("nbr_cmd = %d\n", data.nbr_cmd);
-	data.fds = (int **)malloc(sizeof(int *) * data.nbr_cmd);
+	printf("data.input = %s\n", data.input);
+	data.fds = (int **)malloc(sizeof(int *) * (data.nbr_cmd + 1));
+	if (!data.fds)
+	{
+		data.error = true;
+		return (data);
+	}
 	while (var.n < data.nbr_cmd)
 	{
 		data.fds[var.n] = (int *)malloc(sizeof(int) * 2);
-		data.fds[var.n][0] = 0; // lekkano
-		data.fds[var.n][1] = 1; // non so perchè
+		if (!data.fds[var.n])
+		{
+			data.error = true;
+			return (data);
+		}
+		data.fds[var.n][0] = 0;
+		data.fds[var.n][1] = 1;
 		var.n++;
 	}
+	data.fds[data.nbr_cmd] = NULL;
 	var.n = 0;
 	var.i = 0;
 	if (data.input)
 		data.cube_input = cube_alloc(data.input, data.nbr_cmd);
 	while (data.input[var.i] != '\0')
 	{
+
+		//controllase sei in "" o '' :)
 		if (data.input[var.i] == '<')
 		{
 			data = redirection_handle(data, var.i, 1, var.n);
@@ -118,11 +191,13 @@ t_data	split_input(t_data data, t_variables var)
 		else if (data.input[var.i] == '>')
 		{
 			data = redirection_handle(data, var.i, 0, var.n);
-		}
+		} 
+		if (data.error == true)
+			return (data);
 		if (data.input[var.i] == 39 || data.input[var.i] == 34)
 		{
 			i = var.i;
-			var.i = skip_quotes(data.input, var.i) + 1;
+			var.i = skip_quotes(data.input, var.i);
 			if (data.input[var.i] == '\0')
 				break ;
 			while (var.i > i)
@@ -150,44 +225,80 @@ t_data	split_input(t_data data, t_variables var)
 			var.i++;
 		}
 		else
-		{
-			data.cube_input[var.n][var.k][var.j] = data.input[var.i];
-			var.i++;
-			var.j++;
-		}
+			data.cube_input[var.n][var.k][var.j++] = data.input[var.i++];
 	}
 	return (data);
-}
+} 
 
 t_data	redirection_handle(t_data data, int j, bool io, int n)
 {
 	int		i;
-	char	*strcpy;
+	char	*fiel;
 
-	i = 0;
-	while (data.input[j + i] != '<' && data.input[j + i] != '\0' && data.input[j + i] != '>' && data.input[j + i] != '|')
-		i++;
-	strcpy = ft_substr(data.input, j + 1, i + j);
+	// while (data.input[j + i] != '<' && data.input[j + i] != '>' && data.input[j + i] != '|')
+	//  	i++;
 	if (io == 0)
 	{
-		data.fds[n][0] = open(strcpy, O_WRONLY | O_CREAT, 0644);
-		if (data.fds[n][0] == -1)
+		if (data.input[j + 1] && data.input[j + 1] == '>')
+			i = 0;
+		else
+			i = 1;
+	}		
+	else
+	{
+		if (data.input[j + 1] && data.input[j + 1] == '<')
+			i = 0;
+		else
+			i = 1;
+	}
+	if (data.input[j + 1] == '<' || data.input[j + 1] == '>')
+		j++;
+	fiel = ft_substr(data.input, j + 1, get_file_name(data.input, j + 1));
+	if (io == 0)
+	{
+		if (data.fds[n][0] != 0)
+			close(data.fds[n][0]);
+		if (i == 1)
 		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(strerror(errno), 2); ///da testare
-			ft_putstr_fd("\n", 2);
-			data.error = true;
+			data.fds[n][0] = open(fiel, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (data.fds[n][0] == -1)
+			{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(strerror(errno), 2); ///da testare
+				ft_putstr_fd("\n", 2);
+				data.error = true;
+			}
+		}
+		else
+		{
+			data.fds[n][0] = open(fiel, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (data.fds[n][0] == -1)
+			{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(strerror(errno), 2); ///da testare
+				ft_putstr_fd("\n", 2);
+				data.error = true;
+			}
 		}
 	}
 	else
 	{
-		data.fds[n][1] = open(strcpy, O_RDONLY);
-		if (data.fds[n][1] == -1)
+		if (data.fds[n][1] != 1)
+			close(data.fds[n][1]);
+		if (i == 1)
 		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(strerror(errno), 2);
-			ft_putstr_fd("\n", 2);
-			data.error = true;
+			data.fds[n][1] = open(fiel, O_RDONLY, 0644);
+			if (data.fds[n][1] == -1)
+			{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(strerror(errno), 2);
+				ft_putstr_fd("\n", 2);
+				data.error = true;
+			}
+		}
+		else
+		{
+			data.fds[n][1] = heredoc(&data, fiel);
 		}
 	}
 	return (data);
@@ -236,10 +347,12 @@ char	***cube_alloc(char *str, int nbr_cmd)
 			cube[i][j] = ft_calloc(n + 1, sizeof(char));
 			j++;
 		}
-		n++;
+		cube[i][k + 1] = NULL;
+		n = 0;
 		i++;
 		j = 0;
 		k = 0;
 	}
+	cube[nbr_cmd] = NULL;
 	return (cube);
 }
