@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	builtin_unset(t_data *data)
+int builtin_unset(t_data* data, char** args)
 {
 	int		i;
 	int		j;
@@ -24,38 +24,40 @@ int	builtin_unset(t_data *data)
 	j = 0;
 	k = 1;
 	return_value = 0;
-	if (data->cube_input[0][k] == NULL)
+	if (args[k] == NULL)
 		return (0);
-	while (data->cube_input[0][k])
+	while (args[k])
 	{
-		while(data->cube_input[0][k][i])
+		while(args[k][i])
+
 		{
-			if (data->cube_input[0][k][i] == '_' && data->cube_input[0][k][i + 1] == '=')
+			if (args[k][i] == '_' && args[k][i + 1] == '=')
 			{
 				k++;
 				continue;
 			}
-			if (ft_isdigit(data->cube_input[0][k][i]) || data->cube_input[0][k][i] == '=')
+			if (ft_isdigit(args[k][i]) || args[k][i] == '=')
 			{
 				return_value = 1;
-				while (data->cube_input[0][k][i] != '\0' && data->cube_input[0][k][i] != ' ')
+				while (args[k][i] != '\0' && args[k][i] != ' ')
+
 					i++;
-				ft_printf("minishell: export: `%s': not a valid identifier\n", data->cube_input[0][k]);
+				ft_printf("minishell: export: `%s': not a valid identifier\n", args[k]);
 				continue;
 			}
 			i++;
 		}
-		if (find_in_env(data->env, data->cube_input[0][k]) != -1)
+		if (find_in_env(data->env, args[k]) != -1)
 		{
 			i = 0;
-			while (data->cube_input[0][i] && data->cube_input[0][k] != data->cube_input[0][i])
+			while (args[i] && args[k] != args[i])
 			{
-				if (ft_strncmp(data->cube_input[0][k], data->cube_input[0][i], longest_string(data->cube_input[0][k], data->cube_input[0][i])) == 0)
+				if (ft_strncmp(args[k], args[i], longest_string(args[k], args[i])) == 0)
 					j--;
 				i++;
 			}
 			j++;
-			printf("found %s\n", data->cube_input[0][k]);
+			printf("found %s\n", args[k]);
 		}
 		k++;
 	}
@@ -64,7 +66,7 @@ int	builtin_unset(t_data *data)
 	if (i - j > 0)
 	{
 		new_matrix = malloc(sizeof(char *) * (i - j + 1));
-		data->env = env_dup(new_matrix, data);
+		data->env = env_dup(new_matrix, data, args);
 	}
 	else
 		new_matrix = NULL;
@@ -72,7 +74,7 @@ int	builtin_unset(t_data *data)
 	return (return_value);
 }
 
-char	**env_dup(char **matrix, t_data *data)
+char** env_dup(char** matrix, t_data* data, char** args)
 {
 	int	n;
 	int	k;
@@ -86,12 +88,12 @@ char	**env_dup(char **matrix, t_data *data)
 	{
 		b = false;
 		k = 1;
-		while (data->cube_input[0][k])
+		while (args[k])
 		{
 			i = 1;
-			while (data->cube_input[0][k][i] != '\0')
+			while (args[k][i] != '\0')
 				i++;
-			if (strncmp(data->env[n], data->cube_input[0][k], i) == 0)
+			if (strncmp(data->env[n], args[k], i) == 0)
 				b = true;
 			k++;
 		}
@@ -103,6 +105,8 @@ char	**env_dup(char **matrix, t_data *data)
 		n++;
 	}
 	matrix[j] = NULL;
+	free_matrix(data->env);
+	data->env = matrix;
 	return (matrix);
 }
 

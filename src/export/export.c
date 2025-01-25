@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	export(t_data *data)
+int export(t_data* data, char** args)
 {
 	int		j;
 	int		aug = 1;
@@ -20,20 +20,20 @@ int	export(t_data *data)
 
 	j = 0;
 	return_value = 0;
-	if (data->cube_input[0][aug] == NULL)
+	if (args[aug] == NULL)
 	{
 		print_export(*data);
 		return (0);
 	}
-	while (data->cube_input[0][aug])
+	while (args[aug])
 	{
-		while (data->cube_input[0][aug][j])
+		while (args[aug][j])
 		{
-			if (data->cube_input[0][aug][j] == '_' && data->cube_input[0][aug][j + 1] == '=')
+			if (args[aug][j] == '_' && args[aug][j + 1] == '=')
 			{
-				while (data->cube_input[0][aug][j] != '\0' && data->cube_input[0][aug][j] != ' ')
+				while (args[aug][j] != '\0' && args[aug][j] != ' ')
 					j++;
-				if (data->cube_input[0][aug][j] == ' ')
+				if (args[aug][j] == ' ')
 				{
 					j++;
 					continue;
@@ -41,29 +41,30 @@ int	export(t_data *data)
 				else
 					return (return_value);
 			}
-			if (ft_isdigit(data->cube_input[0][aug][j]) || data->cube_input[0][aug][j] == '=')
+			if (ft_isdigit(args[aug][j]) || args[aug][j] == '=')
 			{
 				return_value = 1;
-				while (data->cube_input[0][aug][j] != '\0' && data->cube_input[0][aug][j] != ' ')
+				while (args[aug][j] != '\0' && args[aug][j] != ' ')
+
 					j++;
-				ft_printf("minishell: export: `%s': not a valid identifier\n", data->cube_input[0][aug]);
+				ft_printf("minishell: export: `%s': not a valid identifier\n", args[aug]);
 				continue;
 			}
 			else
 			{
-				while (ft_isalnum(data->cube_input[0][aug][j]) || data->cube_input[0][aug][j] == '_')
+				while (ft_isalnum(args[aug][j]) || args[aug][j] == '_')
 					j++;
-				if (data->cube_input[0][aug][j] == '=')
+				if (args[aug][j] == '=')
 				{
 					j++;
-					while (data->cube_input[0][aug][j] != '\0' && data->cube_input[0][aug][j] != ' ')
+					while (args[aug][j] != '\0' && args[aug][j] != ' ')
 						j++;
 				}
-				if (data->cube_input[0][aug][j] == '\0')
-					env_modification(data, j, aug);
-				if (data->cube_input[0][aug][j] == ' ')
+				if (args[aug][j] == '\0')
+					env_modification(data, j, aug, args);
+				if (args[aug][j] == ' ')
 				{
-					env_modification(data, j, aug);
+					env_modification(data, j, aug, args);
 					j++;
 					continue;
 				}
@@ -75,7 +76,7 @@ int	export(t_data *data)
 	return (return_value);
 }
 
-void	env_modification(t_data *data, int j, int aug)
+void env_modification(t_data* data, int j, int aug, char** args)
 {
 	char *strcpy;
 	int i;
@@ -83,7 +84,7 @@ void	env_modification(t_data *data, int j, int aug)
 
 	i = 0;
 	strcpy = ft_calloc(sizeof(char), j + 1);
-	ft_strlcpy(strcpy, data->cube_input[0][aug], j + 1);
+	ft_strlcpy(strcpy, args[aug], j + 1);
 	pos_eq = ft_strchr(strcpy, '=') - strcpy;
 	while (data->env[i] != NULL)
 	{
@@ -103,5 +104,4 @@ void	env_modification(t_data *data, int j, int aug)
 	data->env[i] = ft_strdup(strcpy); // and add the variable
 	free(strcpy);
 	strcpy = NULL;
-	return ;
 }

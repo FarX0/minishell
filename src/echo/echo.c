@@ -12,45 +12,48 @@
 
 #include "minishell.h"
 
-int	builtin_echo(t_data *data)
+int builtin_echo(t_data* data, char** args)
 {
 	int	i;
 	int	n;
 
+	(void)data;
 	i = 0;
 	int aug = 1; // numero argomenti in modo che ogni ciclo prende un argomrnto
-	if (data->cube_input[0][1] == NULL)
+	if (args[1] == NULL)
 	{
 		printf("\n");
 		return (0);
 	}
-	/* while(data->cube_input[0][aug])
-		aug++; 
+	/* while(args[aug])
+		aug++;
 	aug = 1;*/
-	while (data->cube_input[0][aug])
+	while (args[aug])
+
 	{
-		if (data->cube_input[0][aug][i] && strcmp(&data->cube_input[0][aug][i],"-n") == 0) //-n
+		if (args[aug][i] && strcmp(&args[aug][i],"-n") == 0) //-n
 			i++;
-		while (data->cube_input[0][aug][i])
+		while (args[aug][i])
 		{
-			if (data->cube_input[0][aug][i] == '\"' || data->cube_input[0][aug][i] == '\'')
+			if (args[aug][i] == '\"' || args[aug][i] == '\'')
 			{
 				n = i + 1;
-				i = skip_quotes(data->cube_input[0][aug], i);
+				i = skip_quotes(args[aug], i);
 				while (n < i - 1)
 				{
-					printf("%c", data->cube_input[0][aug][n]);
+					printf("%c", args[aug][n]);
+
 					n++;
 				}
 			}
 			else
 			{
-				printf("%c", data->cube_input[0][aug][i]);
+				printf("%c", args[aug][i]);
 				i++;
 			}
 		}
 		i = 0;
-		if (data->cube_input[0][aug + 1] != NULL && data->cube_input[0][aug][0] != '\0')
+		if (args[aug + 1] != NULL && args[aug][0] != '\0')
 			printf(" ");
 		aug++;
 	}

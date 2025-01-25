@@ -5,8 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/17 16:00:36 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/25 11:53:08 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/20 17:41:40 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +13,33 @@
 
 long long int	ft_atolli(const char *nptr);
 
-void	builtin_exit(t_data *data)
+void builtin_exit(t_data* data, char** args)
 {
 	long long int	exit_code;
 	int				sign;
 	char			*arg;
-    char			*temp;
-	
-	arg = ft_strdup(data->cube_input[0][1]);
+
+	arg = ft_strdup(args[1]);
 	sign = 1;
-	if (data->cube_input[0][1])
+	if (args[1])
 	{
-		temp = arg;
-		if (data->cube_input[0][1][0] == '-')
+		if (args[1][0] == '-')
 		{
 			sign = -1;
-			temp++;
+			arg++;
 		}
 		exit_code = ft_atolli(arg);
-		if (exit_code == 0 && data->cube_input[0][1][0] != '0')
+		if (exit_code == 0 && args[1][0] != '0')
 		{
 			ft_printf("exit: %s: numeric argument required\n",
-				data->cube_input[0][1]);
+				args[1]);
 			exit_code = 2;
 		}
-		else if (data->cube_input[0][2])
+		else if (args[2])
 		{
 			ft_printf("exit: too many arguments\n");
 			data->exit_code = 1;
-			free(arg);
+
 			return ;
 		}
 	}
@@ -50,7 +47,6 @@ void	builtin_exit(t_data *data)
 		exit_code = 0;
 	ft_printf("exit\n");
 	free_all(data);
-	free(arg);
 	if (sign == -1)
 	{
 		exit_code = exit_code - 256;

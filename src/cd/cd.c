@@ -6,39 +6,38 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:20:53 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/25 11:44:23 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/25 19:21:58 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_cd(t_data *data)
+int builtin_cd(t_data* data, char** args)
 {
-	char	*path;
+	const int	nbr_args = ft_mtxlen(args);
+	char		*path;
+	bool		is_allocated;
 
-	if (data->cube_input[0][1] == NULL)
+	is_allocated = false;
+	if (nbr_args == 1)
 	{
 		path = get_env_value(data->env, "HOME");
+		is_allocated = true;
 		if (path == NULL)
-		{
-			ft_putstr_fd("cd: HOME not set\n", 2);
-			return (1);
-		}
+			return (ft_putstr_fd("cd: HOME not set\n", 2), 1);
 	}
-	else if(data->cube_input[0][2] != NULL)
-	{
-		ft_putstr_fd("cd: too many arguments\n", 2);
-		return (1);
-	}
-	else
-		path = data->cube_input[0][1];
+	if (nbr_args > 2)
+		return (ft_putstr_fd("cd: too many arguments\n", 2), 1);
+	path = data->cube_input[0][1];
 	if (chdir(path) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(data->cube_input[0][1], 2);
 		ft_printf(": %s\n", strerror(errno), 2);
-		return (1);
+		return (free(path), 1);
 	}
+	if (is_allocated)
+		free(path);
 	return (0);
 }
 

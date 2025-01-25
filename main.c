@@ -18,6 +18,7 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data		data;
 	t_variables	var;
+	int			status;
 	
 	(void)argc;
 	(void)argv;
@@ -31,7 +32,7 @@ int	main(int argc, char **argv, char **env)
 		if (g_lobal != 0)
 			data.exit_code = g_lobal;
 		if (data.terminal_input)
-            add_history(data.terminal_input);
+			add_history(data.terminal_input);
 		else
 		{
 			ft_printf("exit\n");
@@ -44,10 +45,23 @@ int	main(int argc, char **argv, char **env)
 			free_input(&data);
 			continue;
 		}
-		data.exit_code = execute_command(&data);
-		printf("exit code: %d\n", data.exit_code);
+		if(ft_strcmp("exit", data.cube_input[0][0]) == 0 && data.cube_input[0][2] == NULL)
+			rl_clear_history();
+		int i = -1;
+		while (++i < data.nbr_cmd)
+		{
+			print_matrix(data.cube_input[i]);
+			execute_command(&data, i, data.cube_input[i]);
+		}
+		while (waitpid(-1, &status, 0) != -1)
+		{
+			if (WIFEXITED(status))
+				data.exit_code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				data.exit_code = WTERMSIG(status)+128;
+		}
 		free_input(&data);
-	}	
+	}
 	return (0);
 }
 
