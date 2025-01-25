@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 12:31:43 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/24 18:03:09 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/01/25 19:33:20 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	main(int argc, char **argv, char **env)
 		int i = -1;
 		while (++i < data.nbr_cmd)
 		{
+			print_matrix(data.cube_input[i]);
 			execute_command(&data, i, data.cube_input[i]);
 		}
 		while (waitpid(-1, &status, 0) != -1)
