@@ -51,7 +51,7 @@ re: fclean all
 VALGRIND=@valgrind --suppressions=supp.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --quiet --tool=memcheck --keep-debuginfo=yes
 # FOR FD 		TRACKING: --track-fds=yes
 # FOR CHILDREN	TRACKING: --trace-children=yes
-valgrind: all
+val: all
 	clear
 	$(VALGRIND) ./$(NAME)
 

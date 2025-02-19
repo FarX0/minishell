@@ -26,6 +26,8 @@ int	skip_quotes(char *str, int i)
 		while (str[i] != 34 && str[i] != '\0')
 			i++;
 	}
+	if (str[i] == '\0')
+		return (-1);
 	i++;
 	return (i);
 }

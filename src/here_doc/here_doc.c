@@ -48,7 +48,6 @@ int	heredoc(t_data *data, char *limiter)
 		if (ft_strcmp(line, limiter) == 0)
 		{
 			free(line);
-			write(fd, "\n", 1);
 			break ;
 		}
 		write(fd, line, ft_strlen(line));
@@ -59,18 +58,17 @@ int	heredoc(t_data *data, char *limiter)
 	return (fd);
 }
 
-
 int get_file_name(char *str, int j)
 {
-	int		i;
-
-	i = 0;
-	while (str[j + i] != ' ' && str[j + i] != '\0' && str[j + i] != '|')
+	while (str[j] != ' ' && str[j] != '\0' && str[j] != '|')
 	{
-		if (str[j + i] == 39 || str[j + i] == 34)
-			i = skip_quotes(str, j + i);
-		i++;
+		if (str[j] == 39 || str[j] == 34)
+		{
+			j = skip_quotes(str, j);
+			j--;
+		}
+		j++;
 	}
-	return (i);
+	return (j);
 }
 

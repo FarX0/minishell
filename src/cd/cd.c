@@ -34,7 +34,7 @@ int builtin_cd(t_data* data, char** args)
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(data->cube_input[0][1], 2);
 		ft_printf(": %s\n", strerror(errno), 2);
-		return (free(path), 1);
+		return (1);
 	}
 	if (is_allocated)
 		free(path);

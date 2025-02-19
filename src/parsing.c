@@ -12,27 +12,28 @@
 
 #include "minishell.h"
 
-t_data	parsing(t_data data, t_variables var)
+t_data parsing(t_data data, t_variables var)
 {
 	data = del_extra_spaces(data);
+	if (data.error == true)
+		return (data);
 	data = split_input(data, var);
 	return (data);
 }
 
-t_data	del_extra_spaces(t_data data)
+t_data del_extra_spaces(t_data data)
 {
-	int		i;
-	int		j;
-	int		var;
-	char	*str;
+	int i;
+	int j;
+	int var;
+	char *str;
 
 	i = 0;
 	j = 0;
 	data.input = ft_strdup(data.terminal_input);
-	if (data.input)
-		str = ft_calloc(sizeof(char), ft_strlen(data.input) + 1);
 	if (data.input == NULL)
 		return (data);
+	str = ft_calloc(sizeof(char *), ft_strlen(data.input) + 1);
 	while (data.input[i] == ' ')
 		i++;
 	while (data.input[i] != '\0')
@@ -41,6 +42,13 @@ t_data	del_extra_spaces(t_data data)
 		{
 			var = i;
 			i = skip_quotes(data.input, i);
+			if (i == -1)
+			{
+				data.error = true;
+				perror("Minishell: Quote not closed");
+				free(str);
+				return (data);
+			}
 			while (var < (i))
 			{
 				str[j] = data.input[var];
@@ -48,22 +56,16 @@ t_data	del_extra_spaces(t_data data)
 				j++;
 			}
 		}
-		while (data.input[i] == ' ' && (data.input[i + 1] == ' ' || data.input[i
-				+ 1] == '\0' || data.input[i + 1] == '|' || data.input[i
-				+ 1] == '<' || data.input[i + 1] == '>'))
+		while (data.input[i] == ' ' && (data.input[i + 1] == ' ' || data.input[i + 1] == '\0' || data.input[i + 1] == '|' || data.input[i + 1] == '<' || data.input[i + 1] == '>'))
 			i++;
-		if (data.input[i] == '|' || data.input[i] == '<'
-			|| data.input[i] == '>')
+		if (data.input[i] == '|' || data.input[i] == '<' || data.input[i] == '>')
 		{
-			if ((data.input[i] == '<' && data.input[i + 1] == '>')
-				|| (data.input[i] == '>' && data.input[i + 1] == '<'))
+			if ((data.input[i] == '<' && data.input[i + 1] == '>') || (data.input[i] == '>' && data.input[i + 1] == '<'))
 			{
 				data.error = true;
-				printf("syntax error near unexpected token '%c\n", data.input[i
-					+ 1]);
+				printf("syntax error near unexpected token '%c\n", data.input[i + 1]);
 			}
-			while (data.input[i] == '|' || data.input[i] == '<'
-				|| data.input[i] == '>')
+			while (data.input[i] == '|' || data.input[i] == '<' || data.input[i] == '>')
 			{
 				str[j] = data.input[i];
 				i++;
@@ -71,9 +73,10 @@ t_data	del_extra_spaces(t_data data)
 			}
 			while (data.input[i] == ' ')
 				i++;
+			continue;
 		}
 		if (data.input[i] == '\0')
-			break ;
+			break;
 		str[j] = data.input[i];
 		i++;
 		j++;
@@ -83,9 +86,9 @@ t_data	del_extra_spaces(t_data data)
 	return (data);
 }
 
-t_data	split_input(t_data data, t_variables var)
+t_data split_input(t_data data, t_variables var)
 {
-	int	i;
+	int i;
 
 	while (data.input[var.i] != '\0')
 	{
@@ -96,9 +99,9 @@ t_data	split_input(t_data data, t_variables var)
 		}
 		if (data.input[var.i] == 34)
 		{
-			while(data.input[var.i - 1] == ' ' && var.i > 0)
+			while (var.i > 0 && data.input[var.i - 1] == ' ')
 				var.i--;
-			if (strncmp(&data.input[var.i - 1], "<<", 2) == 0)
+			if (var.i > 0 && strncmp(&data.input[var.i - 1], "<<", 2) == 0)
 			{
 				while (data.input[var.i] != 34 && data.input[var.i] != '\0')
 					var.i++;
@@ -122,7 +125,7 @@ t_data	split_input(t_data data, t_variables var)
 						var.i = 0;
 					}
 					else
-					var.i++;
+						var.i++;
 				}
 				if (data.input[var.i] != '\0')
 					var.i++;
@@ -131,9 +134,9 @@ t_data	split_input(t_data data, t_variables var)
 		}
 		if (data.input[var.i] == '|')
 			data.nbr_cmd++;
-		if(data.input[var.i] == '$')
+		if (data.input[var.i] == '$')
 		{
-			while(data.input[var.i - 1] == ' ' && var.i - 2 >= 0)
+			while (data.input[var.i - 1] == ' ' && var.i - 2 >= 0)
 				var.i--;
 			if (ft_strncmp(&data.input[var.i - 2], "<<", 2) == 0)
 			{
@@ -142,7 +145,7 @@ t_data	split_input(t_data data, t_variables var)
 				var.i++;
 				while (data.input[var.i] != ' ' && data.input[var.i] != '\0')
 					var.i++;
-				if (data.input[var.i] != '\0')//
+				if (data.input[var.i] != '\0') //
 					var.i++;
 			}
 			else
@@ -181,8 +184,7 @@ t_data	split_input(t_data data, t_variables var)
 		data.cube_input = cube_alloc(data.input, data.nbr_cmd);
 	while (data.input[var.i] != '\0')
 	{
-
-		//controllase sei in "" o '' :)
+		// controllase sei in "" o '' :)
 		if (data.input[var.i] == '<')
 		{
 			data = redirection_handle(data, var.i, 1, var.n);
@@ -190,13 +192,13 @@ t_data	split_input(t_data data, t_variables var)
 		else if (data.input[var.i] == '>')
 		{
 			data = redirection_handle(data, var.i, 0, var.n);
-		} 
+		}
 		if (data.input[var.i] == 39 || data.input[var.i] == 34)
 		{
 			i = var.i;
 			var.i = skip_quotes(data.input, var.i);
-			if (data.input[var.i] == '\0')
-				break ;
+			/* if (data.input[var.i] == '\0')
+				break ; */
 			while (var.i > i)
 			{
 				data.cube_input[var.n][var.k][var.j] = data.input[i];
@@ -225,12 +227,12 @@ t_data	split_input(t_data data, t_variables var)
 			data.cube_input[var.n][var.k][var.j++] = data.input[var.i++];
 	}
 	return (data);
-} 
+}
 
-t_data	redirection_handle(t_data data, int j, bool io, int n)
+t_data redirection_handle(t_data data, int j, bool io, int n)
 {
-	int		i;
-	char	*fiel;
+	int i;
+	char *fiel;
 
 	// while (data.input[j + i] != '<' && data.input[j + i] != '>' && data.input[j + i] != '|')
 	//  	i++;
@@ -240,7 +242,7 @@ t_data	redirection_handle(t_data data, int j, bool io, int n)
 			i = 0;
 		else
 			i = 1;
-	}		
+	}
 	else
 	{
 		if (data.input[j + 1] && data.input[j + 1] == '<')
@@ -250,7 +252,7 @@ t_data	redirection_handle(t_data data, int j, bool io, int n)
 	}
 	if (data.input[j + 1] == '<' || data.input[j + 1] == '>')
 		j++;
-	fiel = ft_substr(data.input, j + 1, get_file_name(data.input, j + 1));
+	fiel = remove_quotes(ft_substr(data.input, j + 1, get_file_name(data.input, j + 1)));
 	if (io == 0)
 	{
 		if (data.fds[n][0] != 0)
@@ -261,7 +263,7 @@ t_data	redirection_handle(t_data data, int j, bool io, int n)
 			if (data.fds[n][0] == -1)
 			{
 				ft_putstr_fd("minishell: ", 2);
-				ft_putstr_fd(strerror(errno), 2); ///da testare
+				ft_putstr_fd(strerror(errno), 2); /// da testare
 				ft_putstr_fd("\n", 2);
 				data.error = true;
 			}
@@ -272,7 +274,7 @@ t_data	redirection_handle(t_data data, int j, bool io, int n)
 			if (data.fds[n][0] == -1)
 			{
 				ft_putstr_fd("minishell: ", 2);
-				ft_putstr_fd(strerror(errno), 2); ///da testare
+				ft_putstr_fd(strerror(errno), 2); /// da testare
 				ft_putstr_fd("\n", 2);
 				data.error = true;
 			}
@@ -296,18 +298,21 @@ t_data	redirection_handle(t_data data, int j, bool io, int n)
 		else
 		{
 			data.fds[n][1] = heredoc(&data, fiel);
+			j = j + 2;
+			while (data.input[j] != '\0' && data.input[j] != '|' && data.input[j] != '<' && data.input[j] != '>')
+				j++;
 		}
 	}
 	return (data);
 }
 
-char	***cube_alloc(char *str, int nbr_cmd)
+char ***cube_alloc(char *str, int nbr_cmd)
 {
-	int		i;
-	int		j;
-	int		k;
-	int		n;
-	char	***cube;
+	int i;
+	int j;
+	int k;
+	int n;
+	char ***cube;
 
 	i = 0;
 	j = 0;
@@ -324,7 +329,7 @@ char	***cube_alloc(char *str, int nbr_cmd)
 				while (str[n] != 39 && str[n] != '\0')
 					n++;
 				if (str[n] == '\0')
-					break ;
+					break;
 			}
 			if (str[n] == 34)
 			{
@@ -332,7 +337,7 @@ char	***cube_alloc(char *str, int nbr_cmd)
 				while (str[n] != 34 && str[n] != '\0')
 					n++;
 				if (str[n] == '\0')
-					break ;
+					break;
 			}
 			if (str[n] == ' ')
 				k++;

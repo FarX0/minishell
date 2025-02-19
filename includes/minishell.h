@@ -104,6 +104,8 @@ char		**sort_env(t_data data);
 
 // utils.c
 char		*find_and_replace(char *str_og, char *new, int start, int ignore);
+char		*remove_quotes(char *str);
+
 // char		*dollar_red(char *str, t_data *data);
 int			is_executable(char *path);
 void		handle_relative_path(t_data *data);

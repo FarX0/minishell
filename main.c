@@ -43,10 +43,9 @@ int	main(int argc, char **argv, char **env)
 		if(data.error == true)
 		{
 			free_input(&data);
+			data.error = false;
 			continue;
 		}
-		if(ft_strcmp("exit", data.cube_input[0][0]) == 0 && data.cube_input[0][2] == NULL)
-			rl_clear_history();
 		int i = -1;
 		while (++i < data.nbr_cmd)
 		{

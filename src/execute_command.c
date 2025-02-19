@@ -12,47 +12,40 @@
 
 #include "minishell.h"
 
-int search_cmd(t_data* data)
+int search_cmd(t_data *data)
 {
 	int i;
-	char* x;
-	char* s;
-	char** paths;
+	char *x;
+	char *s;
+	char **paths;
 
 	i = 0;
 	if (data->cube_input[0][0][0] == '.' || data->cube_input[0][0][0] == '/')
 		handle_relative_path(data);
 	x = ft_strjoin("/", data->cube_input[0][0]); // liberi l'argomento a destra
-	char* path = get_env_value(data->env, "PATH");
+	char *path = get_env_value(data->env, "PATH");
 	paths = ft_split(path, ':');
 	free(path);
 	while (paths[i])
 	{
-		x = ft_strjoin("/", data->cube_input[0][0]); // liberi l'argomento a destra
-		path = get_env_value(data->env, "PATH");
-		paths = ft_split(path, ':');
-		free(path);
-		while (paths[i])
+		s = ft_strjoin(paths[i], x);
+		if (is_executable(s)) // le cartelle possono essere eseguite
 		{
-			s = ft_strjoin(paths[i], x);
-			if (is_executable(s)) // le cartelle possono essere eseguite
-			{
-				data->path = ft_strdup(s);
-				free(s);
-				free(x);
-				free_matrix(paths);
-				return (1);
-			}
+			data->path = ft_strdup(s);
 			free(s);
-			i++;
+			free(x);
+			free_matrix(paths);
+			return (1);
 		}
-		free(x);
-		free_matrix(paths);
+		free(s);
+		i++;
 	}
+	free(x);
+	free_matrix(paths);
 	return (0);
 }
 
-void dup_fds(t_data* data)
+void dup_fds(t_data *data)
 {
 	if (data->fds[0][0] != 0)
 	{
@@ -66,12 +59,12 @@ void dup_fds(t_data* data)
 	}
 }
 
-int wait_pids(pid_t* pid, int nbr_cmds, int* status)
+int wait_pids(pid_t *pid, int nbr_cmds, int *status)
 {
 	int i;
 
 	i = 0;
-	while (i<nbr_cmds)
+	while (i < nbr_cmds)
 	{
 		waitpid(pid[i], status, 0);
 		i++;
@@ -80,27 +73,24 @@ int wait_pids(pid_t* pid, int nbr_cmds, int* status)
 	if (WIFEXITED(*status))
 		return (WEXITSTATUS(*status));
 	else if (WIFSIGNALED(*status))
-		return (WTERMSIG(*status)+128);
+		return (WTERMSIG(*status) + 128);
 	return (0);
 }
 
-bool is_builtin(char* cmd)
+bool is_builtin(char *cmd)
 {
 	if (!cmd)
 		return (false);
-	if (ft_strcmp("echo", cmd) == 0 || ft_strcmp("cd", cmd) == 0
-		|| ft_strcmp("pwd", cmd) == 0 || ft_strcmp("export", cmd) == 0
-		|| ft_strcmp("unset", cmd) == 0 || ft_strcmp("env", cmd) == 0
-		|| ft_strcmp("exit", cmd) == 0)
+	if (ft_strcmp("echo", cmd) == 0 || ft_strcmp("cd", cmd) == 0 || ft_strcmp("pwd", cmd) == 0 || ft_strcmp("export", cmd) == 0 || ft_strcmp("unset", cmd) == 0 || ft_strcmp("env", cmd) == 0 || ft_strcmp("exit", cmd) == 0)
 		return (true);
 	return (false);
 }
 
-void run_builtin(t_data* data, int cmd_idx, char** args)
+void run_builtin(t_data *data, int cmd_idx, char **args)
 {
 	(void)cmd_idx;
 	if (!args[0])
-		return ;
+		return;
 	if (ft_strcmp("echo", args[0]) == 0)
 		data->exit_code = builtin_echo(data, args);
 	else if (ft_strcmp("cd", args[0]) == 0)
@@ -117,7 +107,7 @@ void run_builtin(t_data* data, int cmd_idx, char** args)
 		builtin_exit(data, args);
 }
 
-void run_in_fork(t_data* data, int cmd_idx, char** args)
+void run_in_fork(t_data *data, int cmd_idx, char **args)
 {
 	pid_t pid;
 
@@ -134,16 +124,13 @@ void run_in_fork(t_data* data, int cmd_idx, char** args)
 		free_all(data);
 		exit(data->exit_code);
 	}
-	execve(data->path, data->cube_input[0], data->env);//?
+	execve(data->path, data->cube_input[0], data->env); //?
 	free_all(data);
 }
 
-int execute_command(t_data* data, int cmd_idx, char** args)
+int execute_command(t_data *data, int cmd_idx, char **args)
 {
 	bool is_a_builtin;
-
-	// int fd[2];
-	// pipe(fd);
 	// fd[1] -> stdout
 	// fd[0] -> stdin
 	is_a_builtin = is_builtin(args[0]);
@@ -165,8 +152,7 @@ int execute_command(t_data* data, int cmd_idx, char** args)
 	return (0);
 }
 
-
-int	print_matrix(char **matrix)
+int print_matrix(char **matrix)
 {
 	int i;
 

@@ -19,16 +19,17 @@ void builtin_exit(t_data* data, char** args)
 	int				sign;
 	char			*arg;
 
-	arg = ft_strdup(args[1]);
 	sign = 1;
 	if (args[1])
 	{
+		arg = ft_strdup(args[1]);
 		if (args[1][0] == '-')
 		{
 			sign = -1;
 			arg++;
 		}
 		exit_code = ft_atolli(arg);
+		free(arg);
 		if (exit_code == 0 && args[1][0] != '0')
 		{
 			ft_printf("exit: %s: numeric argument required\n",

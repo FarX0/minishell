@@ -75,3 +75,48 @@ void	handle_relative_path(t_data *data)
 		i++;
 	}
 }
+
+char	*remove_quotes(char *str)
+{
+	int		i;
+	int		j;
+	char	*new;
+
+	i = 0;
+	j = 0;
+	new = calloc(ft_strlen(str) - 1, sizeof(char));
+	while (str[i])
+	{
+		if (str[i] == 39)
+		{
+			i++;
+			while(str[i] != 39)
+			{
+				new[j] = str[i];
+				i++;
+				j++;
+			}
+			i++;
+		}
+		else if (str[i] == 34)
+		{
+			i++;
+			while(str[i] != 34)
+			{
+				new[j] = str[i];
+				i++;
+				j++;
+			}
+			i++;
+		}
+		else
+		{
+			new[j] = str[i];
+			i++;
+			j++;
+		}
+	}
+	new[j] = '\0';
+	free(str);
+	return (new);
+}

@@ -1,26 +1,11 @@
-MCTRL C AGGIORNA LA VARIABILE GLOBALE SULL'HEAR DIOC 
 
-heredoc:
-ctrl c chiude il file , salva e chiude il comando exit code 130?
+Minishell$ cat << "bella"
+limiter = |bella|
+heredoc>bella
+line = |bella|
+minishell: No such file or directory
+Minishell$ 
+exit
 
-ctrl d d chiude il file e va al comando dopo
-dentro l'heardoc si espandono i $ 
 
-sintax error list
-
-tfalchi@c1r6p3:~/esercizi/minishell$ << c cat
-> $USER
-> c
-tfalchi
-tfalchi@c1r6p3:~/esercizi/minishell$ << 'c' cat
-> $USER
-> c
-
-$USER
-tfalchi@c1r6p3:~/esercizi/minishell$ <<"c" cat
-> $USER
-> c
-$USER
-tfalchi@c1r6p3:~/esercizi/minishell$ <<"c" cat
-
-tfalchi@c1r6p3:~/esercizi/minishell$ ls >| ls ignora la pipe
+leakka
