@@ -188,10 +188,14 @@ t_data split_input(t_data data, t_variables var)
 		if (data.input[var.i] == '<')
 		{
 			data = redirection_handle(data, var.i, 1, var.n);
+			/* while (var.i == '<')
+				var.i++; */
 		}
 		else if (data.input[var.i] == '>')
 		{
 			data = redirection_handle(data, var.i, 0, var.n);
+			/* while (var.i == '>')
+				var.i++; */
 		}
 		if (data.input[var.i] == 39 || data.input[var.i] == 34)
 		{
@@ -236,6 +240,10 @@ t_data redirection_handle(t_data data, int j, bool io, int n)
 
 	// while (data.input[j + i] != '<' && data.input[j + i] != '>' && data.input[j + i] != '|')
 	//  	i++;
+	// io = 0 && i = 0 -> >>
+	// io = 0 && i = 1 -> >
+	// io = 1 && i = 0 -> <<
+	// io = 1 && i = 1 -> <
 	if (io == 0)
 	{
 		if (data.input[j + 1] && data.input[j + 1] == '>')
@@ -303,6 +311,7 @@ t_data redirection_handle(t_data data, int j, bool io, int n)
 				j++;
 		}
 	}
+	free(fiel);
 	return (data);
 }
 

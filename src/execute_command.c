@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samuele <samuele@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:39:48 by tfalchi           #+#    #+#             */
 /*   Updated: 2025/01/25 20:58:40 by samuele          ###   ########.fr       */
@@ -59,7 +59,7 @@ void dup_fds(t_data *data)
 	}
 }
 
-int wait_pids(pid_t *pid, int nbr_cmds, int *status)
+/* int wait_pids(pid_t *pid, int nbr_cmds, int *status)
 {
 	int i;
 
@@ -75,7 +75,7 @@ int wait_pids(pid_t *pid, int nbr_cmds, int *status)
 	else if (WIFSIGNALED(*status))
 		return (WTERMSIG(*status) + 128);
 	return (0);
-}
+} */
 
 bool is_builtin(char *cmd)
 {
@@ -114,7 +114,6 @@ void run_in_fork(t_data *data, int cmd_idx, char **args)
 	pid = fork();
 	if (pid != 0)
 		return;
-
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	dup_fds(data);

@@ -84,7 +84,7 @@ char	*remove_quotes(char *str)
 
 	i = 0;
 	j = 0;
-	new = calloc(ft_strlen(str) - 1, sizeof(char));
+	new = calloc(ft_strlen(str) + 1, sizeof(char));
 	while (str[i])
 	{
 		if (str[i] == 39)
