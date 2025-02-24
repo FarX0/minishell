@@ -12,6 +12,25 @@
 
 #include "minishell.h"
 
+char	*till_redirection(char *str)
+{
+	int		i;
+	char	*new;
+
+	i = 0;
+	while (str[i] && str[i] != '>' && str[i] != '<' && str[i] != '|')
+		i++;
+	new = malloc(i + 1);
+	i = 0;
+	while (str[i] && str[i] != '>' && str[i] != '<' && str[i] != '|')
+	{
+		new[i] = str[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
+
 char	*find_and_replace(char *str_og, char *new, int start, int ignore)
 {
 	int		i;

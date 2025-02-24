@@ -103,6 +103,7 @@ char		**realloc_env(t_data data);
 char		**sort_env(t_data data);
 
 // utils.c
+char		*till_redirection(char *str);
 char		*find_and_replace(char *str_og, char *new, int start, int ignore);
 char		*remove_quotes(char *str);
 

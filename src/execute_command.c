@@ -18,12 +18,13 @@ int search_cmd(t_data *data)
 	char *x;
 	char *s;
 	char **paths;
+	char *path;
 
 	i = 0;
 	if (data->cube_input[0][0][0] == '.' || data->cube_input[0][0][0] == '/')
 		handle_relative_path(data);
-	x = ft_strjoin("/", data->cube_input[0][0]); // liberi l'argomento a destra
-	char *path = get_env_value(data->env, "PATH");
+	x = ft_strjoin("/", till_redirection(data->cube_input[0][0]));
+	path = get_env_value(data->env, "PATH");
 	paths = ft_split(path, ':');
 	free(path);
 	while (paths[i])
