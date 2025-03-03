@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gduranti <gduranti@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 11:48:19 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/25 11:12:08 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/02/27 10:15:36 by gduranti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,12 +263,12 @@ t_data redirection_handle(t_data data, int j, bool io, int n)
 	fiel = remove_quotes(ft_substr(data.input, j + 1, get_file_name(data.input, j + 1)));
 	if (io == 0)
 	{
-		if (data.fds[n][0] != 0)
-			close(data.fds[n][0]);
+		if (data.fds[n][1] != 1)
+			close(data.fds[n][1]);
 		if (i == 1)
 		{
-			data.fds[n][0] = open(fiel, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (data.fds[n][0] == -1)
+			data.fds[n][1] = open(fiel, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (data.fds[n][1] == -1)
 			{
 				ft_putstr_fd("minishell: ", 2);
 				ft_putstr_fd(strerror(errno), 2); /// da testare
@@ -278,8 +278,8 @@ t_data redirection_handle(t_data data, int j, bool io, int n)
 		}
 		else
 		{
-			data.fds[n][0] = open(fiel, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (data.fds[n][0] == -1)
+			data.fds[n][1] = open(fiel, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (data.fds[n][1] == -1)
 			{
 				ft_putstr_fd("minishell: ", 2);
 				ft_putstr_fd(strerror(errno), 2); /// da testare
@@ -290,11 +290,11 @@ t_data redirection_handle(t_data data, int j, bool io, int n)
 	}
 	else
 	{
-		if (data.fds[n][1] != 1)
-			close(data.fds[n][1]);
+		if (data.fds[n][0] != 0)
+			close(data.fds[n][0]);
 		if (i == 1)
 		{
-			data.fds[n][1] = open(fiel, O_RDONLY, 0644);
+			data.fds[n][0] = open(fiel, O_RDONLY, 0644);
 			if (data.fds[n][1] == -1)
 			{
 				ft_putstr_fd("minishell: ", 2);
@@ -305,7 +305,7 @@ t_data redirection_handle(t_data data, int j, bool io, int n)
 		}
 		else
 		{
-			data.fds[n][1] = heredoc(&data, fiel);
+			data.fds[n][0] = heredoc(&data, fiel);
 			j = j + 2;
 			while (data.input[j] != '\0' && data.input[j] != '|' && data.input[j] != '<' && data.input[j] != '>')
 				j++;
