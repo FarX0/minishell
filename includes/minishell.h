@@ -101,8 +101,10 @@ void env_modification(t_data* data, int j, int x, char** args);
 void		print_export(t_data data);
 char		**realloc_env(t_data data);
 char		**sort_env(t_data data);
+char		**mat_command(t_data *data, int index);
 
 // utils.c
+char		*till_redirection(char *str);
 char		*find_and_replace(char *str_og, char *new, int start, int ignore);
 char		*remove_quotes(char *str);
 

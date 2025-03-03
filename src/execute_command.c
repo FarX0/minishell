@@ -18,12 +18,13 @@ int search_cmd(t_data *data)
 	char *x;
 	char *s;
 	char **paths;
+	char *path;
 
 	i = 0;
 	if (data->cube_input[0][0][0] == '.' || data->cube_input[0][0][0] == '/')
 		handle_relative_path(data);
-	x = ft_strjoin("/", data->cube_input[0][0]); // liberi l'argomento a destra
-	char *path = get_env_value(data->env, "PATH");
+	x = ft_strjoin("/", till_redirection(data->cube_input[0][0]));
+	path = get_env_value(data->env, "PATH");
 	paths = ft_split(path, ':');
 	free(path);
 	while (paths[i])
@@ -110,6 +111,7 @@ void run_builtin(t_data *data, int cmd_idx, char **args)
 void run_in_fork(t_data *data, int cmd_idx, char **args)
 {
 	pid_t pid;
+	char	**matrix;
 
 	pid = fork();
 	if (pid != 0)
@@ -123,7 +125,8 @@ void run_in_fork(t_data *data, int cmd_idx, char **args)
 		free_all(data);
 		exit(data->exit_code);
 	}
-	execve(data->path, data->cube_input[0], data->env); //?
+	matrix = mat_command(data, cmd_idx);
+	execve(data->path, matrix, data->env);
 	free_all(data);
 }
 

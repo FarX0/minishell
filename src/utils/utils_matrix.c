@@ -83,3 +83,24 @@ char	*dollar_expansion(t_data data)
 	}
 	return (str);
 }
+
+char	**mat_command(t_data *data, int index)
+{
+	int		i;
+	char	**matrix;
+
+	i = 0;
+	while (data->cube_input[index][i] != NULL)
+		i++;
+	matrix = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!matrix)
+		return (NULL);
+	i = 0;
+	while (data->cube_input[index][i] != NULL)
+	{
+		matrix[i] = ft_strdup(data->cube_input[index][i]);
+		i++;
+	}
+	matrix[i] = NULL;
+	return (matrix);
+}
