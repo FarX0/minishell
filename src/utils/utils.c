@@ -18,11 +18,11 @@ char	*till_redirection(char *str)
 	char	*new;
 
 	i = 0;
-	while (str[i] && str[i] != '>' && str[i] != '<' && str[i] != '|')
+	while (str[i] && str[i] != '>' && str[i] != '<' && str[i] != '|' && str[i] != '\0')
 		i++;
-	new = malloc(i + 1);
+	new = malloc(sizeof(char) * i + 1);
 	i = 0;
-	while (str[i] && str[i] != '>' && str[i] != '<' && str[i] != '|')
+	while (str[i] && str[i] != '>' && str[i] != '<' && str[i] != '|' && str[i] != '\0')
 	{
 		new[i] = str[i];
 		i++;

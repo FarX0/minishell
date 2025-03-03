@@ -111,6 +111,7 @@ void run_builtin(t_data *data, int cmd_idx, char **args)
 void run_in_fork(t_data *data, int cmd_idx, char **args)
 {
 	pid_t pid;
+	char	**matrix;
 
 	pid = fork();
 	if (pid != 0)
@@ -124,7 +125,8 @@ void run_in_fork(t_data *data, int cmd_idx, char **args)
 		free_all(data);
 		exit(data->exit_code);
 	}
-	execve(data->path, data->cube_input[0], data->env); //?
+	matrix = mat_command(data, cmd_idx);
+	execve(data->path, matrix, data->env);
 	free_all(data);
 }
 
