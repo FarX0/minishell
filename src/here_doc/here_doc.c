@@ -29,7 +29,6 @@ int	heredoc(t_data *data, char *limiter)
 	char	*line;
 
 	fd = open(".heredoc", O_RDWR | O_CREAT | O_TRUNC, 0644);
-	printf("fd = %d\n", fd);
 	if (fd == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
@@ -55,6 +54,8 @@ int	heredoc(t_data *data, char *limiter)
 		free(line);
 	}
 	signal(SIGINT, sigint);
+	close(fd);
+	fd = open(".heredoc", O_RDONLY);
 	return (fd);
 }
 

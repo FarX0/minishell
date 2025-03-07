@@ -188,16 +188,18 @@ t_data split_input(t_data data, t_variables var)
 		if (data.input[var.i] == '<')
 		{
 			data = redirection_handle(data, var.i, 1, var.n);
-			/* while (var.i == '<')
-				var.i++; */
+			data.cube_input[var.n][var.k][var.j++] = data.input[var.i++];
+			if (data.input[var.i] == '<')
+				data.cube_input[var.n][var.k][var.j++] = data.input[var.i++];
 		}
 		else if (data.input[var.i] == '>')
 		{
 			data = redirection_handle(data, var.i, 0, var.n);
-			/* while (var.i == '>')
-				var.i++; */
+			data.cube_input[var.n][var.k][var.j++] = data.input[var.i++];
+			if (data.input[var.i] == '>')
+				data.cube_input[var.n][var.k][var.j++] = data.input[var.i++];
 		}
-		if (data.input[var.i] == 39 || data.input[var.i] == 34)
+		else if (data.input[var.i] == 39 || data.input[var.i] == 34)
 		{
 			i = var.i;
 			var.i = skip_quotes(data.input, var.i);
@@ -308,7 +310,7 @@ t_data redirection_handle(t_data data, int j, bool io, int n)
 			data.fds[n][0] = heredoc(&data, fiel);
 			j = j + 2;
 			while (data.input[j] != '\0' && data.input[j] != '|' && data.input[j] != '<' && data.input[j] != '>')
-				j++;
+				j++;//possibile rimuovere queste 3 righe?
 		}
 	}
 	free(fiel);

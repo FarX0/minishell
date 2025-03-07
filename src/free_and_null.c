@@ -32,6 +32,7 @@ void	free_fds(t_data *data)
 	data->fds = NULL;
 	data->nbr_cmd = 1;
 }
+
 void	free_all(t_data *data)
 {
 	free_input(data);
