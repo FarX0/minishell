@@ -17,32 +17,32 @@ int search_cmd(t_data *data)
 	int i;
 	char *x;
 	char *s;
-	char **paths;
-	char *path;
+	char **search_paths;
+	char *env_path;
 
 	i = 0;
 	if (data->cube_input[0][0][0] == '.' || data->cube_input[0][0][0] == '/')
 		handle_relative_path(data);
 	x = ft_strjoin("/", till_redirection(data->cube_input[0][0]));
-	path = get_env_value(data->env, "PATH");
-	paths = ft_split(path, ':');
-	free(path);
-	while (paths[i])
+	env_path = get_env_value(data->env, "PATH");
+	search_paths = ft_split(env_path, ':');
+	free(env_path);
+	while (search_paths[i])
 	{
-		s = ft_strjoin(paths[i], x);
+		s = ft_strjoin(search_paths[i], x);
 		if (is_executable(s)) // le cartelle possono essere eseguite
 		{
 			data->path = ft_strdup(s);
 			free(s);
 			free(x);
-			free_matrix(paths);
+			free_matrix(search_paths);
 			return (1);
 		}
 		free(s);
 		i++;
 	}
 	free(x);
-	free_matrix(paths);
+	free_matrix(search_paths);
 	return (0);
 }
 

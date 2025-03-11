@@ -54,33 +54,59 @@ char	*dollar_expansion(t_data data)
 	int		l;
 	char	*env_value;
 	char	*str = NULL;
-
+	char	*tmp;
+	
 	i = 0;
+	str = ft_strdup(data.input);
 	while (data.input[i] != '\0')
 	{
 		if (data.input[i] == '$' && data.input[i + 1] != '\0')
 		{
+			if (data.input[i + 1] == '?')
+			{
+				env_value = ft_itoa(data.exit_code);
+				tmp = ft_strdup(str);
+				free(str);
+				str = find_and_replace(tmp, env_value, i , 2);
+				free(tmp);
+				tmp = NULL;
+				free(env_value);
+				env_value = NULL;
+				i = i + 2;
+				continue;
+			}
 			j = i + 1;
 			while ((ft_isalnum(data.input[j]) || data.input[j] == '_') && data.input[j] != '\0')
 				j++;
 			l = j - i - 1;
-			str = ft_substr(data.input, i + 1, l);
-			k = find_in_env(data.env, str);
-			if (k != -1 && data.env[k][ft_strlen(str)] == '=')
+			tmp = ft_substr(data.input, i + 1, l);
+			k = find_in_env(data.env, tmp);
+			if (k != -1 && data.env[k][ft_strlen(tmp)] == '=')
 			{
-				env_value = ft_substr(data.env[k], ft_strlen(str) + 1, ft_strlen(data.env[k]) - ft_strlen(str) - 1);
+				env_value = ft_substr(data.env[k], ft_strlen(tmp) + 1, ft_strlen(data.env[k]) - ft_strlen(tmp) - 1);
+				free(tmp);
+				tmp = ft_strdup(str);
 				free(str);
-				str = find_and_replace(data.input, env_value, i, l + 1); 
+				str = find_and_replace(tmp, env_value, i - 1, l + 1); 
+				free(tmp);
+				tmp = NULL;
+				i = i + l;
 				free(env_value);
 			}
 			else
 			{
+				free(tmp);
+				tmp = ft_strdup(str);
 				free(str);
-				str = find_and_replace(data.input, "", i, l + 1);
+				str = find_and_replace(str, "", i, l + 1);
+				free(tmp);
+				tmp = NULL;
+				i = i + l;
 			}
 		}
-		i++;/// i va a 0 why bohbAV'PDF
+		i++;
 	}
+	free(data.input);
 	return (str);
 }
 

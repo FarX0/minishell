@@ -136,9 +136,9 @@ t_data split_input(t_data data, t_variables var)
 			data.nbr_cmd++;
 		if (data.input[var.i] == '$')
 		{
-			while (data.input[var.i - 1] == ' ' && var.i - 2 >= 0)
+			while (var.i > 1 && data.input[var.i - 1] && data.input[var.i - 1] == ' ' && var.i - 2 >= 0)
 				var.i--;
-			if (ft_strncmp(&data.input[var.i - 2], "<<", 2) == 0)
+			if (var.i > 0 && ft_strncmp(&data.input[var.i - 1], "<<", 2) == 0)
 			{
 				while (data.input[var.i] != '$' && data.input[var.i] != '\0')
 					var.i++;

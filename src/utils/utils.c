@@ -20,7 +20,7 @@ char	*till_redirection(char *str)
 	i = 0;
 	while (str[i] && str[i] != '>' && str[i] != '<' && str[i] != '|' && str[i] != '\0')
 		i++;
-	new = malloc(sizeof(char) * i + 1);
+	new = malloc(sizeof(char) * i + 1);//leak da risolvere (definately lost)
 	i = 0;
 	while (str[i] && str[i] != '>' && str[i] != '<' && str[i] != '|' && str[i] != '\0')
 	{
@@ -42,6 +42,8 @@ char	*find_and_replace(char *str_og, char *new, int start, int ignore)
 	j = 0;
 	k = 0;
 	str = malloc(ft_strlen(str_og) + ft_strlen(new) - ignore + 1);
+	while (i != start && str_og[i])
+		str[j++] = str_og[i++];
 	while (str_og[i])
 	{
 		if (i == start)
@@ -49,12 +51,12 @@ char	*find_and_replace(char *str_og, char *new, int start, int ignore)
 			while (new[k])
 				str[j++] = new[k++];
 			i += ignore;
+			break;
 		}
-		while (i != start && str_og[i])
-			str[j++] = str_og[i++];
 	}
+	while (str_og[i])
+		str[j++] = str_og[i++];
 	str[j] = '\0';
-	free(str_og);
 	return (str);
 }
 
