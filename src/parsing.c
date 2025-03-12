@@ -153,9 +153,30 @@ t_data split_input(t_data data, t_variables var)
 				while (data.input[var.i] != '$' && data.input[var.i] != '\0')
 					var.i++;
 				if (data.input[var.i] == '$')
-					data.input = dollar_expansion(data);
-				if (data.input[var.i] == '$')
-					var.i++;
+				{
+					if(var.i >= 2)
+					{
+						if(data.input[var.i - 1] == '<' && data.input[var.i - 2] == '<')
+						{
+							while (data.input[var.i] != ' ' && data.input[var.i] != '\0')
+								var.i++;
+							if (data.input[var.i] != '\0')
+								var.i++;
+						}
+						else
+						{
+							data.input = dollar_expansion(data);
+						}
+						if (data.input[var.i] == '$')
+							var.i++;
+					}
+					else
+					{
+						data.input = dollar_expansion(data);
+						if (data.input[var.i] == '$')
+							var.i++;
+					}	
+				}
 			}
 			continue;
 		}
