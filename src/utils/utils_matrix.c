@@ -58,9 +58,10 @@ char	*dollar_expansion(t_data data)
 	
 	i = 0;
 	str = ft_strdup(data.input);
+
 	while (data.input[i] != '\0')
 	{
-		if (data.input[i] == '$' && data.input[i + 1] != '\0')
+		if (data.input[i] == '$' && data.input[i + 1] != '\0' && data.input[i + 1] != ' ')
 		{
 			if (data.input[i + 1] == '?')
 			{
@@ -87,7 +88,7 @@ char	*dollar_expansion(t_data data)
 				free(tmp);
 				tmp = ft_strdup(str);
 				free(str);
-				str = find_and_replace(tmp, env_value, i - 1, l + 1); 
+				str = find_and_replace(tmp, env_value, i, l + 1); 
 				free(tmp);
 				tmp = NULL;
 				i = i + l;
@@ -104,6 +105,9 @@ char	*dollar_expansion(t_data data)
 				i = i + l;
 			}
 		}
+		else
+			if(data.input[i + 1] == '\0' || data.input[i + 1] == ' ')
+				i++;
 		i++;
 	}
 	free(data.input);

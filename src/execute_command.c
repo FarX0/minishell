@@ -19,11 +19,14 @@ int search_cmd(t_data *data)
 	char *s;
 	char **search_paths;
 	char *env_path;
+	char *tmp;
 
 	i = 0;
 	if (data->cube_input[0][0][0] == '.' || data->cube_input[0][0][0] == '/')
 		handle_relative_path(data);
-	x = ft_strjoin("/", till_redirection(data->cube_input[0][0]));
+	tmp = till_redirection(data->cube_input[0][0]);
+	x = ft_strjoin("/", tmp);
+	free(tmp);
 	env_path = get_env_value(data->env, "PATH");
 	search_paths = ft_split(env_path, ':');
 	free(env_path);
