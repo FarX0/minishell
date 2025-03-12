@@ -98,7 +98,7 @@ char	*dollar_expansion(t_data data)
 				free(tmp);
 				tmp = ft_strdup(str);
 				free(str);
-				str = find_and_replace(str, "", i, l + 1);
+				str = find_and_replace(tmp, "", i, l + 1);
 				free(tmp);
 				tmp = NULL;
 				i = i + l;
