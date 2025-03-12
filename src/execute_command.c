@@ -161,11 +161,16 @@ int execute_command(t_data *data, int cmd_idx, char **args)//fattibile void
 			ft_putstr_fd(args[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
 			data->exit_code = 127;
+			free(tmp);
 			return (data->exit_code);
 		}
 		else
+		{
+			free(tmp);
 			return (0);
+		}
 	}
+	free(tmp);
 	run_in_fork(data, cmd_idx, args);
 	return (0);
 }
