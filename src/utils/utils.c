@@ -27,8 +27,6 @@ char	*till_redirection(char *str)
 		new[i] = str[i];
 		i++;
 	}
-	if (str[i] == '\0')
-		return (NULL);
 	new[i] = '\0';
 	return (new);
 }

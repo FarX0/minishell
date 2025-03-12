@@ -136,6 +136,7 @@ void run_in_fork(t_data *data, int cmd_idx, char **args)
 int execute_command(t_data *data, int cmd_idx, char **args)//fattibile void
 {
 	bool is_a_builtin;
+	char *tmp;
 	// fd[1] -> stdout
 	// fd[0] -> stdin
 	is_a_builtin = is_builtin(args[0]);
@@ -146,9 +147,10 @@ int execute_command(t_data *data, int cmd_idx, char **args)//fattibile void
 	}
 	if (!is_a_builtin)
 		search_cmd(data);
+	tmp = till_redirection(args[0]);
 	if (!is_a_builtin && !data->path)
 	{
-		if(till_redirection(args[0]) == NULL)
+		if(tmp[0])
 		{
 			ft_putstr_fd(args[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
