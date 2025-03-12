@@ -129,7 +129,6 @@ int			longest_string(char *str1, char *str2);
 void		pipex(t_data *data, int i, int fd_in, int fd_out);
 
 // operators.c
-void		handle_redirection(t_data *data, int i, char *redir);
 void		handle_here_doc(t_data *data, int i);
 void		execve_command(t_data *data);
 

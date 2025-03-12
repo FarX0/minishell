@@ -20,13 +20,15 @@ char	*till_redirection(char *str)
 	i = 0;
 	while (str[i] && str[i] != '>' && str[i] != '<' && str[i] != '|' && str[i] != '\0')
 		i++;
-	new = malloc(sizeof(char) * i + 1);//leak da risolvere (definately lost)
+ 	new = malloc(sizeof(char) * i + 1);//leak da risolvere (definately lost)
 	i = 0;
 	while (str[i] && str[i] != '>' && str[i] != '<' && str[i] != '|' && str[i] != '\0')
 	{
 		new[i] = str[i];
 		i++;
 	}
+	if (str[i] == '\0')
+		return (NULL);
 	new[i] = '\0';
 	return (new);
 }
