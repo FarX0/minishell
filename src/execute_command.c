@@ -17,32 +17,41 @@ int search_cmd(t_data *data)
 	int i;
 	char *x;
 	char *s;
-	char **paths;
-	char *path;
+	char **search_paths;
+	char *env_path;
+	char *tmp;
 
 	i = 0;
 	if (data->cube_input[0][0][0] == '.' || data->cube_input[0][0][0] == '/')
 		handle_relative_path(data);
-	x = ft_strjoin("/", till_redirection(data->cube_input[0][0]));
-	path = get_env_value(data->env, "PATH");
-	paths = ft_split(path, ':');
-	free(path);
-	while (paths[i])
+	tmp = till_redirection(data->cube_input[0][0]);
+	if (tmp[0] == '.' || tmp[0] == '/')
 	{
-		s = ft_strjoin(paths[i], x);
+		data->path = ft_strdup(tmp);
+		free(tmp);
+		return (1);
+	}
+	x = ft_strjoin("/", tmp);
+	free(tmp);
+	env_path = get_env_value(data->env, "PATH");
+	search_paths = ft_split(env_path, ':');
+	free(env_path);
+	while (search_paths[i])
+	{
+		s = ft_strjoin(search_paths[i], x);
 		if (is_executable(s)) // le cartelle possono essere eseguite
 		{
 			data->path = ft_strdup(s);
 			free(s);
 			free(x);
-			free_matrix(paths);
+			free_matrix(search_paths);
 			return (1);
 		}
 		free(s);
 		i++;
 	}
 	free(x);
-	free_matrix(paths);
+	free_matrix(search_paths);
 	return (0);
 }
 
@@ -130,9 +139,10 @@ void run_in_fork(t_data *data, int cmd_idx, char **args)
 	free_all(data);
 }
 
-int execute_command(t_data *data, int cmd_idx, char **args)
+int execute_command(t_data *data, int cmd_idx, char **args)//fattibile void
 {
 	bool is_a_builtin;
+	char *tmp;
 	// fd[1] -> stdout
 	// fd[0] -> stdin
 	is_a_builtin = is_builtin(args[0]);
@@ -143,13 +153,24 @@ int execute_command(t_data *data, int cmd_idx, char **args)
 	}
 	if (!is_a_builtin)
 		search_cmd(data);
+	tmp = till_redirection(args[0]);
 	if (!is_a_builtin && !data->path)
 	{
-		ft_putstr_fd(args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		data->exit_code = 127;
-		return (data->exit_code);
+		if(tmp[0])
+		{
+			ft_putstr_fd(args[0], 2);
+			ft_putstr_fd(": command not found\n", 2);
+			data->exit_code = 127;
+			free(tmp);
+			return (data->exit_code);
+		}
+		else
+		{
+			free(tmp);
+			return (0);
+		}
 	}
+	free(tmp);
 	run_in_fork(data, cmd_idx, args);
 	return (0);
 }
