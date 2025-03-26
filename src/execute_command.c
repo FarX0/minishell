@@ -55,17 +55,29 @@ int search_cmd(t_data *data)
 	return (0);
 }
 
+void put_str_fd(char *str, int fd)
+{
+	write(fd, str, ft_strlen(str));
+}
+
 void dup_fds(t_data *data, int i)
 {
+	put_str_fd("\n|i: ", 2);
+	put_str_fd(ft_itoa(i), 2);
+	put_str_fd(" in ", 2);
+	put_str_fd(ft_itoa(data->fds[i][0]), 2);
+	put_str_fd(" out ", 2);
+	put_str_fd(ft_itoa(data->fds[i][1]), 2);
+	put_str_fd("|\n", 2);
 	if (data->fds[i][0] != 0)
 	{
-		printf("dup2(%d, 0)\n", data->fds[i][0]);
+		//printf("dup2(%d, 0)\n", data->fds[i][0]);
 		dup2(data->fds[i][0], 0);
 		close(data->fds[i][0]);
 	}
 	if (data->fds[i][1] != 1)
 	{
-		printf("dup2(%d, 1)\n", data->fds[i][1]);
+		//printf("dup2(%d, 1)\n", data->fds[i][1]);
 		dup2(data->fds[i][1], 1);
 		close(data->fds[i][1]);
 	}

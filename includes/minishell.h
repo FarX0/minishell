@@ -144,4 +144,6 @@ int get_file_name(char *str, int j);
 void		sigint(int sig);
 extern int	g_lobal;
 
+void put_str_fd(char *str, int fd);
+
 #endif
