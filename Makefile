@@ -8,6 +8,7 @@ SRC = main.c \
 	src/export/export.c \
 	src/export/export_utils.c \
 	src/parsing.c \
+	src/syntax_errors.c \
 	src/free_and_null.c \
 	src/echo/echo.c \
 	src/unset/unset.c \

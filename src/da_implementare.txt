@@ -1,11 +1,25 @@
+ctrlc dentro heredoc: chiude tutto e ridà il prompt
 
-Minishell$ cat << "bella"
-limiter = |bella|
-heredoc>bella
-line = |bella|
-minishell: No such file or directory
-Minishell$ 
-exit
+<< asd cat : limiter |asd c|
 
+espansioni variabili da fare dentro l'heredoc|non viene espanso nulla se nel limiter ci sono degli apici in qualunque posizione
+export a="  ws sss"
+echo eca | echo sjf
+exit 11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+echo -n ok
+vanno forkati i built in:(più di preciso va forkato tutto quello che non è un singolo built in)
+f (args[aug][i] && strcmp(&args[aug][i],"-n") == 0) //-n
+            i++;
+è sbagliato
+-nnnnnnnnnnn -n -nnnnnnnnnnn asd
 
-leakka
+cd
+export variabile senza valore dovrebb essere visibile solo in export
+
+echo eca | cat | cat | cat aggiunge invio ogni volta
+
+echo fihj | grep f
+
+echo ciao | grep e
+
+echo no | echo ok
