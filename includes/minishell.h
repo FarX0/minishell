@@ -97,8 +97,8 @@ char		***cube_alloc(char *str, int nbr_cmd);
 t_data		redirection_handle(t_data data, int j, bool io, int n);
 
 // export.c
-int export(t_data* data, char** args);
-void env_modification(t_data* data, int j, int x, char** args);
+int 		export(t_data* data, char** args);
+void		env_modification(t_data* data, int j, int x, char** args);
 
 // export_utils.c
 void		print_export(t_data data);

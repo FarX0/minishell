@@ -198,7 +198,8 @@ int print_matrix(char **matrix)
 	i = 0;
 	while (matrix[i] != NULL)
 	{
-		printf("%s\n", matrix[i]);
+		if (ft_strchr(matrix[i], '=') != NULL)
+			printf("%s\n", matrix[i]);
 		i++;
 	}
 	return (0);

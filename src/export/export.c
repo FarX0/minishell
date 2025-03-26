@@ -45,7 +45,6 @@ int export(t_data* data, char** args)
 			{
 				return_value = 1;
 				while (args[aug][j] != '\0' && args[aug][j] != ' ')
-
 					j++;
 				ft_printf("minishell: export: `%s': not a valid identifier\n", args[aug]);
 				continue;
@@ -81,7 +80,9 @@ void env_modification(t_data* data, int j, int aug, char** args)
 	char *strcpy;
 	int i;
 	int pos_eq;
+	int is_present;
 
+	is_present = 0;
 	i = 0;
 	strcpy = ft_calloc(sizeof(char), j + 1);
 	ft_strlcpy(strcpy, args[aug], j + 1);
@@ -97,11 +98,16 @@ void env_modification(t_data* data, int j, int aug, char** args)
 			free(strcpy);
 			return ;
 		}
+		if (ft_strncmp(data->env[i], strcpy, ft_strchr(data->env[i], '=') - data->env[i]) == 0)
+			is_present = 1;
 		i++;
 	}
-	data->env = realloc_env(*data);
-	// if the variable is not in the environment, realloc the environment
-	data->env[i] = ft_strdup(strcpy); // and add the variable
+	if (is_present == 0)
+	{
+		data->env = realloc_env(*data);
+		// if the variable is not in the environment, realloc the environment
+		data->env[i] = ft_strdup(strcpy); // and add the variable
+	}
 	free(strcpy);
 	strcpy = NULL;
 }

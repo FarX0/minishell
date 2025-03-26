@@ -49,7 +49,6 @@ int	main(int argc, char **argv, char **env)
 		int i = 0;
 		while (i < data.nbr_cmd)
 		{
-			print_matrix(data.cube_input[i]);
 			execute_command(&data, i, data.cube_input[i]);
 			i++;
 		}
