@@ -60,10 +60,11 @@ t_data del_extra_spaces(t_data data)
 			i++;
 		if (data.input[i] == '|' || data.input[i] == '<' || data.input[i] == '>')
 		{
-			if ((data.input[i] == '<' && data.input[i + 1] == '>') || (data.input[i] == '>' && data.input[i + 1] == '<'))
+			if (syntax_error(data.input) == true)
 			{
 				data.error = true;
-				printf("syntax error near unexpected token '%c\n", data.input[i + 1]);
+				free(str);
+				return (data);
 			}
 			while (data.input[i] == '|' || data.input[i] == '<' || data.input[i] == '>')
 			{

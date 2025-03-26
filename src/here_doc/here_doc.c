@@ -37,14 +37,17 @@ int	heredoc(t_data *data, char *limiter)
 		data->error = true;
 		return (-1);
 	}
-	printf("limiter = |%s|\n", limiter);
+	//printf("limiter = |%s|\n", limiter);
 	signal(SIGINT, ft_sigdoc);
 	while (true)
 	{
-		line = readline("heredoc>");
+		line = readline("heredoc> ");
 		if (line == NULL)
+		{
+			ft_printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", limiter);
 			break ;
-		if (ft_strcmp(line, limiter) == 0)
+		}
+			if (ft_strcmp(line, limiter) == 0)
 		{
 			free(line);
 			break ;

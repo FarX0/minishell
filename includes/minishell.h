@@ -62,9 +62,12 @@ int			ft_mtxlen(char **matrix);
 
 //------------------------------------
 
+//syntax_errors.c
+bool		syntax_error(char *str);
+
 // execute_command.c
 int 		execute_command(t_data* data, int cmd_idx, char** args);
-int print_matrix(char** matrix);
+int 		print_matrix(char** matrix);
 
 // initialize_data.c
 t_data		initialize_data(char **env);
