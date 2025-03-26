@@ -46,17 +46,19 @@ int search_cmd(t_data *data)
 	return (0);
 }
 
-void dup_fds(t_data *data)
+void dup_fds(t_data *data, int i)
 {
-	if (data->fds[0][0] != 0)
+	if (data->fds[i][0] != 0)
 	{
-		dup2(data->fds[0][0], 0);
-		close(data->fds[0][0]);
+		printf("dup2(%d, 0)\n", data->fds[i][0]);
+		dup2(data->fds[i][0], 0);
+		close(data->fds[i][0]);
 	}
-	if (data->fds[0][1] != 1)
+	if (data->fds[i][1] != 1)
 	{
-		dup2(data->fds[0][1], 1);
-		close(data->fds[0][1]);
+		printf("dup2(%d, 1)\n", data->fds[i][1]);
+		dup2(data->fds[i][1], 1);
+		close(data->fds[i][1]);
 	}
 }
 
@@ -118,13 +120,15 @@ void run_in_fork(t_data *data, int cmd_idx, char **args)
 		return;
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	dup_fds(data);
+	dup_fds(data, cmd_idx);
 	if (is_builtin(args[0]))
 	{
 		run_builtin(data, cmd_idx, args);
 		free_all(data);
 		exit(data->exit_code);
 	}
+	//if (!is_a_builtin)
+	//	search_cmd(data);
 	matrix = mat_command(data, cmd_idx);
 	execve(data->path, matrix, data->env);
 	free_all(data);
@@ -141,7 +145,7 @@ int execute_command(t_data *data, int cmd_idx, char **args)
 		run_builtin(data, cmd_idx, args);
 		return (data->exit_code);
 	}
-	if (!is_a_builtin)
+	if (!is_a_builtin) // da spostare in run_in_fork dove c'è ///
 		search_cmd(data);
 	if (!is_a_builtin && !data->path)
 	{

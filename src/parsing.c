@@ -89,7 +89,6 @@ t_data del_extra_spaces(t_data data)
 t_data split_input(t_data data, t_variables var)
 {
 	int i;
-
 	while (data.input[var.i] != '\0')
 	{
 		if (data.input[var.i] == 39)
@@ -173,10 +172,10 @@ t_data split_input(t_data data, t_variables var)
 			data.error = true;
 			return (data);
 		}
-		data.fds[var.n][0] = 0;
-		data.fds[var.n][1] = 1;
 		var.n++;
 	}
+	data = arrays_fds(data);
+	var.n = 0;
 	data.fds[data.nbr_cmd] = NULL;
 	var.n = 0;
 	var.i = 0;

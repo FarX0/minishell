@@ -114,6 +114,7 @@ void		handle_relative_path(t_data *data);
 
 // utils2.c
 int			skip_quotes(char *str, int i);
+t_data		arrays_fds(t_data data);
 
 // utils_matrix.c
 int			same_name(char *envp, char *to_find);
