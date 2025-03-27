@@ -55,6 +55,5 @@ char	**matrix_dup(char **matrix)
 		}
 		i++;
 	}
-	new_matrix[i] = NULL;
-	return (new_matrix);
+	return (new_matrix[i] = NULL, new_matrix);
 }
