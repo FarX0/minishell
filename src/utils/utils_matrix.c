@@ -12,8 +12,7 @@
 
 #include "minishell.h"
 
-
-int	same_name(char *envp, char *to_find)//
+int	same_name(char *envp, char *to_find)
 {
 	int	i;
 
@@ -53,12 +52,12 @@ char	*dollar_expansion(t_data data)
 	int		k;
 	int		l;
 	char	*env_value;
-	char	*str = NULL;
+	char	*str;
 	char	*tmp;
-	
-	i = 0;
-	str = ft_strdup(data.input);
 
+	i = 0;
+	str = NULL;
+	str = ft_strdup(data.input);
 	while (data.input[i] != '\0')
 	{
 		if (data.input[i] == '$' && data.input[i + 1] != '\0' && data.input[i + 1] != ' ')
@@ -68,13 +67,13 @@ char	*dollar_expansion(t_data data)
 				env_value = ft_itoa(data.exit_code);
 				tmp = ft_strdup(str);
 				free(str);
-				str = find_and_replace(tmp, env_value, i , 2);
+				str = find_and_replace(tmp, env_value, i, 2);
 				free(tmp);
 				tmp = NULL;
 				free(env_value);
 				env_value = NULL;
 				i = i + 2;
-				continue;
+				continue ;
 			}
 			j = i + 1;
 			while ((ft_isalnum(data.input[j]) || data.input[j] == '_') && data.input[j] != '\0')
@@ -88,7 +87,7 @@ char	*dollar_expansion(t_data data)
 				free(tmp);
 				tmp = ft_strdup(str);
 				free(str);
-				str = find_and_replace(tmp, env_value, i, l + 1); 
+				str = find_and_replace(tmp, env_value, i, l + 1);
 				free(tmp);
 				tmp = NULL;
 				i = i + l;
@@ -106,7 +105,7 @@ char	*dollar_expansion(t_data data)
 			}
 		}
 		else
-			if(data.input[i + 1] == '\0' || data.input[i + 1] == ' ')
+			if (data.input[i + 1] == '\0' || data.input[i + 1] == ' ')
 				i++;
 		i++;
 	}
