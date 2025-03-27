@@ -47,12 +47,12 @@ char	**matrix_dup(char **matrix)
 	{
 		new_matrix[i] = ft_strdup(matrix[i]);
 		if (!new_matrix[i])
-        {
-            while (i > 0)
-                free(new_matrix[--i]);
-            free(new_matrix);
-            return (NULL);
-        }
+		{
+			while (i > 0)
+				free(new_matrix[--i]);
+			free(new_matrix);
+			return (NULL);
+		}
 		i++;
 	}
 	new_matrix[i] = NULL;

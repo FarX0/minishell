@@ -23,3 +23,10 @@ echo fihj | grep f
 echo ciao | grep e
 
 echo no | echo ok
+
+
+
+
+
+-------------------------------------
+Marco: parsing.c - syntax_errors.c
