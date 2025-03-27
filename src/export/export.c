@@ -77,6 +77,13 @@ int	export(t_data *data, char **args)
 	return (return_value);
 }
 
+/*
+	if (ft_strncmp(data->env[i], strcpy, pos_eq) == 0)
+	if the variable is already in the environment, update it
+
+	if the variable is not in the environment, realloc the environment
+	data->env[i] = ft_strdup(strcpy); and add the variable
+*/
 void	env_modification(t_data *data, int j, int aug, char **args)
 {
 	char	*strcpy;
@@ -92,7 +99,6 @@ void	env_modification(t_data *data, int j, int aug, char **args)
 	while (data->env[i] != NULL)
 	{
 		if (ft_strncmp(data->env[i], strcpy, pos_eq) == 0)
-		// if the variable is already in the environment, update it
 		{
 			free(data->env[i]);
 			data->env[i] = NULL;
@@ -108,8 +114,7 @@ void	env_modification(t_data *data, int j, int aug, char **args)
 	if (is_present == 0)
 	{
 		data->env = realloc_env(*data);
-		// if the variable is not in the environment, realloc the environment
-		data->env[i] = ft_strdup(strcpy); // and add the variable
+		data->env[i] = ft_strdup(strcpy);
 	}
 	free(strcpy);
 	strcpy = NULL;
