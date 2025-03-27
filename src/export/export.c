@@ -6,18 +6,19 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:39:47 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/19 17:33:06 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/27 14:44:46 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int export(t_data* data, char** args)
+int	export(t_data *data, char **args)
 {
-	int		j;
-	int		aug = 1;
-	int		return_value;
+	int	j;
+	int	aug;
+	int	return_value;
 
+	aug = 1;
 	j = 0;
 	return_value = 0;
 	if (args[aug] == NULL)
@@ -36,7 +37,7 @@ int export(t_data* data, char** args)
 				if (args[aug][j] == ' ')
 				{
 					j++;
-					continue;
+					continue ;
 				}
 				else
 					return (return_value);
@@ -46,8 +47,9 @@ int export(t_data* data, char** args)
 				return_value = 1;
 				while (args[aug][j] != '\0' && args[aug][j] != ' ')
 					j++;
-				ft_printf("minishell: export: `%s': not a valid identifier\n", args[aug]);
-				continue;
+				ft_printf("minishell: export: `%s': not a valid identifier\n",
+					args[aug]);
+				continue ;
 			}
 			else
 			{
@@ -65,7 +67,7 @@ int export(t_data* data, char** args)
 				{
 					env_modification(data, j, aug, args);
 					j++;
-					continue;
+					continue ;
 				}
 			}
 		}
@@ -75,12 +77,12 @@ int export(t_data* data, char** args)
 	return (return_value);
 }
 
-void env_modification(t_data* data, int j, int aug, char** args)
+void	env_modification(t_data *data, int j, int aug, char **args)
 {
-	char *strcpy;
-	int i;
-	int pos_eq;
-	int is_present;
+	char	*strcpy;
+	int		i;
+	int		pos_eq;
+	int		is_present;
 
 	is_present = 0;
 	i = 0;
@@ -98,7 +100,8 @@ void env_modification(t_data* data, int j, int aug, char** args)
 			free(strcpy);
 			return ;
 		}
-		if (ft_strncmp(data->env[i], strcpy, ft_strchr(data->env[i], '=') - data->env[i]) == 0)
+		if (ft_strncmp(data->env[i], strcpy, ft_strchr(data->env[i], '=')
+				- data->env[i]) == 0)
 			is_present = 1;
 		i++;
 	}

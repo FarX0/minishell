@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:05:16 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/20 17:51:19 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/27 14:38:12 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void free_input(t_data *data)
 		data->path = NULL;
 	}
 	free_fds(data);
+	unlink(".heredoc");
 }
 
 void free_env(t_data *data)
