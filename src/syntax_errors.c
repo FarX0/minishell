@@ -76,7 +76,7 @@ static void	print_redirection_error(char *str, int i, char token)
 static bool	check_double_red_syntax(char *str, int i, int red, int rev)
 {
 	if (str[i + 2] == '|' || str[i + 2] == '\0' || str[i + 2] == rev || str[i
-		+ 2] == red)
+			+ 2] == red)
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 		if (str[i + 2] == '\0')
@@ -86,7 +86,7 @@ static bool	check_double_red_syntax(char *str, int i, int red, int rev)
 			write(2, &str[i + 2], 1);
 			if ((str[i + 3]) && (((str[i + 2] == rev) && (str[i + 3] == rev))
 					|| ((str[i + 2] == red) && (str[i + 3] == red)) || ((str[i
-							+ 2] == '|'))))
+								+ 2] == '|'))))
 				write(2, &str[i + 3], 1);
 		}
 		ft_putstr_fd("'\n", 2);
@@ -119,7 +119,7 @@ static bool	handle_pipe_syntax(char *str, int *i)
 {
 	has_jumped_spaces(str, i);
 	if (!str[*i + 1] || str[*i + 1] == '|' || str[*i + 1] == '>' || str[*i
-		+ 1] == '<' || str[*i + 1] == '\0')
+			+ 1] == '<' || str[*i + 1] == '\0')
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 		if (str[*i + 1] == '\0')
@@ -127,7 +127,7 @@ static bool	handle_pipe_syntax(char *str, int *i)
 		else
 			write(2, &str[*i + 1], 1);
 		if (str[*i + 1] && str[*i + 2] && ((str[*i + 1] == '<' && str[*i
-					+ 2] == '<') || (str[*i + 1] == '>' && str[*i + 2] == '>')))
+						+ 2] == '<') || (str[*i + 1] == '>' && str[*i + 2] == '>')))
 			write(2, &str[*i + 2], 1);
 		ft_putstr_fd("'\n", 2);
 		return (true);
@@ -135,10 +135,11 @@ static bool	handle_pipe_syntax(char *str, int *i)
 	return (false);
 }
 
+// (*i)--; to compensate the i++ in the loop
 static void	handle_quotes(char *str, int *i)
 {
 	skip_quotes(str, *i);
-	(*i)--; // to compensate the i++ in the loop
+	(*i)--;
 }
 
 bool	syntax_error(char *str)
