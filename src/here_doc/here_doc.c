@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-int get_file_name(char *str, int j);
+int	g_lobal;
 
-int g_lobal;
+int	get_file_name(char *str, int j);
 
 void	ft_sigdoc(int sig)
 {
 	write(0, "\0", 1);
-	g_lobal= 130;
+	g_lobal = 130;
 	(void)sig;
 }
 
@@ -37,7 +37,6 @@ int	heredoc(t_data *data, char *limiter)
 		data->error = true;
 		return (-1);
 	}
-	//printf("limiter = |%s|\n", limiter);
 	signal(SIGINT, ft_sigdoc);
 	while (true)
 	{
@@ -47,7 +46,7 @@ int	heredoc(t_data *data, char *limiter)
 			ft_printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", limiter);
 			break ;
 		}
-			if (ft_strcmp(line, limiter) == 0)
+		if (ft_strcmp(line, limiter) == 0)
 		{
 			free(line);
 			break ;
@@ -62,7 +61,7 @@ int	heredoc(t_data *data, char *limiter)
 	return (fd);
 }
 
-int get_file_name(char *str, int j)
+int	get_file_name(char *str, int j)
 {
 	while (str[j] != ' ' && str[j] != '\0' && str[j] != '|')
 	{
@@ -75,4 +74,3 @@ int get_file_name(char *str, int j)
 	}
 	return (j);
 }
-
