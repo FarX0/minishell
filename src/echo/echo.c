@@ -12,26 +12,24 @@
 
 #include "minishell.h"
 
-int builtin_echo(t_data* data, char** args)
+// int aug = 1; numero argomenti in modo che ogni ciclo prende un argomento
+int	builtin_echo(t_data *data, char **args)
 {
 	int	i;
 	int	n;
+	int	aug;
 
 	(void)data;
 	i = 0;
-	int aug = 1; // numero argomenti in modo che ogni ciclo prende un argomrnto
+	aug = 1;
 	if (args[1] == NULL)
 	{
 		printf("\n");
 		return (0);
 	}
-	/* while(args[aug])
-		aug++;
-	aug = 1;*/
 	while (args[aug])
-
 	{
-		if (args[aug][i] && strcmp(&args[aug][i],"-n") == 0) //-n
+		if (args[aug][i] && strcmp(&args[aug][i], "-n") == 0)
 			i++;
 		while (args[aug][i])
 		{
@@ -42,7 +40,6 @@ int builtin_echo(t_data* data, char** args)
 				while (n < i - 1)
 				{
 					printf("%c", args[aug][n]);
-
 					n++;
 				}
 			}
