@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int builtin_cd(t_data* data, char** args)
+int	builtin_cd(t_data *data, char **args)
 {
 	const int	nbr_args = ft_mtxlen(args);
 	char		*path;
