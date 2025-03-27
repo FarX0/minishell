@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int builtin_unset(t_data* data, char** args)
+int	builtin_unset(t_data *data, char **args)
 {
 	int		i;
 	int		j;
@@ -28,22 +28,20 @@ int builtin_unset(t_data* data, char** args)
 		return (0);
 	while (args[k])
 	{
-		while(args[k][i])
-
+		while (args[k][i])
 		{
 			if (args[k][i] == '_' && args[k][i + 1] == '=')
 			{
 				k++;
-				continue;
+				continue ;
 			}
 			if (ft_isdigit(args[k][i]) || args[k][i] == '=')
 			{
 				return_value = 1;
 				while (args[k][i] != '\0' && args[k][i] != ' ')
-
 					i++;
 				ft_printf("minishell: export: `%s': not a valid identifier\n", args[k]);
-				continue;
+				continue ;
 			}
 			i++;
 		}
@@ -70,17 +68,16 @@ int builtin_unset(t_data* data, char** args)
 	}
 	else
 		new_matrix = NULL;
-	//free_matrix(new_matrix);
 	return (return_value);
 }
 
-char** env_dup(char** matrix, t_data* data, char** args)
+char	**env_dup(char **matrix, t_data *data, char **args)
 {
-	int	n;
-	int	k;
-	int	j;
-	int	i;
-	bool b;
+	int		n;
+	int		k;
+	int		j;
+	int		i;
+	bool	b;
 
 	n = 0;
 	j = 0;
@@ -110,10 +107,10 @@ char** env_dup(char** matrix, t_data* data, char** args)
 	return (matrix);
 }
 
-int		longest_string(char *str1, char *str2)
+int	longest_string(char *str1, char *str2)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
