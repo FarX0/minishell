@@ -14,10 +14,10 @@
 
 void	free_fds(t_data *data)
 {
-	int i;
+	int	i;
 
 	if (data->fds == NULL)
-		return;
+		return ;
 	i = 0;
 	while (i < data->nbr_cmd)
 	{
@@ -42,10 +42,10 @@ void	free_all(t_data *data)
 	rl_clear_history();
 }
 
-void free_cube_input(t_data *data)
+void	free_cube_input(t_data *data)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < data->nbr_cmd)
@@ -65,7 +65,7 @@ void free_cube_input(t_data *data)
 	data->cube_input = NULL;
 }
 
-void free_input(t_data *data)
+void	free_input(t_data *data)
 {
 	if (data->cube_input)
 	{
@@ -85,13 +85,13 @@ void free_input(t_data *data)
 	unlink(".heredoc");
 }
 
-void free_env(t_data *data)
+void	free_env(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (data->env == NULL)
-		return;
+		return ;
 	while (data->env[i] != NULL)
 	{
 		free(data->env[i]);
@@ -102,9 +102,9 @@ void free_env(t_data *data)
 	data->env = NULL;
 }
 
-void    free_matrix(char **matrix)
+void	free_matrix(char **matrix)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (matrix[i] != NULL)
