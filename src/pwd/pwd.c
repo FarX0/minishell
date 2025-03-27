@@ -12,9 +12,11 @@
 
 #include "minishell.h"
 
-int pwd()
+int	pwd(void)
 {
-	char *directory = getcwd(NULL, 0);
+	char	*directory;
+
+	directory = getcwd(NULL, 0);
 	if (directory)
 	{
 		printf("%s\n", directory);
