@@ -81,7 +81,7 @@ bool	should_skip_space(char *input, int i)
 {
 	return (input[i] == ' ' && (input[i + 1] == ' ' || input[i + 1] == '\0'
 			|| input[i + 1] == '|' || input[i + 1] == '<' || input[i
-			+ 1] == '>'));
+				+ 1] == '>'));
 }
 
 char	*clone(t_data data, char *str, int i, int j)
@@ -177,7 +177,7 @@ bool	handle_double_quote(t_data *data, t_variables *var)
 bool	handle_heredoc_dollar(t_data *data, t_variables *var)
 {
 	while (var->i > 1 && data->input[var->i - 1] && data->input[var->i
-		- 1] == ' ' && var->i - 2 >= 0)
+			- 1] == ' ' && var->i - 2 >= 0)
 		var->i--;
 	if (var->i > 0 && ft_strncmp(&data->input[var->i - 1], "<<", 2) == 0)
 	{
@@ -375,36 +375,50 @@ t_data	split_input(t_data data, t_variables var)
 	return (data);
 }
 
+/*
+	if (io == 0) Output redirection
+		if (data.input[j + 1] && data.input[j + 1] == '>')
+			Append mode (>>)
+		else
+			Truncate mode (>)
+	else Input redirection
+		if (data.input[j + 1] && data.input[j + 1] == '<')
+			Heredoc (<<)
+		else
+			Regular input (<)
+*/
 int	determine_redirection_type(t_data data, int j, bool io)
 {
 	int	i;
 
-	if (io == 0) // Output redirection
+	if (io == 0)
 	{
 		if (data.input[j + 1] && data.input[j + 1] == '>')
-			i = 0; // Append mode (>>)
+			i = 0;
 		else
-			i = 1; // Truncate mode (>)
+			i = 1;
 	}
-	else // Input redirection
+	else
 	{
 		if (data.input[j + 1] && data.input[j + 1] == '<')
-			i = 0; // Heredoc (<<)
+			i = 0;
 		else
-			i = 1; // Regular input (<)
+			i = 1;
 	}
 	return (i);
 }
 
+// if (i == 1) Truncate mode (>)
+// else Append mode (>>)
 void	handle_output_redirection(t_data *data, int n, int i, char *fiel)
 {
 	if (data->fds[n][1] != 1)
 		close(data->fds[n][1]);
-	if (i == 1) // Truncate mode (>)
+	if (i == 1)
 	{
 		data->fds[n][1] = open(fiel, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
-	else // Append mode (>>)
+	else
 	{
 		data->fds[n][1] = open(fiel, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	}
@@ -417,11 +431,12 @@ void	handle_output_redirection(t_data *data, int n, int i, char *fiel)
 	}
 }
 
+// if (i == 1) Regular input file (<)
 void	handle_input_redirection(t_data *data, int n, int i, char *fiel)
 {
 	if (data->fds[n][0] != 0)
 		close(data->fds[n][0]);
-	if (i == 1) // Regular input file (<)
+	if (i == 1)
 	{
 		data->fds[n][0] = open(fiel, O_RDONLY, 0644);
 		if (data->fds[n][0] == -1)
@@ -437,6 +452,8 @@ void	handle_input_redirection(t_data *data, int n, int i, char *fiel)
 	return ;
 }
 
+// if (io == 0) => Output redirection
+// else => Input redirection
 t_data	redirection_handle(t_data data, int j, bool io, int n)
 {
 	int		i;
@@ -447,15 +464,16 @@ t_data	redirection_handle(t_data data, int j, bool io, int n)
 		j++;
 	fiel = remove_quotes(ft_substr(data.input, j + 1, get_file_name(data.input,
 					j + 1)));
-	if (io == 0) // Output redirection
+	if (io == 0)
 		handle_output_redirection(&data, n, i, fiel);
-	else // Input redirection
+	else
 		handle_input_redirection(&data, n, i, fiel);
-
 	free(fiel);
 	return (data);
 }
 
+// if (str[*n] == 39) Single quote
+// else if (str[*n] == 34) Double quote
 int	count_fields_in_command(char *str, int *n)
 {
 	int	k;
@@ -463,7 +481,7 @@ int	count_fields_in_command(char *str, int *n)
 	k = 0;
 	while (str[*n] != '|' && str[*n] != '\0')
 	{
-		if (str[*n] == 39) // Single quote
+		if (str[*n] == 39)
 		{
 			(*n)++;
 			while (str[*n] != 39 && str[*n] != '\0')
@@ -471,7 +489,7 @@ int	count_fields_in_command(char *str, int *n)
 			if (str[*n] == '\0')
 				break ;
 		}
-		else if (str[*n] == 34) // Double quote
+		else if (str[*n] == 34)
 		{
 			(*n)++;
 			while (str[*n] != 34 && str[*n] != '\0')
