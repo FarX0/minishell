@@ -12,39 +12,41 @@
 
 #include "minishell.h"
 
-void print_export(t_data data)
+void	print_export(t_data data)
 {
-    int i;
-    char **temp_env;
-    char *temp_str;
+	int		i;
+	char	**temp_env;
+	char	*temp_str;
 
-    i = 0;
-    temp_env = sort_env(data);
-    while (temp_env[i] != NULL)
-    {
-        if ((temp_str = ft_strchr(temp_env[i], '=')) != NULL)
-        {
-            *temp_str = '\0'; 
-            ft_printf("declare -x %s=\"%s\"\n", temp_env[i], temp_str + 1);
-            *temp_str = '=';
-        }
-        else
-        {
-            ft_printf("declare -x %s\n", temp_env[i]);
-        }
-        free(temp_env[i]);
-        i++;
-    }
-    free(temp_env);
+	i = 0;
+	temp_env = sort_env(data);
+	while (temp_env[i] != NULL)
+	{
+		if ((temp_str = ft_strchr(temp_env[i], '=')) != NULL)
+		{
+			*temp_str = '\0';
+			ft_printf("declare -x %s=\"%s\"\n", temp_env[i], temp_str + 1);
+			*temp_str = '=';
+		}
+		else
+		{
+			ft_printf("declare -x %s\n", temp_env[i]);
+		}
+		free(temp_env[i]);
+		i++;
+	}
+	free(temp_env);
 }
 
-char **sort_env(t_data data)
+char	**sort_env(t_data data)
 {
-	int i, j;
-	char **temp_env;
-	char *temp;
+	int		i;
+	int		j;
+	char	**temp_env;
+	char	*temp;
+	int		env_size;
 
-	int env_size = 0;
+	env_size = 0;
 	while (data.env[env_size] != NULL)
 		env_size++;
 	temp_env = (char **)malloc((env_size + 1) * sizeof(char *));
@@ -56,7 +58,7 @@ char **sort_env(t_data data)
 			while (i > 0)
 				free(temp_env[--i]);
 			free(temp_env);
-			return NULL;
+			return (NULL);
 		}
 	}
 	temp_env[env_size] = NULL;
@@ -72,7 +74,6 @@ char **sort_env(t_data data)
 			}
 		}
 	}
-
 	return (temp_env);
 }
 
@@ -91,6 +92,6 @@ char	**realloc_env(t_data data)
 		new_env[i] = ft_strdup(data.env[i]);
 		i++;
 	}
-	free_env(&data); 
+	free_env(&data);
 	return (new_env);
 }
