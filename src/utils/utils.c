@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+// new = malloc(sizeof(char) * i + 1);//leak da risolvere (definately lost)
 char	*till_redirection(char *str)
 {
 	int		i;
@@ -20,7 +21,7 @@ char	*till_redirection(char *str)
 	i = 0;
 	while (str[i] && str[i] != '>' && str[i] != '<' && str[i] != '|' && str[i] != '\0')
 		i++;
- 	new = malloc(sizeof(char) * i + 1);//leak da risolvere (definately lost)
+	new = malloc(sizeof(char) * i + 1);
 	i = 0;
 	while (str[i] && str[i] != '>' && str[i] != '<' && str[i] != '|' && str[i] != '\0')
 	{
@@ -51,7 +52,7 @@ char	*find_and_replace(char *str_og, char *new, int start, int ignore)
 			while (new[k])
 				str[j++] = new[k++];
 			i += ignore;
-			break;
+			break ;
 		}
 	}
 	while (str_og[i])
@@ -111,7 +112,7 @@ char	*remove_quotes(char *str)
 		if (str[i] == 39)
 		{
 			i++;
-			while(str[i] != 39)
+			while (str[i] != 39)
 			{
 				new[j] = str[i];
 				i++;
@@ -122,7 +123,7 @@ char	*remove_quotes(char *str)
 		else if (str[i] == 34)
 		{
 			i++;
-			while(str[i] != 34)
+			while (str[i] != 34)
 			{
 				new[j] = str[i];
 				i++;
