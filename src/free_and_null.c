@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:05:16 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/03/27 14:38:12 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/27 15:04:55 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,34 @@ void	free_all(t_data *data)
 	rl_clear_history();
 }
 
+void free_cube_input(t_data *data)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < data->nbr_cmd)
+	{
+		j = 0;
+		while (data->cube_input[i][j] != NULL)
+		{
+			free(data->cube_input[i][j]);
+			data->cube_input[i][j] = NULL;
+			j++;
+		}
+		free(data->cube_input[i]);
+		data->cube_input[i] = NULL;
+		i++;
+	}
+	free(data->cube_input);
+	data->cube_input = NULL;
+}
+
 void free_input(t_data *data)
 {
 	if (data->cube_input)
 	{
-		int n = 0;
-		while (data->cube_input[n] != NULL)
-		{
-			int i = 0;
-			while (data->cube_input[n][i] != NULL)
-			{
-				free(data->cube_input[n][i]);
-				data->cube_input[n][i] = NULL;
-				i++;
-			}
-			free(data->cube_input[n]);
-			data->cube_input[n] = NULL;
-			n++;
-		}
-		free(data->cube_input);
-		data->cube_input = NULL;
+		free_cube_input(data);
 	}
 	if (data->input)
 	{
