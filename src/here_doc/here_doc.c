@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:22:43 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/24 18:36:20 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/27 18:29:07 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ int	get_file_name(char *str, int j);
 
 void	ft_sigdoc(int sig)
 {
-	write(0, "\0", 1);
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
 	g_lobal = 130;
 	(void)sig;
 }
@@ -28,6 +30,7 @@ int	heredoc(t_data *data, char *limiter)
 	int		fd;
 	char	*line;
 
+	printf("limiter: %s\n", limiter);
 	fd = open(".heredoc", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
@@ -44,6 +47,11 @@ int	heredoc(t_data *data, char *limiter)
 		if (line == NULL)
 		{
 			ft_printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", limiter);
+			break ;
+		}
+		if (g_lobal == 130)
+		{
+			free(line);
 			break ;
 		}
 		if (ft_strcmp(line, limiter) == 0)
@@ -63,6 +71,9 @@ int	heredoc(t_data *data, char *limiter)
 
 int	get_file_name(char *str, int j)
 {
+	int	start;
+
+	start = j;
 	while (str[j] != ' ' && str[j] != '\0' && str[j] != '|')
 	{
 		if (str[j] == 39 || str[j] == 34)
@@ -72,5 +83,5 @@ int	get_file_name(char *str, int j)
 		}
 		j++;
 	}
-	return (j);
+	return (j - start);
 }

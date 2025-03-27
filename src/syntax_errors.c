@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:22:43 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/03/27 10:54:14 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/27 18:48:53 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	print_redirection_error(char *str, int i, char token)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	if (token == '\0')
-		write(2, "newline", 7);
+		write(2, "CACCA", 7);
 	else
 	{
 		write(2, &token, 1);
@@ -103,8 +103,12 @@ bool	redirection_syntax(int red, int i, char *str)
 	if (red == 60)
 		rev += 2;
 	if (has_jumped_spaces(str, &i))
+	{
 		if (check_after_spaces(str, &i))
 			return (true);
+		else
+			return (false);
+	}
 	if (str[i + 1] == rev || str[i + 1] == '|' || str[i + 1] == '\0')
 	{
 		print_redirection_error(str, i, str[i + 1]);

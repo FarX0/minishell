@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 11:48:19 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/03/27 14:30:45 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/27 18:50:34 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,8 @@ void	prepare_for_cube_input(t_data *data, t_variables *var)
 void	handle_input_redirect(t_data *data, t_variables *var)
 {
 	*data = redirection_handle(*data, var->i, 1, var->n);
+	if (g_lobal == 130)
+		return ;
 	data->cube_input[var->n][var->k][var->j++] = data->input[var->i++];
 	if (data->input[var->i] == '<')
 		data->cube_input[var->n][var->k][var->j++] = data->input[var->i++];
@@ -281,7 +283,8 @@ void	handle_quotes_in_cube(t_data *data, t_variables *var, int *i)
 {
 	*i = var->i;
 	var->i = skip_quotes(data->input, var->i);
-	while (var->i > *i)
+	(*i)++;
+	while (var->i - 1 > *i)
 	{
 		data->cube_input[var->n][var->k][var->j] = data->input[*i];
 		(*i)++;
@@ -352,8 +355,15 @@ void	build_cube_input(t_data *data, t_variables *var)
 			handle_pipe_char(data, var);
 		else if (data->input[var->i] == ' ')
 			handle_space_char(data, var);
+		else if (data->input[var->i] == 34 || data->input[var->i] == 39)
+		{
+			var->i++;
+			continue;
+		}
 		else
 			data->cube_input[var->n][var->k][var->j++] = data->input[var->i++];
+		if (g_lobal == 130)
+			return ;
 	}
 }
 
@@ -442,6 +452,8 @@ void	handle_input_redirection(t_data *data, int n, int i, char *fiel)
 		if (data->fds[n][0] == -1)
 		{
 			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(fiel, 2);
+			ft_putstr_fd(": ", 2);
 			ft_putstr_fd(strerror(errno), 2);
 			ft_putstr_fd("\n", 2);
 			data->error = true;
@@ -462,8 +474,7 @@ t_data	redirection_handle(t_data data, int j, bool io, int n)
 	i = determine_redirection_type(data, j, io);
 	if (data.input[j + 1] == '<' || data.input[j + 1] == '>')
 		j++;
-	fiel = remove_quotes(ft_substr(data.input, j + 1, get_file_name(data.input,
-					j + 1)));
+	fiel = remove_quotes(ft_substr(data.input, j + 1, get_file_name(data.input, j + 1)));
 	if (io == 0)
 		handle_output_redirection(&data, n, i, fiel);
 	else
@@ -487,7 +498,7 @@ int	count_fields_in_command(char *str, int *n)
 			while (str[*n] != 39 && str[*n] != '\0')
 				(*n)++;
 			if (str[*n] == '\0')
-				break ;
+				break;
 		}
 		else if (str[*n] == 34)
 		{
@@ -495,7 +506,7 @@ int	count_fields_in_command(char *str, int *n)
 			while (str[*n] != 34 && str[*n] != '\0')
 				(*n)++;
 			if (str[*n] == '\0')
-				break ;
+				break;
 		}
 		if (str[(*n)++] == ' ')
 			k++;

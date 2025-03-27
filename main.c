@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 12:31:43 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/25 11:48:10 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/27 18:33:53 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **env)
 			break;
 		}
 		data = parsing(data, var);
-		if(data.error == true)
+		if(data.error == true || g_lobal == 130)		
 		{
 			free_input(&data);
 			data.error = false;
@@ -49,6 +49,8 @@ int	main(int argc, char **argv, char **env)
 		int i = 0;
 		while (i < data.nbr_cmd)
 		{
+			printf("Command %d\n", i);
+			print_matrix(data.cube_input[i]);
 			execute_command(&data, i, data.cube_input[i]);
 			i++;
 		}

@@ -1,11 +1,10 @@
-ctrlc dentro heredoc: chiude tutto e ridà il prompt
+ctrlc dentro heredoc: chiude tutto e ridà il prompt e METTERE BENE $?
 
-<< asd cat : limiter |asd c|
+syntax error deve ridare il prompt
 
 espansioni variabili da fare dentro l'heredoc|non viene espanso nulla se nel limiter ci sono degli apici in qualunque posizione
 export a="  ws sss"
 echo eca | echo sjf
-exit 11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
 echo -n ok
 vanno forkati i built in:(più di preciso va forkato tutto quello che non è un singolo built in)
 f (args[aug][i] && strcmp(&args[aug][i],"-n") == 0) //-n

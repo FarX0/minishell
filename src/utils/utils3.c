@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:17:40 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/25 12:11:04 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/27 17:22:02 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@ int	ft_mtxlen(char **matrix)
 	while (matrix && matrix[i])
 		i++;
 	return (i);
+}
+
+void	print_matrix(char **matrix)
+{
+	int	i;
+
+	i = 0;
+	while (matrix && matrix[i])
+	{
+		printf("|%s|\n", matrix[i]);
+		i++;
+	}
 }
 
 //int fds[2]; Dichiarazione come array locale

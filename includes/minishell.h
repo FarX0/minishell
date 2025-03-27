@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 18:01:24 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/03/27 11:03:24 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/27 18:25:04 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <sys/ioctl.h>
 
 typedef struct s_data
 {
@@ -67,7 +68,7 @@ bool		syntax_error(char *str);
 
 // execute_command.c
 int 		execute_command(t_data* data, int cmd_idx, char** args);
-int 		print_matrix(char** matrix);
+int 		builtin_env(char** matrix);
 
 // initialize_data.c
 t_data		initialize_data(char **env);
@@ -118,6 +119,7 @@ void		handle_relative_path(t_data *data);
 // utils2.c
 int			skip_quotes(char *str, int i);
 t_data		arrays_fds(t_data data);
+void		print_matrix(char **matrix);
 
 // utils_matrix.c
 int			same_name(char *envp, char *to_find);

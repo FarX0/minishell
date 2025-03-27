@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gduranti <gduranti@student.42firenze.it    +#+  +:+       +#+        */
+/*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:39:48 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/02/27 10:18:45 by gduranti         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:18:00 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void run_builtin(t_data *data, int cmd_idx, char **args)
 	else if (ft_strcmp("unset", args[0]) == 0)
 		data->exit_code = builtin_unset(data, args);
 	else if (ft_strcmp("env", args[0]) == 0)
-		data->exit_code = print_matrix(data->env);
+		data->exit_code = builtin_env(data->env);
 	else if (ft_strcmp("exit", args[0]) == 0)
 		builtin_exit(data, args);
 }
@@ -191,7 +191,7 @@ int execute_command(t_data *data, int cmd_idx, char **args)//fattibile void
 	return (0);
 }
 
-int print_matrix(char **matrix)
+int builtin_env(char **matrix)
 {
 	int i;
 
