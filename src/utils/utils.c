@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samuele <samuele@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:39:48 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/25 20:58:11 by samuele          ###   ########.fr       */
+/*   Updated: 2025/03/28 11:51:42 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*till_redirection(char *str)
 	i = 0;
 	while (str[i] && str[i] != '>' && str[i] != '<' && str[i] != '|' && str[i] != '\0')
 		i++;
-	new = malloc(sizeof(char) * i + 1);
+	new = ft_calloc(i + 1, sizeof(char));
 	i = 0;
 	while (str[i] && str[i] != '>' && str[i] != '<' && str[i] != '|' && str[i] != '\0')
 	{

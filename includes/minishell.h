@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 18:01:24 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/03/28 10:20:07 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/28 17:15:44 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_data
 	char	*path;
 	char	**aug;
 	bool	error;
+	int		l_pid;
 }			t_data;
 
 typedef struct s_variables
@@ -67,7 +68,7 @@ int			ft_mtxlen(char **matrix);
 bool		syntax_error(char *str);
 
 // execute_command.c
-int 		execute_command(t_data* data, int cmd_idx, char** args);
+int 		execute_command(t_data* data, int cmd_idx, char*** args);
 int 		builtin_env(char** matrix);
 
 // initialize_data.c
@@ -88,7 +89,7 @@ char		*get_env_value(char **env, char *key);
 int			pwd(void);
 
 // echo.c
-int builtin_echo(t_data* data, char** args);
+int builtin_echo(char** args);
 
 // parsing.c
 t_data		parsing(t_data data, t_variables var);
@@ -111,6 +112,7 @@ char		**mat_command(t_data *data, int index);
 char		*till_redirection(char *str);
 char		*find_and_replace(char *str_og, char *new, int start, int ignore);
 char		*remove_quotes(char *str);
+bool		is_builtin(char *cmd);
 
 // char		*dollar_red(char *str, t_data *data);
 int			is_executable(char *path);

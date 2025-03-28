@@ -6,47 +6,48 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 11:19:38 by rd-agost          #+#    #+#             */
-/*   Updated: 2025/03/28 10:45:45 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/28 17:52:07 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int aug = 1; numero argomenti in modo che ogni ciclo prende un argomento
-int	builtin_echo(t_data *data, char **args)
-{
-	int	i;
-	int	n;
-	int	aug;
-	int	flag;
+int		skip_flag(int i, int aug, char **args);
+void	echo_print(int aug, int i, char **args, bool flag);
 
-	flag = 0;
-	(void)data;
+int	builtin_echo(char **args)
+{
+	int		i;
+	int		aug;
+	bool	flag;
+
+	flag = false;
 	i = 0;
 	aug = 1;
 	if (args[1] == NULL)
-	{
-		printf("\n");
-		return (0);
-	}
+		return (printf("\n"), 0);
 	while (args[aug] && args[aug][i] && args[aug][i + 1]
 		&& ft_strncmp(&args[aug][i], "-n", 2) == 0)
 	{
-		i++;
-		while (args[aug][i] && args[aug][i] == 'n')
-			i++;
+		i = skip_flag(i, aug, args);
 		if (args[aug][i] == '\0')
 		{
-			flag = 1;
+			flag = true;
 			aug++;
 			i = 0;
 		}
 		else
-		{
-			i = 0;
-			break;
-		}
+			break ;
 	}
+	i = 0;
+	echo_print(aug, i, args, flag);
+	return (0);
+}
+
+void	echo_print(int aug, int i, char **args, bool flag)
+{
+	int	n;
+
 	while (args[aug])
 	{
 		while (args[aug] && args[aug][i])
@@ -56,23 +57,24 @@ int	builtin_echo(t_data *data, char **args)
 				n = i + 1;
 				i = skip_quotes(args[aug], i);
 				while (n < i - 1)
-				{
-					printf("%c", args[aug][n]);
-					n++;
-				}
+					printf("%c", args[aug][n++]);
 			}
 			else
-			{
-				printf("%c", args[aug][i]);
-				i++;
-			}
+				printf("%c", args[aug][i++]);
 		}
 		i = 0;
 		if (args[aug + 1] != NULL && args[aug][0] != '\0')
 			printf(" ");
 		aug++;
 	}
-	if (flag == 0)
+	if (flag == false)
 		printf("\n");
-	return (0);
+}
+
+int	skip_flag(int i, int aug, char **args)
+{
+	i++;
+	while (args[aug][i] && args[aug][i] == 'n')
+		i++;
+	return (i);
 }

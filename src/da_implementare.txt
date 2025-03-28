@@ -1,7 +1,12 @@
-ctrlc dentro heredoc: chiude tutto e ridà il prompt e METTERE BENE $?
-
 vanno forkati i built in:(più di preciso va forkato tutto quello che non è un singolo built in)
 
 pipe
 
-da ricercare  while (data->input[var->i] != '\0')
+da sistemare il parcing che legge le pipe VAFFANCULOSAMU("cat<main.c")
+
+
+ma era questo lo stesso no?
+
+cat < main.c -e > out
+
+dup 2 deve guardare se dopo le pipe c'e' una redirect e nel caso dare priorita' ad essa e duppare li'. eseguire l'ultima cosa del comando

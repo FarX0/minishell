@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:39:48 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/03/28 11:42:02 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/28 17:19:08 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,24 +83,6 @@ void dup_fds(t_data *data, int i)
 	}
 }
 
-/* int wait_pids(pid_t *pid, int nbr_cmds, int *status)
-{
-	int i;
-
-	i = 0;
-	while (i < nbr_cmds)
-	{
-		waitpid(pid[i], status, 0);
-		i++;
-	}
-	free(pid);
-	if (WIFEXITED(*status))
-		return (WEXITSTATUS(*status));
-	else if (WIFSIGNALED(*status))
-		return (WTERMSIG(*status) + 128);
-	return (0);
-} */
-
 bool is_builtin(char *cmd)
 {
 	if (!cmd)
@@ -116,7 +98,7 @@ void run_builtin(t_data *data, int cmd_idx, char **args)
 	if (!args[0])
 		return;
 	if (ft_strcmp("echo", args[0]) == 0)
-		data->exit_code = builtin_echo(data, args);
+		data->exit_code = builtin_echo(args);
 	else if (ft_strcmp("cd", args[0]) == 0)
 		data->exit_code = builtin_cd(data, args);
 	else if (ft_strcmp("pwd", args[0]) == 0)
@@ -133,11 +115,10 @@ void run_builtin(t_data *data, int cmd_idx, char **args)
 
 void run_in_fork(t_data *data, int cmd_idx, char **args)
 {
-	pid_t pid;
 	char	**matrix;
 
-	pid = fork();
-	if (pid != 0)
+	data->l_pid = fork();
+	if (data->l_pid != 0)
 		return;
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -155,32 +136,26 @@ void run_in_fork(t_data *data, int cmd_idx, char **args)
 	free_all(data);
 }
 
-int execute_command(t_data *data, int cmd_idx, char **args)//fattibile void
+int execute_command(t_data *data, int cmd_idx, char ***args)//fattibile void
 {
 	bool is_a_builtin;
 	char *tmp;
 	// fd[1] -> stdout
 	// fd[0] -> stdin
-	is_a_builtin = is_builtin(args[0]);
+	is_a_builtin = is_builtin(args[cmd_idx][0]);
 	if (data->nbr_cmd == 1 && is_a_builtin)
 	{
-		run_builtin(data, cmd_idx, args);
+		run_builtin(data, cmd_idx, args[cmd_idx]);
 		return (data->exit_code);
-	}/* 
-	run_in_fork(data, cmd_idx, args);
-	if (data->nbr_cmd != 1 && is_a_builtin)
-	{
-		run_builtin(data, cmd_idx, args);
-		return (data->exit_code);
-	} */
+	}
 	if (!is_a_builtin) // da spostare in run_in_fork dove c'è ///
 		search_cmd(data);
-	tmp = till_redirection(args[0]);
+	tmp = till_redirection(args[cmd_idx][0]);
 	if (!is_a_builtin && !data->path)
 	{
 		if(tmp[0])
 		{
-			ft_putstr_fd(args[0], 2);
+			ft_putstr_fd(args[cmd_idx][0], 2);
 			ft_putstr_fd(": command not found\n", 2);
 			data->exit_code = 127;
 			free(tmp);
@@ -193,11 +168,7 @@ int execute_command(t_data *data, int cmd_idx, char **args)//fattibile void
 		}
 	}
 	free(tmp);
-	run_in_fork(data, cmd_idx, args);//da spostare
-	/* if (data->fds[cmd_idx][0] != 0)
-		close(data->fds[cmd_idx][0]);
-	if (data->fds[cmd_idx][1] != 1)
-		close(data->fds[cmd_idx][1]); */
+	run_in_fork(data, cmd_idx, args[cmd_idx]);//da spostare
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 11:48:19 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/03/28 11:03:24 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/28 15:02:33 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,6 @@ bool	init_space_cleaning(t_data *data, char **str)
 	if (data->input == NULL)
 		return (false);
 	*str = ft_calloc(sizeof(char *), ft_strlen(data->input) + 1);
-	if (*str == NULL)
-	{
-		free(data->input);
-		return (false);
-	}
 	return (true);
 }
 
@@ -126,10 +121,8 @@ t_data	del_extra_spaces(t_data data)
 	str = clone(&data, str, i, j);
 	if (str == NULL)
 		return (data);
-	free(data.input);
-	data.input = str;
-	if (data.input == NULL)
-		data.error = true;
+	free(data.input);//vede questo free e pensa che non vada bene per qulche motivo
+	data.input = str;//si lo so
 	return (data);
 }
 
@@ -313,7 +306,7 @@ void	handle_space_char(t_data *data, t_variables *var)
 
 bool	process_input_for_cmds(t_data *data, t_variables *var)
 {
-	while (data->input[var->i] != '\0')
+	while (data->input[var->i] != '\0') 
 	{
 		if (data->input[var->i] == 39)
 		{

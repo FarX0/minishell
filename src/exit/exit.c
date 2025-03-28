@@ -6,13 +6,14 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:41:40 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/03/27 16:50:43 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/28 17:50:45 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 long long int	ft_atolli(const char *nptr);
+int limit_lli(char* arg, t_data *data, char **args);
 
 void	builtin_exit(t_data *data, char **args)
 {
@@ -22,31 +23,7 @@ void	builtin_exit(t_data *data, char **args)
 	if (args[1])
 	{
 		arg = ft_strdup(args[1]);
-		if ((int)ft_strlen(arg) > (19 + (arg[0] != '-' || arg[0] != '+')))
-			data->error = true;
-		else if (ft_strlen(arg) == 20 && arg[0] == '+')
-		{
-			if (ft_strcmp(arg, "+9223372036854775807") > 0)
-				data->error = true;
-		}
-		else if (ft_strlen(arg) == 20 && arg[0] == '-')
-		{
-			if (ft_strcmp(arg, "-9223372036854775808") > 0)
-				data->error = true;
-		}
-		else if (ft_strlen(arg) == 19)
-			if (ft_strcmp(arg, "9223372036854775807") > 0)
-				data->error = true;
-		if (args[1][0] == '-')
-			arg++;
-		if (data->error == true)
-		{
-			ft_printf("exit: %s: numeric argument required\n", args[1]);
-			exit_code = 2;
-		}
-		else
-			exit_code = ft_atolli(arg);
-		free(arg);
+		exit_code = limit_lli(arg, data, args);
 		if (exit_code == 0 && args[1][0] != '0')
 		{
 			ft_printf("exit: %s: numeric argument required\n", args[1]);
@@ -94,4 +71,31 @@ long long int	ft_atolli(const char *nptr)
 		i++;
 	}
 	return (res * sign);
+}
+
+int limit_lli(char* arg, t_data *data, char **args)
+{
+	int temp;
+
+	if ((int)ft_strlen(arg) > (19 + (arg[0] != '-' || arg[0] != '+')))
+			data->error = true;
+		else if (ft_strlen(arg) == 20 && arg[0] == '+')
+		{
+			if (ft_strcmp(arg, "+9223372036854775807") > 0)
+				data->error = true;
+		}
+		else if (ft_strlen(arg) == 20 && arg[0] == '-')
+		{
+			if (ft_strcmp(arg, "-9223372036854775808") > 0)
+				data->error = true;
+		}
+		else if (ft_strlen(arg) == 19)
+			if (ft_strcmp(arg, "9223372036854775807") > 0)
+				data->error = true;
+		if (args[1][0] == '-')
+			arg++;
+		if (data->error == true)
+			return (ft_printf("exit: %s: numeric argument required\n", args[1]), free(arg), 2);
+		temp = ft_atolli(arg);
+		return (free(arg), temp);
 }
