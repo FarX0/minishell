@@ -1,23 +1,7 @@
 ctrlc dentro heredoc: chiude tutto e ridà il prompt e METTERE BENE $?
 
-export a="  ws sss"
-echo eca | echo sjf
-echo -n ok
 vanno forkati i built in:(più di preciso va forkato tutto quello che non è un singolo built in)
-f (args[aug][i] && strcmp(&args[aug][i],"-n") == 0) //-n
-            i++;
-è sbagliato
 
-cd
-export variabile senza valore dovrebb essere visibile solo in export
-
-echo eca | cat | cat | cat aggiunge invio ogni volta
-
-echo fihj | grep f
-
-echo ciao | grep e
-
-echo no | echo ok
-
+pipe
 
 da ricercare  while (data->input[var->i] != '\0')

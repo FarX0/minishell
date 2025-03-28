@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:39:48 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/03/27 17:18:00 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/28 11:42:02 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ void put_str_fd(char *str, int fd)
 
 void dup_fds(t_data *data, int i)
 {
-	put_str_fd("\n|i: ", 2);
+	/* put_str_fd("\n|i: ", 2);
 	put_str_fd(ft_itoa(i), 2);
 	put_str_fd(" in ", 2);
 	put_str_fd(ft_itoa(data->fds[i][0]), 2);
 	put_str_fd(" out ", 2);
 	put_str_fd(ft_itoa(data->fds[i][1]), 2);
-	put_str_fd("|\n", 2);
+	put_str_fd("|\n", 2); */
 	if (data->fds[i][0] != 0)
 	{
 		//printf("dup2(%d, 0)\n", data->fds[i][0]);
@@ -166,7 +166,13 @@ int execute_command(t_data *data, int cmd_idx, char **args)//fattibile void
 	{
 		run_builtin(data, cmd_idx, args);
 		return (data->exit_code);
-	}
+	}/* 
+	run_in_fork(data, cmd_idx, args);
+	if (data->nbr_cmd != 1 && is_a_builtin)
+	{
+		run_builtin(data, cmd_idx, args);
+		return (data->exit_code);
+	} */
 	if (!is_a_builtin) // da spostare in run_in_fork dove c'è ///
 		search_cmd(data);
 	tmp = till_redirection(args[0]);
@@ -187,7 +193,11 @@ int execute_command(t_data *data, int cmd_idx, char **args)//fattibile void
 		}
 	}
 	free(tmp);
-	run_in_fork(data, cmd_idx, args);
+	run_in_fork(data, cmd_idx, args);//da spostare
+	/* if (data->fds[cmd_idx][0] != 0)
+		close(data->fds[cmd_idx][0]);
+	if (data->fds[cmd_idx][1] != 1)
+		close(data->fds[cmd_idx][1]); */
 	return (0);
 }
 

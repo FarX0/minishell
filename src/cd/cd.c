@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:20:53 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/01/25 19:21:58 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/28 11:14:16 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	builtin_cd(t_data *data, char **args)
 	bool		is_allocated;
 
 	is_allocated = false;
+	path = data->cube_input[0][1];
 	if (nbr_args == 1)
 	{
 		path = get_env_value(data->env, "HOME");
@@ -28,7 +29,6 @@ int	builtin_cd(t_data *data, char **args)
 	}
 	if (nbr_args > 2)
 		return (ft_putstr_fd("cd: too many arguments\n", 2), 1);
-	path = data->cube_input[0][1];
 	if (chdir(path) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
