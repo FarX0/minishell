@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 11:48:19 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/03/27 18:50:34 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/28 10:51:55 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char	*clone(t_data data, char *str, int i, int j)
 		else if (data.input[i] == '|' || data.input[i] == '<'
 			|| data.input[i] == '>')
 		{
-			if (!handle_special_chars(&data, str, &i, &j))
+			if (handle_special_chars(&data, str, &i, &j) == false)
 				return (NULL);
 			continue ;
 		}

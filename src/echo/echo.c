@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 11:19:38 by rd-agost          #+#    #+#             */
-/*   Updated: 2025/01/24 17:00:44 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/28 10:45:45 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ int	builtin_echo(t_data *data, char **args)
 	int	i;
 	int	n;
 	int	aug;
+	int	flag;
 
+	flag = 0;
 	(void)data;
 	i = 0;
 	aug = 1;
@@ -27,11 +29,27 @@ int	builtin_echo(t_data *data, char **args)
 		printf("\n");
 		return (0);
 	}
+	while (args[aug] && args[aug][i] && args[aug][i + 1]
+		&& ft_strncmp(&args[aug][i], "-n", 2) == 0)
+	{
+		i++;
+		while (args[aug][i] && args[aug][i] == 'n')
+			i++;
+		if (args[aug][i] == '\0')
+		{
+			flag = 1;
+			aug++;
+			i = 0;
+		}
+		else
+		{
+			i = 0;
+			break;
+		}
+	}
 	while (args[aug])
 	{
-		if (args[aug][i] && strcmp(&args[aug][i], "-n") == 0)
-			i++;
-		while (args[aug][i])
+		while (args[aug] && args[aug][i])
 		{
 			if (args[aug][i] == '\"' || args[aug][i] == '\'')
 			{
@@ -54,6 +72,7 @@ int	builtin_echo(t_data *data, char **args)
 			printf(" ");
 		aug++;
 	}
-	printf("\n");
+	if (flag == 0)
+		printf("\n");
 	return (0);
 }

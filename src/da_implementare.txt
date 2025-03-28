@@ -10,7 +10,6 @@ vanno forkati i built in:(più di preciso va forkato tutto quello che non è un 
 f (args[aug][i] && strcmp(&args[aug][i],"-n") == 0) //-n
             i++;
 è sbagliato
--nnnnnnnnnnn -n -nnnnnnnnnnn asd
 
 cd
 export variabile senza valore dovrebb essere visibile solo in export
@@ -22,10 +21,3 @@ echo fihj | grep f
 echo ciao | grep e
 
 echo no | echo ok
-
-
-
-
-
--------------------------------------
-Marco: parsing.c - syntax_errors.c

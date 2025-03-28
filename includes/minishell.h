@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 18:01:24 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/03/27 18:25:04 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/28 10:20:07 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_data
 	int		original_output;
 	int		nbr_cmd;
 	int		exit_code;
-	int **fds; // [0,4] [3,1] dup2(fds[0][1], 1) -> 4 -> 1  close(fds[0][1])
+	int		**fds; // [0,4] [3,1] dup2(fds[0][1], 1) -> 4 -> 1  close(fds[0][1])
 	char	**env;
 	char	*terminal_input;
 	char	*input;

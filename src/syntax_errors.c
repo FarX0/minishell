@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:22:43 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/03/27 18:48:53 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/28 10:50:46 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	check_after_spaces(char *str, int *i)
 	return (true);
 }
 
-static void	print_redirection_error(char *str, int i, char token)
+void	print_redirection_error(char *str, int i, char token)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	if (token == '\0')
@@ -73,7 +73,7 @@ static void	print_redirection_error(char *str, int i, char token)
 	ft_putstr_fd("'\n", 2);
 }
 
-static bool	check_double_red_syntax(char *str, int i, int red, int rev)
+bool	check_double_red_syntax(char *str, int i, int red, int rev)
 {
 	if (str[i + 2] == '|' || str[i + 2] == '\0' || str[i + 2] == rev || str[i
 			+ 2] == red)
@@ -119,7 +119,7 @@ bool	redirection_syntax(int red, int i, char *str)
 	return (false);
 }
 
-static bool	handle_pipe_syntax(char *str, int *i)
+bool	handle_pipe_syntax(char *str, int *i)
 {
 	has_jumped_spaces(str, i);
 	if (!str[*i + 1] || str[*i + 1] == '|' || str[*i + 1] == '>' || str[*i
@@ -140,7 +140,7 @@ static bool	handle_pipe_syntax(char *str, int *i)
 }
 
 // (*i)--; to compensate the i++ in the loop
-static void	handle_quotes(char *str, int *i)
+void	handle_quotes(char *str, int *i)
 {
 	skip_quotes(str, *i);
 	(*i)--;
