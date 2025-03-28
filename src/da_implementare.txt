@@ -1,8 +1,5 @@
 ctrlc dentro heredoc: chiude tutto e ridà il prompt e METTERE BENE $?
 
-syntax error deve ridare il prompt
-
-espansioni variabili da fare dentro l'heredoc|non viene espanso nulla se nel limiter ci sono degli apici in qualunque posizione
 export a="  ws sss"
 echo eca | echo sjf
 echo -n ok
@@ -21,3 +18,6 @@ echo fihj | grep f
 echo ciao | grep e
 
 echo no | echo ok
+
+
+da ricercare  while (data->input[var->i] != '\0')

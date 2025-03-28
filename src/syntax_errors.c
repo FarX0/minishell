@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:22:43 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/03/28 10:50:46 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/28 10:55:19 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	print_redirection_error(char *str, int i, char token)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	if (token == '\0')
-		write(2, "CACCA", 7);
+		write(2, "newline", 7);
 	else
 	{
 		write(2, &token, 1);

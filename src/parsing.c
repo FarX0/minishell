@@ -6,7 +6,7 @@
 /*   By: tfalchi <tfalchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 11:48:19 by tfalchi           #+#    #+#             */
-/*   Updated: 2025/03/28 10:51:55 by tfalchi          ###   ########.fr       */
+/*   Updated: 2025/03/28 11:03:24 by tfalchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,28 +84,28 @@ bool	should_skip_space(char *input, int i)
 				+ 1] == '>'));
 }
 
-char	*clone(t_data data, char *str, int i, int j)
+char	*clone(t_data* data, char *str, int i, int j)
 {
-	while (data.input[i] != '\0')
+	while (data->input[i] != '\0')
 	{
-		if (data.input[i] == 39 || data.input[i] == 34)
+		if (data->input[i] == 39 || data->input[i] == 34)
 		{
-			if (!handle_quotes_in_cleaning(&data, str, &i, &j))
+			if (!handle_quotes_in_cleaning(data, str, &i, &j))
 				return (NULL);
 		}
-		else if (should_skip_space(data.input, i))
+		else if (should_skip_space(data->input, i))
 			i++;
-		else if (data.input[i] == '|' || data.input[i] == '<'
-			|| data.input[i] == '>')
+		else if (data->input[i] == '|' || data->input[i] == '<'
+			|| data->input[i] == '>')
 		{
-			if (handle_special_chars(&data, str, &i, &j) == false)
+			if (handle_special_chars(data, str, &i, &j) == false)
 				return (NULL);
 			continue ;
 		}
-		else if (data.input[i] == '\0')
+		else if (data->input[i] == '\0')
 			break ;
 		else
-			str[j++] = data.input[i++];
+			str[j++] = data->input[i++];
 	}
 	str[j] = '\0';
 	return (str);
@@ -123,7 +123,7 @@ t_data	del_extra_spaces(t_data data)
 		return (data);
 	while (data.input[i] == ' ')
 		i++;
-	str = clone(data, str, i, j);
+	str = clone(&data, str, i, j);
 	if (str == NULL)
 		return (data);
 	free(data.input);
