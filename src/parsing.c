@@ -81,6 +81,11 @@ bool	should_skip_space(char *input, int i)
 
 char	*clone(t_data* data, char *str, int i, int j)
 {
+	if (data->input[i] == '\0')
+	{
+		str = NULL;
+		return (str);
+	}
 	while (data->input[i] != '\0')
 	{
 		if (data->input[i] == 39 || data->input[i] == 34)
@@ -120,7 +125,12 @@ t_data	del_extra_spaces(t_data data)
 		i++;
 	str = clone(&data, str, i, j);
 	if (str == NULL)
+	{
+		g_lobal = 127;
+		free(str);
+		data.error = true;
 		return (data);
+	}
 	free(data.input);//vede questo free e pensa che non vada bene per qulche motivo
 	data.input = str;//si lo so
 	return (data);

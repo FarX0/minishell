@@ -52,7 +52,7 @@ void	start_execute(t_data *data, t_variables *var)
 	*data = parsing(*data, *var);
 	if (data->error == true || g_lobal == 130)
 	{
-		data->exit_code = 130;
+		data->exit_code = g_lobal;
 		data->error = false;
 		g_lobal = 0;
 		return (free_input(data));
